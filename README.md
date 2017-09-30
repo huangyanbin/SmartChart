@@ -14,6 +14,24 @@ SmartChart是Android图表框架，现在支持线性图（折线，曲线，散
 
     
    支持轴方向，双轴，图示，水平线，十字轴，MarkView自定义，空白，标题，网格等，支持丰富的样式，包括字体样式（字体大小，颜色），图形样式（正方形，长方形，圆形），线（大小，颜色，DashPathEffect）,增加了图表移动和缩放功能以及动画。
+   
+  ### 如何使用
+
+> * Step 1. Add the JitPack repository to your build file
+```gradle
+allprojects {
+		repositories {
+			...
+			maven { url 'https://www.jitpack.io' }
+		}
+	}
+```
+> *Step 2. Add the dependency
+```gradle
+dependencies {
+	        compile 'com.github.huangyanbin:SmartChart:0.7'
+	}
+```
     
 #### 1. 使用图表 
 
@@ -127,7 +145,7 @@ SmartChart是Android图表框架，现在支持线性图（折线，曲线，散
  ```
 
 
-### 9.动画
+###  9.动画
 
      ```java
      //你可以使用默认动画 也可以设置Interpolator
@@ -135,7 +153,7 @@ SmartChart是Android图表框架，现在支持线性图（折线，曲线，散
       lineChartView.startChartAnim(1000);
  ```
  
- ### 10.下版本0.8
+### 10.下版本0.8
     
         1.支持点击所有属性的回调
         2.支持饼图
