@@ -44,15 +44,16 @@ public abstract  class BaseLineProvider extends BaseProvider {
             }
             List<Float> pointX = new ArrayList<>();
             List<Float> pointY = new ArrayList<>();
+            lineStyle.fillPaint(paint);
+            paint.setColor(columnData.getColor());
             for(int j = 0;j <rowSize;j++){
                 double value = columnData.getChartYDataList().get(j);
                 float x = (float) (j*width + zoomRect.left);
                 float y = getStartY(zoomRect, scaleData, height, value,columnData.getDirection())*progress;
                 pointX.add(x);
                 pointY.add(y);
+                drawPointText(x,y,canvas,paint,value);
             }
-            lineStyle.fillPaint(paint);
-            paint.setColor(columnData.getColor());
             drawLines(canvas,pointX,pointY,paint);
             drawPoint(canvas,pointX,pointY,paint);
             pointXList.addAll(pointX);

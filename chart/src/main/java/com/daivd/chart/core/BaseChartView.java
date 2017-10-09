@@ -106,33 +106,34 @@ public abstract class BaseChartView<P extends IProvider> extends View implements
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-
-        computePaddingRect();
-        if(isShowChartName) {
-            chartTitle.computeTitle(chartData, chartRect, paint);
-            chartTitle.drawTitle(canvas, chartRect, paint);
-            computeTitleRect();
-        }
-        if(chartData.getColumnDataList().size() >0) {
-            legend.computeLegend(chartData, chartRect, paint);
-            legend.drawLegend(canvas, chartRect, paint);
-            computeLegendRect();
-        }
-        if(!isCharEmpty) {
-            horizontalAxis.computeScale(chartData, chartRect, paint);
-            if (chartData.getScaleData().isLeftHasValue)
-                leftVerticalAxis.computeScale(chartData, chartRect, paint);
-            if (chartData.getScaleData().isRightHasValue)
-                rightVerticalAxis.computeScale(chartData, chartRect, paint);
-            if (chartData.getScaleData().isLeftHasValue)
-                leftVerticalAxis.draw(canvas, chartRect, matrixHelper, paint, chartData);
-            if (chartData.getScaleData().isRightHasValue)
-                rightVerticalAxis.draw(canvas, chartRect, matrixHelper, paint, chartData);
-            horizontalAxis.draw(canvas, chartRect, matrixHelper, paint, chartData);
-            computeScaleRect();
-            provider.drawProvider(canvas, chartRect, matrixHelper, paint);
-        }else{
-            emptyView.drawEmpty(canvas,chartRect,paint);
+        if (chartData != null) {
+            computePaddingRect();
+            if (isShowChartName) {
+                chartTitle.computeTitle(chartData, chartRect, paint);
+                chartTitle.drawTitle(canvas, chartRect, paint);
+                computeTitleRect();
+            }
+            if (chartData.getColumnDataList().size() > 0) {
+                legend.computeLegend(chartData, chartRect, paint);
+                legend.drawLegend(canvas, chartRect, paint);
+                computeLegendRect();
+            }
+            if (!isCharEmpty) {
+                horizontalAxis.computeScale(chartData, chartRect, paint);
+                if (chartData.getScaleData().isLeftHasValue)
+                    leftVerticalAxis.computeScale(chartData, chartRect, paint);
+                if (chartData.getScaleData().isRightHasValue)
+                    rightVerticalAxis.computeScale(chartData, chartRect, paint);
+                if (chartData.getScaleData().isLeftHasValue)
+                    leftVerticalAxis.draw(canvas, chartRect, matrixHelper, paint, chartData);
+                if (chartData.getScaleData().isRightHasValue)
+                    rightVerticalAxis.draw(canvas, chartRect, matrixHelper, paint, chartData);
+                horizontalAxis.draw(canvas, chartRect, matrixHelper, paint, chartData);
+                computeScaleRect();
+                provider.drawProvider(canvas, chartRect, matrixHelper, paint);
+            } else {
+                emptyView.drawEmpty(canvas, chartRect, paint);
+            }
         }
     }
 
@@ -269,6 +270,14 @@ public abstract class BaseChartView<P extends IProvider> extends View implements
 
     public void setShowChartName(boolean showChartName) {
         isShowChartName = showChartName;
+    }
+
+    public IChartTitle getChartTitle() {
+        return chartTitle;
+    }
+
+    public void setChartTitle(IChartTitle chartTitle) {
+        this.chartTitle = chartTitle;
     }
 
     public ILegend getLegend() {

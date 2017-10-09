@@ -57,6 +57,7 @@ public class ColumnProvider extends BaseProvider {
                     clickPosition = j;
                     clickColumnPosition = i;
                 }
+                drawPointText((right+left)/2,top,canvas,paint,d);
                 canvas.drawRect(left, top + (bottom - top) * (1 - progress), right, bottom, paint);
             }
         }

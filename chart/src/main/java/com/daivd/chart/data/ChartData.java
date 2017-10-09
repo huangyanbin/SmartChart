@@ -11,7 +11,7 @@ public class ChartData {
     private String chartName;
     private List<String> charXDataList;
     private List<ColumnData> columnDataList;
-    private ScaleData scaleData;
+    private ScaleData scaleData = new ScaleData();
 
     public ChartData(String chartName, List<String> charXDataList, List<ColumnData> columnDataList) {
         this.chartName = chartName;

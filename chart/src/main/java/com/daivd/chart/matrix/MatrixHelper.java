@@ -62,10 +62,9 @@ public class MatrixHelper extends Observable<ChartGestureObserver> implements Sc
 
         @Override
         public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-            translateX +=   distanceX;
+            translateX +=  distanceX;
             translateY += distanceY;
             notifyObservers(observables);
-
             return true;
         }
 
@@ -80,6 +79,7 @@ public class MatrixHelper extends Observable<ChartGestureObserver> implements Sc
         @Override
         public boolean onDoubleTap(MotionEvent e) {
             if(isCanZoom){
+                float oldZoom = zoom;
                 if(isScale){ //缩小
                     zoom = zoom / 1.5f;
                     if(zoom <1){
@@ -93,6 +93,8 @@ public class MatrixHelper extends Observable<ChartGestureObserver> implements Sc
                         isScale = true;
                     }
                 }
+                float factor = zoom /oldZoom;
+                resetTranslate(factor);
                 notifyObservers(observables);
             }
 
@@ -116,9 +118,11 @@ public class MatrixHelper extends Observable<ChartGestureObserver> implements Sc
 
     @Override
     public boolean onScale(ScaleGestureDetector detector) {
-
+        float oldZoom = zoom;
         float scale = detector.getScaleFactor();
         this.zoom = (float) (tempScale * Math.pow(scale,3));
+        float factor = zoom /oldZoom;
+        resetTranslate(factor);
         notifyObservers(observables);
         if(this.zoom > MAX_ZOOM){
             this.zoom = MAX_ZOOM;
@@ -135,6 +139,15 @@ public class MatrixHelper extends Observable<ChartGestureObserver> implements Sc
 
     }
 
+
+    /**重新计算偏移量
+     * * @param factor
+     */
+    private void resetTranslate(float factor){
+
+        translateX = (int) (translateX*factor);
+        translateY = (int) (translateY*factor);
+    }
 
     /**
      * 获取图片内容的缩放大小

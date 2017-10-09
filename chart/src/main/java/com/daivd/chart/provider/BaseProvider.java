@@ -36,6 +36,8 @@ public abstract class BaseProvider implements IProvider {
     protected LineStyle crossStyle = new LineStyle();
     private boolean isOpenCross;
     protected LevelLine levelLine;
+    private boolean isShowText =true;
+    private int pointTextHeight;
 
 
     @Override
@@ -56,8 +58,7 @@ public abstract class BaseProvider implements IProvider {
     @Override
     public boolean calculation(ChartData chartData) {
         this.chartData = chartData;
-        ScaleData scaleData = new ScaleData();
-        this.chartData.setScaleData(scaleData);
+        ScaleData scaleData =this.chartData.getScaleData();
         List<ColumnData> columnDatas  =  chartData.getColumnDataList();
         if(columnDatas == null || columnDatas.size() == 0){
             return  false;
@@ -180,6 +181,16 @@ public abstract class BaseProvider implements IProvider {
         animator.start();
     }
 
+    public void drawPointText(float x,float y,Canvas canvas,Paint paint,double value){
+       if(isShowText) {
+           String val = String.valueOf(value);
+           if(pointTextHeight == 0){
+               pointTextHeight = (int) paint.measureText(val,0,1);
+           }
+           canvas.drawText(val, x-pointTextHeight*val.length()/2, y-pointTextHeight, paint);
+       }
+    }
+
     public boolean isOpenMark() {
         return isOpenMark;
     }
@@ -209,5 +220,13 @@ public abstract class BaseProvider implements IProvider {
     }
     public LineStyle getCrossStyle() {
         return crossStyle;
+    }
+
+    public boolean isShowText() {
+        return isShowText;
+    }
+
+    public void setShowText(boolean showText) {
+        isShowText = showText;
     }
 }

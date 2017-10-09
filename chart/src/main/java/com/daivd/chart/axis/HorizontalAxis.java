@@ -58,7 +58,7 @@ public class HorizontalAxis extends BaseAxis {
         int perWidth = width / groupSize;
         int textHeight = (int) paint.measureText("1", 0, 1) * 2;
         int maxScaleSize = width /(textHeight*2+padding);
-        int filterMultiple = groupSize/maxScaleSize <1 ? 1 : groupSize/maxScaleSize;
+        int filterMultiple = groupSize/maxScaleSize <2 ? 2 : groupSize/maxScaleSize;
         for (int i = 0; i < groupSize; i++) {
             String content = groupDataList.get(i);
             int textWidth = textHeight * content.length();
