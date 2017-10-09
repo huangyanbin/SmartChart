@@ -7,7 +7,7 @@ import android.util.AttributeSet;
 import android.view.Gravity;
 
 import com.daivd.chart.exception.ChartException;
-import com.daivd.chart.provider.BaseLineProvider;
+import com.daivd.chart.provider.BarLineProvider;
 import com.daivd.chart.provider.CurveProvider;
 import com.daivd.chart.provider.LineProvider;
 
@@ -15,7 +15,7 @@ import com.daivd.chart.provider.LineProvider;
  * Created by huang on 2017/9/26.
  */
 
-public class LineChartView extends BaseChartView<BaseLineProvider> {
+public class LineChartView extends BaseChartView<BarLineProvider> {
 
     public static final int LINE_MODEL = 0;
     public static final  int CURVE_MODEL = 1;

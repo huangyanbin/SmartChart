@@ -16,10 +16,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ColumnChartActivity">
+        <activity android:name=".BarChartActivity">
 
         </activity>
         <activity android:name=".LineChartActivity">
+
+        </activity>
+        <activity android:name=".Bar3DChartActivity">
 
         </activity>
     </application>

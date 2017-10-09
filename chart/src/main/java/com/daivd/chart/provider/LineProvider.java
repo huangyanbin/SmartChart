@@ -8,7 +8,7 @@ import java.util.List;
 
 
 
-public class LineProvider extends BaseLineProvider{
+public class LineProvider extends BarLineProvider {
 
 
 

@@ -18,9 +18,9 @@ import java.util.List;
  * Created by huang on 2017/9/26.
  */
 
-public class ColumnProvider extends BaseProvider {
+public class BarProvider extends BaseProvider {
 
-    private int groupPadding;
+    private int groupPadding =20;
 
 
 
@@ -38,29 +38,31 @@ public class ColumnProvider extends BaseProvider {
         int clickColumnPosition = 0;
         boolean isClickRect1 = (pointF != null && rect.contains((int)pointF.x,(int)pointF.y));
         boolean isClickRect = false;
-        for(int i = 0;i <columnSize;i++){
-            ColumnData columnData = columnDatas.get(i);
-            if(!columnData.isDraw()){
-                continue;
-            }
+
             for(int j = 0;j <rowSize;j++) {
-                double d = columnData.getChartYDataList().get(j);
-                float left = (float) ((j * columnSize + i) * width) + j * groupPadding + zoomRect.left + 0.5f;
-                float right = (float) (left + width);
-                float top = getStartY(zoomRect, scaleData, height, d,columnData.getDirection());
-                float bottom = zoomRect.bottom + 0.5f;
-                paint.setColor(columnData.getColor());
-                if (isClickRect1 &&  isClickRect(left, right, top, bottom)) {
-                    paint.setColor(ColorUtils.getDarkerColor(columnData.getColor()));
-                    isClickRect = true;
-                    clickPoint = new PointF((left + right) / 2, top);
-                    clickPosition = j;
-                    clickColumnPosition = i;
+                for(int i = 0;i <columnSize;i++) {
+                    ColumnData columnData = columnDatas.get(i);
+                    if (!columnData.isDraw()) {
+                        continue;
+                    }
+                    double d = columnData.getChartYDataList().get(j);
+                    float left = (float) ((j * columnSize + i) * width) + j * groupPadding + zoomRect.left + 0.5f;
+                    float right = (float) (left + width);
+                    float top = getStartY(zoomRect, scaleData, height, d, columnData.getDirection());
+                    float bottom = zoomRect.bottom + 0.5f;
+                    paint.setColor(columnData.getColor());
+                    if (isClickRect1 && isClickRect(left, right, top, bottom)) {
+                        paint.setColor(ColorUtils.getDarkerColor(columnData.getColor()));
+                        isClickRect = true;
+                        clickPoint = new PointF((left + right) / 2, top);
+                        clickPosition = j;
+                        clickColumnPosition = i;
+                    }
+
+                    drawBar(canvas, paint, left, right, top + (bottom - top) * (1 - progress), bottom,d);
                 }
-                drawPointText((right+left)/2,top,canvas,paint,d);
-                canvas.drawRect(left, top + (bottom - top) * (1 - progress), right, bottom, paint);
             }
-        }
+
         if(levelLine != null && levelLine.isDraw()) {
             float startY = getStartY(zoomRect,scaleData,height,levelLine.getValue(),levelLine.getDirection());
             drawLevelLine(canvas, zoomRect,startY,paint);
@@ -71,7 +73,12 @@ public class ColumnProvider extends BaseProvider {
         }
     }
 
-    private float getStartY(Rect rect, ScaleData scaleData, float height, double d, AxisDirection direction) {
+    protected void drawBar(Canvas canvas, Paint paint, float left, float right, float top, float bottom,double value) {
+        canvas.drawRect(left, top, right, bottom, paint);
+        drawPointText((right + left) / 2, top, canvas, paint, value);
+    }
+
+    protected float getStartY(Rect rect, ScaleData scaleData, float height, double d, AxisDirection direction) {
         return (float) (rect.bottom -(d - scaleData.getMinScaleValue(direction)) * height / scaleData.getTotalScaleLength(direction));
     }
 

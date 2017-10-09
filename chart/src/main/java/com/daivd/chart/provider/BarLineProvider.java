@@ -18,7 +18,7 @@ import java.util.List;
  * Created by huang on 2017/9/26.
  */
 
-public abstract  class BaseLineProvider extends BaseProvider {
+public abstract  class BarLineProvider extends BaseProvider {
 
     private LineStyle lineStyle = new LineStyle();
 
@@ -65,6 +65,7 @@ public abstract  class BaseLineProvider extends BaseProvider {
         }
         drawClickCross(canvas,zoomRect,pointXList,pointYList,paint);
     }
+
 
     private float getStartY(Rect zoomRect, ScaleData scaleData, float height, double value, AxisDirection direction) {
         return (float) (zoomRect.bottom - (value - scaleData.getMinScaleValue(direction))*height/scaleData.getTotalScaleLength(direction));

@@ -6,7 +6,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import com.daivd.chart.axis.BaseAxis;
-import com.daivd.chart.core.ColumnChartView;
+import com.daivd.chart.core.BarChart3DView;
+import com.daivd.chart.core.BarChartView;
 import com.daivd.chart.data.ChartData;
 import com.daivd.chart.data.ColumnData;
 import com.daivd.chart.data.LevelLine;
@@ -19,15 +20,14 @@ import com.daivd.chart.utils.DensityUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ColumnChartActivity extends AppCompatActivity {
+public class Bar3DChartActivity extends AppCompatActivity {
 
-    private ColumnChartView columnChartView;
+    private BarChart3DView columnChartView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_column);
-        columnChartView = (ColumnChartView) findViewById(R.id.columnChart);
-        columnChartView.setGroupPadding(DensityUtils.dp2px(this,3));
+        setContentView(R.layout.activity_3dbar);
+        columnChartView = (BarChart3DView) findViewById(R.id.columnChart);
         Resources res = getResources();
         FontStyle.setDefaultTextSpSize(this,12);
         List<String> groupData = new ArrayList<>();

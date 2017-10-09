@@ -11,7 +11,7 @@ import java.util.List;
  * Created by huang on 2017/9/27.
  */
 
-public class CurveProvider extends BaseLineProvider {
+public class CurveProvider extends BarLineProvider {
     private final int STEP = 12;
 
     @Override
