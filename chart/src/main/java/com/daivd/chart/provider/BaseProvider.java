@@ -12,6 +12,7 @@ import android.view.animation.Interpolator;
 import com.daivd.chart.core.BaseChart;
 import com.daivd.chart.data.ChartData;
 import com.daivd.chart.data.ColumnData;
+import com.daivd.chart.data.style.FontStyle;
 import com.daivd.chart.mark.MarkView;
 import com.daivd.chart.matrix.MatrixHelper;
 
@@ -29,6 +30,7 @@ public abstract class BaseProvider<C extends ColumnData> implements IProvider<C>
     private int pointTextHeight;
     protected ChartData<C> chartData;
     private Rect providerRect;
+    private FontStyle textStyle = new FontStyle();
 
     @Override
     public boolean calculation(ChartData<C> chartData) {
@@ -46,8 +48,17 @@ public abstract class BaseProvider<C extends ColumnData> implements IProvider<C>
         }
         canvas.save();
         matrixRect(canvas,rect);
-        drawProvider(canvas,helper.getZoomProviderRect(rect),rect,paint);
+        Rect zoomRect = helper.getZoomProviderRect(rect);
+        drawProvider(canvas,zoomRect,rect,paint);
         canvas.restore();
+        drawPeripheral(canvas,zoomRect,rect,paint);
+
+    }
+
+    /**
+     * 外围绘制
+     */
+    protected void drawPeripheral(Canvas canvas, Rect zoomRect,Rect rect, Paint paint){
 
     }
 
@@ -93,6 +104,9 @@ public abstract class BaseProvider<C extends ColumnData> implements IProvider<C>
 
     public void drawPointText(float x,float y,Canvas canvas,Paint paint,double value){
        if(isShowText) {
+           int oldColor = paint.getColor();
+           textStyle.fillPaint(paint);
+           paint.setColor(oldColor);
            String val = String.valueOf(value);
            if(pointTextHeight == 0){
                pointTextHeight = (int) paint.measureText(val,0,1);

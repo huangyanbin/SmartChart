@@ -1,7 +1,5 @@
 package com.daivd.chart.provider;
 
-import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.graphics.Path;
 
 import java.util.LinkedList;
@@ -11,11 +9,11 @@ import java.util.List;
  * Created by huang on 2017/9/27.
  */
 
-public class CurveProvider extends BarLineProvider {
+public class CurveProvider extends BaseLineProvider {
     private final int STEP = 12;
 
     @Override
-    protected void drawLines(Canvas canvas, List<Float> pointX, List<Float> pointY, Paint paint) {
+    protected Path getLinePath(List<Float> pointX, List<Float> pointY) {
         List<Cubic> calculate_x = calculate(pointX);
         List<Cubic> calculate_y = calculate(pointY);
         Path path = new Path();
@@ -28,7 +26,7 @@ public class CurveProvider extends BarLineProvider {
                 }
             }
         }
-        canvas.drawPath(path, paint);
+        return path;
     }
 
 

@@ -53,7 +53,7 @@ public class Bar3DChartActivity extends AppCompatActivity {
         LineData columnData2 = new LineData("湿度","RH%",getResources().getColor(R.color.arc2),humidityList);
         ColumnDatas.add(columnData1);
         ColumnDatas.add(columnData2);
-        ChartData<LineData> chartData = new ChartData<>("柱状图",groupData,ColumnDatas);
+        ChartData<LineData> chartData = new ChartData<>("3D柱状图",groupData,ColumnDatas);
         columnChartView.setChartData(chartData);
         columnChartView.startChartAnim(1000);
         columnChartView.setZoom(true);

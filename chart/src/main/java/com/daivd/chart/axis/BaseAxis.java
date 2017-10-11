@@ -25,6 +25,7 @@ public  abstract class BaseAxis implements IAxis {
     protected boolean isDrawGrid; //是否绘制网格
     protected int  gravity = Gravity.CENTER;
     protected AxisDirection direction;
+    protected boolean isLine;
 
     public void setDrawGrid(boolean drawGrid) {
         isDrawGrid = drawGrid;
@@ -56,6 +57,9 @@ public  abstract class BaseAxis implements IAxis {
 
     public void setGravity(int gravity) {
         this.gravity = gravity;
+    }
+    public void isLine(boolean isLine){
+        this.isLine = isLine;
     }
 
     @Override

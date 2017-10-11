@@ -4,6 +4,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PointF;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.util.Log;
@@ -30,6 +32,8 @@ public class PieProvider extends BaseProvider<PieData> {
     private final float startAngle = -90;
     private RotateHelper rotateHelper;
     private FontStyle textStyle = new FontStyle();
+    private float centerCirclePercent = 0.3f;
+    private boolean isShader;
 
     @Override
     public boolean calculationChild(ChartData<PieData> chartData) {
@@ -47,6 +51,7 @@ public class PieProvider extends BaseProvider<PieData> {
 
     @Override
     protected void drawProvider(Canvas canvas, Rect zoomRect, Rect rect, Paint paint) {
+        int layerId = canvas.saveLayer(rect.left,rect.top,rect.right,rect.bottom, null, Canvas.ALL_SAVE_FLAG);
         float startAngle = this.startAngle;
         float totalAngle = getAnimValue(this.totalAngle);
         paint.setStyle(Paint.Style.FILL);
@@ -57,38 +62,47 @@ public class PieProvider extends BaseProvider<PieData> {
         int maxRadius = Math.min(px, py);
         centerPoint = new PointF(zoomRect.left + w/2, zoomRect.top + h/2);
         py = maxRadius;
-        centerRadius = maxRadius;
+        int x = maxRadius / 10;
+        centerRadius = maxRadius - x;
         if(rotateHelper != null){
             rotateHelper.setRadius(centerRadius);
+            rotateHelper.setRect(rect);
         }
-        int x = maxRadius / 10;
-        oval= new RectF(zoomRect.left+x + (px - py), zoomRect.top+maxRadius / 10,
-                zoomRect.left+maxRadius * 2 - x + (px - py), zoomRect.top+maxRadius * 2 - x);
+        oval= new RectF(zoomRect.centerX()-centerRadius,zoomRect.centerY() - centerRadius,
+                zoomRect.centerX()+centerRadius,zoomRect.centerY() + centerRadius);
         List<PieData> pieDataList = chartData.getColumnDataList();
         float totalScores = 0f;
         for (PieData pieData: pieDataList) {
             totalScores += pieData.getChartYDataList();
         }
-
         for (int i = 0; i < pieDataList.size(); i++) {
             PieData pieData = pieDataList.get(i);
             double value = pieData.getChartYDataList();
-            paint.setColor(pieData.getColor());
             float sweepAngle = (float) (totalAngle * value / totalScores);
-            if(clickAngle != -1 && clickAngle >startAngle && clickAngle < startAngle+sweepAngle){
-                setSelection(i);
-                paint.setColor(ColorUtils.getDarkerColor(pieData.getColor()));
+            if(pieData.isDraw()) {
+                paint.setColor(pieData.getColor());
+                if (clickAngle != -1 && clickAngle > startAngle && clickAngle < startAngle + sweepAngle) {
+                    setSelection(i);
+                    paint.setColor(ColorUtils.getDarkerColor(pieData.getColor()));
+                }
+                canvas.drawArc(oval, startAngle, sweepAngle, true, paint);
+                canvas.save();
+                canvas.rotate(startAngle + sweepAngle / 2 - this.startAngle, zoomRect.centerX(), zoomRect.centerY());
+                textStyle.fillPaint(paint);
+                int textHeight = (int) paint.measureText("1", 0, 1);
+                String val = String.valueOf(value);
+                canvas.drawText(val, zoomRect.centerX() - val.length() * textHeight / 2, zoomRect.centerY() - maxRadius / 2, paint);
+                canvas.restore();
             }
-            canvas.drawArc(oval, startAngle, sweepAngle, true, paint);
-            canvas.save();
-            canvas.rotate(startAngle+sweepAngle/2 -this.startAngle,zoomRect.centerX(),zoomRect.centerY());
-            textStyle.fillPaint(paint);
-            int textHeight = (int) paint.measureText("1",0,1);
-            String val =  String.valueOf(value);
-            canvas.drawText(val,zoomRect.centerX()- val.length()*textHeight/2,zoomRect.centerY() - maxRadius/2,paint);
-            canvas.restore();
             startAngle += sweepAngle;
         }
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_OUT));
+        if(centerCirclePercent >0) {
+            paint.setColor(Color.TRANSPARENT);
+            canvas.drawCircle(rect.centerX(),rect.centerY(),centerRadius *centerCirclePercent,paint);
+        }
+        canvas.restoreToCount(layerId);
+        paint.setXfermode(null);
     }
 
     @Override
@@ -130,6 +144,10 @@ public class PieProvider extends BaseProvider<PieData> {
     }
 
 
+
+    public void setCenterCirclepercent(float centerCirclePercent) {
+        this.centerCirclePercent = centerCirclePercent;
+    }
 
     public void setRotateHelper(RotateHelper rotateHelper) {
         this.rotateHelper = rotateHelper;

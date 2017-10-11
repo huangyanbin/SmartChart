@@ -25,6 +25,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }else if(v.getId() == R.id.pie){
             Intent i = new Intent(this,PieChartActivity.class);
             startActivity(i);
+        }else if(v.getId() == R.id.scatter){
+            Intent i = new Intent(this,ScatterChartActivity.class);
+            startActivity(i);
+        }else if(v.getId() == R.id.area){
+            Intent i = new Intent(this,AreaChartActivity.class);
+            startActivity(i);
         }else{
             Intent i = new Intent(this,BarChartActivity.class);
             startActivity(i);

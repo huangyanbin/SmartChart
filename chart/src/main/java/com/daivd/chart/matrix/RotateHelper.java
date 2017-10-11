@@ -1,5 +1,6 @@
 package com.daivd.chart.matrix;
 
+import android.graphics.Rect;
 import android.os.Handler;
 import android.view.MotionEvent;
 
@@ -52,6 +53,7 @@ public class RotateHelper {
     private float mLastX;
     private float mLastY;
     private  boolean isRotate;
+    private Rect rect;
 
     /**
      * 自动滚动的Runnable
@@ -198,8 +200,8 @@ public class RotateHelper {
      */
     private float getAngle(float xTouch, float yTouch)
     {
-        double x = xTouch - (mRadius / 2d);
-        double y = yTouch - (mRadius / 2d);
+        double x = xTouch-rect.left - (mRadius );
+        double y = yTouch-rect.top - (mRadius );
         return (float) (Math.asin(y / Math.hypot(x, y)) * 180 / Math.PI);
     }
 
@@ -212,8 +214,8 @@ public class RotateHelper {
      */
     private int getQuadrant(float x, float y)
     {
-        int tmpX = (int) (x - mRadius / 2);
-        int tmpY = (int) (y - mRadius / 2);
+        int tmpX = (int) (x-rect.left - mRadius );
+        int tmpY = (int) (y-rect.top - mRadius );
         if (tmpX >= 0)
         {
             return tmpY >= 0 ? 4 : 1;
@@ -232,6 +234,9 @@ public class RotateHelper {
 
     public void setRadius(int radius) {
         this.mRadius = radius;
+    }
+    public void setRect(Rect rect){
+        this.rect = rect;
     }
 
     public double getStartAngle() {

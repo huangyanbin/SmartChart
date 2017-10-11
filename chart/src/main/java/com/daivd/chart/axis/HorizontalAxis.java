@@ -38,7 +38,7 @@ public class HorizontalAxis extends BaseAxis {
         }
     }
 
-    protected void drawScale(Canvas canvas, Rect zoomRect, Rect clipRect, Paint paint,  ChartData<LineData> chartData) {
+    protected void drawScale(Canvas canvas, Rect zoomRect, Rect rect, Paint paint,  ChartData<LineData> chartData) {
         //Log.e("huang","scale zoomRect:"+zoomRect.toString());
         ScaleData scaleData = chartData.getScaleData();
         List<String> groupDataList = chartData.getCharXDataList();
@@ -56,7 +56,7 @@ public class HorizontalAxis extends BaseAxis {
         }
         int left = zoomRect.left ;
         int width = zoomRect.right - left;
-        int perWidth = width / groupSize;
+        int perWidth = width / (isLine? groupSize -1 : groupSize);
         int textHeight = (int) paint.measureText("1", 0, 1) * 2;
         int maxScaleSize = width /(textHeight*2+padding);
         int filterMultiple = groupSize/maxScaleSize <1 ? 1 : groupSize/maxScaleSize;
@@ -64,12 +64,12 @@ public class HorizontalAxis extends BaseAxis {
             String content = groupDataList.get(i);
             int textWidth = textHeight * content.length();
             int startX = getGravityStartY(left, i, perWidth, textWidth);
-            if (startX > clipRect.left && startX < clipRect.right) {
+            if (rect.contains(startX,rect.centerY())) {
                 if( i % filterMultiple == 0) {
                     drawText(canvas, content, startY, startX, paint);
-                    int startGirdPos = direction == AxisDirection.BOTTOM ? perWidth : 0;
-                    drawGrid(canvas, left + i * perWidth+startGirdPos, zoomRect, scaleData.scaleRect, paint);
                 }
+                int startGirdPos = direction == AxisDirection.BOTTOM ? perWidth : 0;
+                drawGrid(canvas, left + i * perWidth+startGirdPos, rect, scaleData.scaleRect, paint);
             }
         }
     }
@@ -98,11 +98,13 @@ public class HorizontalAxis extends BaseAxis {
      */
     public void drawGrid(Canvas canvas, int startX, Rect rect, Rect scaleRect, Paint paint) {
         if (gridStyle != null && isDrawGrid) {
-            gridStyle.fillPaint(paint);
-            Path path = new Path();
-            path.moveTo(startX, rect.top + scaleRect.top);
-            path.lineTo(startX, rect.bottom - scaleRect.bottom);
-            canvas.drawPath(path, paint);
+           // if(rect.contains(startX,rect.centerY())) {
+                gridStyle.fillPaint(paint);
+                Path path = new Path();
+                path.moveTo(startX, rect.top + scaleRect.top);
+                path.lineTo(startX, rect.bottom - scaleRect.bottom);
+                canvas.drawPath(path, paint);
+            //}
         }
     }
 
@@ -137,6 +139,7 @@ public class HorizontalAxis extends BaseAxis {
             this.direction = axisDirection;
         } else throw new ChartException("只能设置BOTTOM,TOP方向");
     }
+
 
 
 }

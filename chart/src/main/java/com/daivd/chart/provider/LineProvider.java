@@ -8,12 +8,12 @@ import java.util.List;
 
 
 
-public class LineProvider extends BarLineProvider {
+public class LineProvider extends BaseLineProvider {
 
 
 
     @Override
-    protected void drawLines(Canvas canvas, List<Float> pointX, List<Float> pointY, Paint paint) {
+    protected Path getLinePath(List<Float> pointX, List<Float> pointY) {
         Path path = new Path();
         for(int i = 0; i < pointY.size();i++){
             float x = pointX.get(i);
@@ -24,6 +24,6 @@ public class LineProvider extends BarLineProvider {
                 path.lineTo(x,y);
             }
         }
-        canvas.drawPath(path,paint);
+       return path;
     }
 }

@@ -27,4 +27,18 @@ public class ColorUtils {
         int darkerColor = Color.HSVToColor(hsv);
         return  darkerColor ;
     }
+
+    /**
+     * 修改颜色透明度
+     * @param color
+     * @param alpha
+     * @return
+     */
+    public static int changeAlpha(int color, int alpha) {
+        int red = Color.red(color);
+        int green = Color.green(color);
+        int blue = Color.blue(color);
+
+        return Color.argb(alpha, red, green, blue);
+    }
 }

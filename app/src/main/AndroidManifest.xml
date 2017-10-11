@@ -24,10 +24,17 @@
         </activity>
         <activity android:name=".Bar3DChartActivity">
 
-        </activity>
+       </activity>
         <activity android:name=".PieChartActivity">
 
         </activity>
+        <activity android:name=".AreaChartActivity">
+
+        </activity>
+        <activity android:name=".ScatterChartActivity">
+
+        </activity>
+
     </application>
 
 </manifest>

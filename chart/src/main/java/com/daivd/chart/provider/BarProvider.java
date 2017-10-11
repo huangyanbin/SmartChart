@@ -19,7 +19,7 @@ import java.util.List;
  * Created by huang on 2017/9/26.
  */
 
-public class BarProvider extends BaseLineProvider {
+public class BarProvider extends BarLineProvider {
 
     private int groupPadding =20;
 

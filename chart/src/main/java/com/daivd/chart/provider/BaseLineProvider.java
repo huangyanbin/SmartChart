@@ -1,154 +1,231 @@
 package com.daivd.chart.provider;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.ValueAnimator;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.PointF;
+import android.graphics.Path;
 import android.graphics.Rect;
-import android.view.animation.Interpolator;
 
 import com.daivd.chart.axis.AxisDirection;
-import com.daivd.chart.core.BaseChart;
-import com.daivd.chart.data.ChartData;
-import com.daivd.chart.data.LevelLine;
 import com.daivd.chart.data.LineData;
-import com.daivd.chart.data.style.LineStyle;
 import com.daivd.chart.data.ScaleData;
-import com.daivd.chart.exception.ChartException;
+import com.daivd.chart.data.style.LineStyle;
+import com.daivd.chart.data.style.PointStyle;
+import com.daivd.chart.utils.ColorUtils;
 
+import java.util.ArrayList;
 import java.util.List;
+
 
 /**
  * Created by huang on 2017/9/26.
  */
 
-public abstract class BaseLineProvider extends BaseProvider<LineData> {
+public abstract  class BaseLineProvider extends BarLineProvider {
 
+    private LineStyle lineStyle = new LineStyle();
 
-    LineStyle crossStyle = new LineStyle();
-    private boolean isOpenCross;
-    LevelLine levelLine;
+    private PointStyle pointStyle = new PointStyle();
 
+    private boolean isShowPoint;
+    private  boolean isArea; //是否打开面积图
+    private boolean isDrawLine = true;
 
     @Override
-    public boolean calculationChild( ChartData<LineData> chartData) {
-        this.chartData = chartData;
-        ScaleData scaleData =this.chartData.getScaleData();
-        List<LineData> columnDatas  =  chartData.getColumnDataList();
-        if(columnDatas == null || columnDatas.size() == 0){
-            return  false;
-        }
+    public void drawProvider(Canvas canvas, Rect zoomRect, Rect rect,Paint paint) {
+
+        ScaleData scaleData= chartData.getScaleData();
+        List<LineData> columnDatas = chartData.getColumnDataList();
         int columnSize = columnDatas.size();
-        for(int i = 0 ; i <columnSize; i++){
+        int rowSize = chartData.getCharXDataList().size();
+        double width = (zoomRect.right - zoomRect.left)/(rowSize-1);
+        float height =(zoomRect.bottom - zoomRect.top);
+
+        for(int i = 0;i <columnSize;i++){
             LineData columnData = columnDatas.get(i);
+            paint.setColor(columnData.getColor());
             if(!columnData.isDraw()){
                 continue;
             }
+            List<Float> pointX = new ArrayList<>();
+            List<Float> pointY = new ArrayList<>();
             List<Double> datas = columnData.getChartYDataList();
-            if(datas == null || datas.size() == 0){
-                throw new ChartException("请设置Column数据");
+            for(int j = 0;j <rowSize;j++){
+                double value = datas.get(j);
+                float x = (float) (j*width + zoomRect.left);
+                float y = getAnimValue(getStartY(zoomRect, scaleData, height, value,columnData.getDirection()));
+                pointX.add(x);
+                pointY.add(y);
             }
-            scaleData.rowSize = datas.size();
-            if(datas.size() != scaleData.rowSize){
-                throw new ChartException("Column rows数据数量不一致");
-            }
-            double[] scale = getColumnScale(datas);
-            scale = setMaxMinValue(scale[0],scale[1]);
-            if(columnData.getDirection() == AxisDirection.LEFT){
-                if(!scaleData.isLeftHasValue){
-                    scaleData.maxLeftValue = scale[0];
-                    scaleData.minLeftValue = scale[1];
-                    scaleData.isLeftHasValue = true;
-                }else{
-                    scaleData.maxLeftValue = Math.max( scaleData.maxLeftValue,scale[0]);
-                    scaleData.minLeftValue =  Math.min( scaleData.minLeftValue,scale[1]);
-                }
 
+            lineStyle.fillPaint(paint);
+            paint.setColor(columnData.getColor());
+            drawLine(canvas, rect, pointX, pointY,paint);
+
+        }
+        if(levelLine != null && levelLine.isDraw()) {
+            float startY = getStartY(zoomRect,scaleData,height,levelLine.getValue(),levelLine.getDirection());
+            drawLevelLine(canvas, zoomRect,startY,paint);
+        }
+    }
+
+    private void drawLine(Canvas canvas,Rect rect, List<Float> pointX, List<Float> pointY,Paint paint) {
+       if(isDrawLine) {
+           Path path = getLinePath(pointX, pointY);
+           if (isArea) {
+               paint.setStyle(Paint.Style.FILL);
+               path.lineTo(rect.right, rect.bottom);
+               path.lineTo(rect.left, rect.bottom);
+               path.close();
+               int alphaColor =  ColorUtils.changeAlpha(paint.getColor(),125);
+               paint.setColor(alphaColor);
+           }
+           canvas.drawPath(path, paint);
+       }
+    }
+
+    @Override
+    protected void drawPeripheral(Canvas canvas, Rect zoomRect, Rect rect, Paint paint) {
+        ScaleData scaleData= chartData.getScaleData();
+        List<LineData> columnDatas = chartData.getColumnDataList();
+        int columnSize = columnDatas.size();
+        int rowSize = chartData.getCharXDataList().size();
+        double width = (zoomRect.right - zoomRect.left)/(rowSize-1);
+        float height =(zoomRect.bottom - zoomRect.top);
+        List<Float> pointXList = new ArrayList<>();
+        List<Float> pointYList = new ArrayList<>();
+
+        for(int i = 0;i <columnSize;i++){
+            LineData columnData = columnDatas.get(i);
+            paint.setColor(columnData.getColor());
+            if(!columnData.isDraw()){
+                continue;
+            }
+            List<Float> pointX = new ArrayList<>();
+            List<Float> pointY = new ArrayList<>();
+            List<Double> datas = columnData.getChartYDataList();
+            for(int j = 0;j <rowSize;j++){
+                double value = datas.get(j);
+                float x = (float) (j*width + zoomRect.left);
+                float y = getAnimValue(getStartY(zoomRect, scaleData, height, value,columnData.getDirection()));
+                if(rect.contains((int)x,(int)y)) {
+                    pointX.add(x);
+                    pointY.add(y);
+                    drawPointText(x, y, canvas, paint, value);
+                }
+            }
+            lineStyle.fillPaint(paint);
+            paint.setColor(columnData.getColor());
+            drawPoint(canvas,pointX,pointY,paint);
+            pointXList.addAll(pointX);
+            pointYList.addAll(pointY);
+        }
+        drawClickCross(canvas,rect,pointXList,pointYList,paint);
+    }
+
+    private float getStartY(Rect zoomRect, ScaleData scaleData, float height, double value, AxisDirection direction) {
+        return (float) (zoomRect.bottom - (value - scaleData.getMinScaleValue(direction))*height/scaleData.getTotalScaleLength(direction));
+    }
+
+
+    private void drawClickCross(Canvas canvas, Rect rect, List<Float> pointX, List<Float> pointY, Paint paint){
+        if(pointX.size() ==0){
+            return;
+        }
+       if(pointF != null  && rect.contains((int)pointF.x,(int)pointF.y)&& (isShowPoint() || isOpenMark())) {
+           int minPosition = 0;
+           float minValue = -1;
+           for (int i = 0; i < pointX.size(); i++) {
+               float x = pointX.get(i);
+               float y= pointY.get(i);
+               float disX = Math.abs(pointF.x - x);
+               float disY = Math.abs(pointF.y - y);
+                float dis = disX + disY;
+               if(minValue == -1 || dis < minValue){
+                   minValue = dis;
+                   minPosition = i;
+               }
+           }
+           float centerX = pointX.get(minPosition);
+           float centerY = pointY.get(minPosition);
+           if(isOpenCross()) {
+               crossStyle.fillPaint(paint);
+               canvas.drawLine(centerX, rect.top, centerX, rect.bottom, paint);
+               canvas.drawLine(rect.left, centerY, rect.right, centerY, paint);
+           }
+           if(markView != null && isOpenMark()){
+               List<String> groupList = chartData.getCharXDataList();
+               int columnPos = minPosition/groupList.size();
+               int rowPos = minPosition % groupList.size();
+               LineData columnData = chartData.getColumnDataList().get(columnPos);
+               markView.drawMark(centerX,centerY,groupList.get(rowPos),
+                       columnData,rowPos);
+           }
+       }
+    }
+
+    protected void drawPoint(Canvas canvas,List<Float> pointX, List<Float> pointY,Paint paint){
+
+        if(isShowPoint && pointStyle != null && pointStyle.isDraw()) {
+            float w = pointStyle.getWidth();
+            for(int i = 0; i < pointY.size();i++) {
+                float x = pointX.get(i);
+                float y = pointY.get(i);
+                int oldColor = paint.getColor();
+                pointStyle.fillPaint(paint);
+                paint.setColor(oldColor);
+                if(pointStyle.getShape() == PointStyle.CIRCLE) {
+                    canvas.drawCircle(x, y, w, paint);
+                }else if(pointStyle.getShape() == PointStyle.SQUARE){
+                    canvas.drawRect(x-w/2,y-w/2,x+w/2,y+w/2,paint);
+                }else if(pointStyle.getShape() == PointStyle.RECT){
+                    canvas.drawRect(x-w*2/3,y-w/2,w*2/3,y+w/2,paint);
+                }
+            }
+        }
+    }
+
+   protected  abstract Path getLinePath(List<Float> pointX, List<Float> pointY);
+
+    public LineStyle getLineStyle() {
+        return lineStyle;
+    }
+
+    public PointStyle getPointStyle() {
+        return pointStyle;
+    }
+
+
+
+    @Override
+    public double[] setMaxMinValue(double maxValue, double minValue) {
+        double dis = Math.abs(maxValue -minValue);
+         maxValue = maxValue + dis*0.3;
+            if(minValue >0){
+                minValue = 0;
             }else{
-                if(!scaleData.isRightHasValue){
-                    scaleData.maxRightValue = scale[0];
-                    scaleData.minRightValue= scale[1];
-                    scaleData.isRightHasValue = true;
-                }else{
-                    scaleData.maxRightValue = Math.max(scaleData.maxRightValue,scale[0]);
-                    scaleData.minRightValue =  Math.min(scaleData.minRightValue,scale[1]);
-                }
+                minValue = minValue - dis*0.3;
             }
+            return new double[]{maxValue,minValue};
         }
-        if(chartData.getScaleData().rowSize == 0){
-            return false;
-        }
-        return true;
 
-
-
+    public boolean isShowPoint() {
+        return isShowPoint;
     }
 
-    private double[] getColumnScale(List<Double> values) {
-        double maxValue = 0;
-        double minValue =0;
-        int size = values.size();
-        for(int j= 0;j < size;j++) {
-            double d = values.get(j) ;
-            if(j == 0){
-                maxValue = d;
-                minValue = d;
-            }
-            if (maxValue < d){
-                maxValue = d;
-            }else if(minValue >d){
-                minValue = d;
-            }
-        }
-        return new double[] {maxValue,minValue};
-    }
-
-    /**
-     * 绘制水平线
-     */
-    protected void drawLevelLine(Canvas canvas, Rect rect,float centerY,Paint paint){
-
-        levelLine.getLineStyle().fillPaint(paint);
-        canvas.drawLine(rect.left, centerY, rect.right, centerY, paint);
-        levelLine.getTextStyle().fillPaint(paint);
-        float textHeight = paint.measureText("1",0,1);
-        float startX;
-        float startY = centerY-textHeight+levelLine.getLineStyle().getWidth();
-        String levelLineValue = String.valueOf(levelLine.getValue());
-        if(levelLine.getTextDirection() == LevelLine.left){
-            startX = rect.left;
-        }else {
-            startX = rect.right - textHeight*levelLineValue.length();
-        }
-        canvas.drawText(levelLineValue,startX,startY,paint);
+    public void setShowPoint(boolean showPoint) {
+        isShowPoint = showPoint;
     }
 
 
 
-
-
-
-    public  abstract double[] setMaxMinValue(double maxMinValue, double minValue);
-
-
-
-
-    public void setLevelLine(LevelLine levelLine) {
-        this.levelLine = levelLine;
-    }
-
-    public boolean isOpenCross() {
-        return isOpenCross;
-    }
-
-    public void setOpenCross(boolean openCross) {
-        isOpenCross = openCross;
-    }
-    public LineStyle getCrossStyle() {
-        return crossStyle;
+    public void setArea(boolean isArea) {
+        this.isArea = isArea;
     }
 
 
+
+    public void setDrawLine(boolean drawLine) {
+        isDrawLine = drawLine;
+    }
 }
