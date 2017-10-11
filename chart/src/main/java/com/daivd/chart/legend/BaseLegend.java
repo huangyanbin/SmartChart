@@ -4,7 +4,6 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.Rect;
-import android.util.Log;
 
 import com.daivd.chart.core.OnClickChartListener;
 import com.daivd.chart.data.ChartData;
@@ -18,14 +17,14 @@ import java.util.List;
  * Created by huang on 2017/9/29.
  */
 
-public class BaseLegend implements ILegend {
+public class BaseLegend<C extends ColumnData> implements ILegend<C> {
 
     private static final float DEFAULT_PERCENT = 0.2f;
     private FontStyle fontStyle;
     private PointStyle legendStyle ;
     private float percent = DEFAULT_PERCENT;
     private int legendDirection = BOTTOM;
-    private ChartData chartData;
+    private ChartData<C> chartData;
     private int padding = 5;
     private PointF pointF;
     private OnClickChartListener onClickChartListener;
@@ -80,7 +79,7 @@ public class BaseLegend implements ILegend {
                 startX =  rect.left+(rect.right - rect.left)/2;
                 break;
         }
-        List<ColumnData> columnDatas = chartData.getColumnDataList();
+        List<? extends  ColumnData> columnDatas = chartData.getColumnDataList();
         startY+=offsetY;
         int tempStartX =startX;
         for(int i = 0;i <columnDatas.size();i++){

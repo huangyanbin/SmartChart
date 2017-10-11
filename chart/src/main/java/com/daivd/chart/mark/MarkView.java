@@ -1,14 +1,9 @@
 package com.daivd.chart.mark;
 
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.NinePatch;
 import android.graphics.Rect;
 
-import com.daivd.chart.data.ColumnData;
-import com.david.chart.R;
+import com.daivd.chart.data.LineData;
 
 /**
  * Created by huang on 2017/9/28.
@@ -26,7 +21,7 @@ public abstract class MarkView {
         this.rect = rect;
     }
 
-    public abstract void drawMark(float x, float y, String content, ColumnData data, int position);
+    public abstract void drawMark(float x, float y, String content, LineData data, int position);
 
 
 

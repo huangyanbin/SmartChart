@@ -7,6 +7,7 @@ import android.graphics.Rect;
 
 import com.daivd.chart.core.OnClickChartListener;
 import com.daivd.chart.data.ChartData;
+import com.daivd.chart.data.ColumnData;
 import com.daivd.chart.data.style.FontStyle;
 import com.daivd.chart.data.style.PointStyle;
 
@@ -15,7 +16,7 @@ import com.daivd.chart.data.style.PointStyle;
  * 图例
  */
 
-public interface ILegend {
+public interface ILegend<C extends ColumnData> {
 
 
     int LEFT = 0;

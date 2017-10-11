@@ -15,33 +15,33 @@ import com.daivd.chart.provider.LineProvider;
  * Created by huang on 2017/9/26.
  */
 
-public class LineChartView extends BaseChartView<BarLineProvider> {
+public class LineChart extends BarLineChart<BarLineProvider> {
 
     public static final int LINE_MODEL = 0;
     public static final  int CURVE_MODEL = 1;
 
-    public LineChartView(Context context) {
+    public LineChart(Context context) {
         super(context);
     }
 
-    public LineChartView(Context context, AttributeSet attrs) {
+    public LineChart(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public LineChartView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public LineChart(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public LineChartView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public LineChart(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
+
     @Override
-    protected void init() {
-        super.init();
-        provider = new LineProvider();
-       horizontalAxis.setGravity(Gravity.LEFT);
+    protected BarLineProvider initProvider() {
+        horizontalAxis.setGravity(Gravity.LEFT);
+        return new LineProvider();
     }
 
     public void setLineModel(int model){
@@ -53,6 +53,5 @@ public class LineChartView extends BaseChartView<BarLineProvider> {
             throw new ChartException("请设置正确的Line model");
         }
     }
-
 
 }

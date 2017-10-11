@@ -7,8 +7,8 @@
     android:gravity="center"
     tools:context="com.bin.david.smartchart.MainActivity">
 
-   <com.daivd.chart.core.BarChart
-       android:id="@+id/columnChart"
+   <com.daivd.chart.core.PieChart
+       android:id="@+id/pieChart"
        android:layout_width="match_parent"
        android:background="#f4f4f4"
        android:layout_height="320dp"

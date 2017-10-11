@@ -7,10 +7,10 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.daivd.chart.axis.AxisDirection;
 import com.daivd.chart.axis.BaseAxis;
-import com.daivd.chart.core.LineChartView;
+import com.daivd.chart.core.LineChart;
 import com.daivd.chart.data.ChartData;
-import com.daivd.chart.data.ColumnData;
 import com.daivd.chart.data.LevelLine;
+import com.daivd.chart.data.LineData;
 import com.daivd.chart.data.style.FontStyle;
 import com.daivd.chart.data.style.LineStyle;
 import com.daivd.chart.data.style.PointStyle;
@@ -23,14 +23,14 @@ import java.util.List;
 
 public class LineChartActivity extends AppCompatActivity {
 
-    private LineChartView lineChartView;
+    private LineChart lineChartView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_line);
 
-        lineChartView = (LineChartView) findViewById(R.id.lineChart);
-        lineChartView.setLineModel(LineChartView.CURVE_MODEL);
+        lineChartView = (LineChart) findViewById(R.id.lineChart);
+        lineChartView.setLineModel(LineChart.CURVE_MODEL);
         Resources res = getResources();
         FontStyle.setDefaultTextSpSize(this,12);
         List<String> chartYDataList = new ArrayList<>();
@@ -38,24 +38,24 @@ public class LineChartActivity extends AppCompatActivity {
         chartYDataList.add("华中");
         chartYDataList.add("华东");
         chartYDataList.add("华西");
-        List<ColumnData> ColumnDatas = new ArrayList<>();
+        List<LineData> ColumnDatas = new ArrayList<>();
         ArrayList<Double> tempList1 = new ArrayList<>();
         tempList1.add(26d);
         tempList1.add(35d);
         tempList1.add(40d);
         tempList1.add(10d);
-        ColumnData columnData1 = new ColumnData("温度","℃",AxisDirection.RIGHT,getResources().getColor(R.color.arc3),tempList1);
+        LineData columnData1 = new LineData("温度","℃",AxisDirection.RIGHT,getResources().getColor(R.color.arc3),tempList1);
         ArrayList<Double> humidityList = new ArrayList<>();
         humidityList.add(60d);
         humidityList.add(50d);
         humidityList.add(30d);
         humidityList.add(65d);
-        ColumnData columnData2 = new ColumnData("湿度","RH%",getResources().getColor(R.color.arc2),humidityList);
+        LineData columnData2 = new LineData("湿度","RH%",getResources().getColor(R.color.arc2),humidityList);
         ColumnDatas.add(columnData1);
         ColumnDatas.add(columnData2);
-        ChartData chartData2 = new ChartData("线型图",chartYDataList,ColumnDatas);
+        ChartData<LineData> chartData2 = new ChartData<>("线型图",chartYDataList,ColumnDatas);
 
-        lineChartView.setLineModel(LineChartView.CURVE_MODEL);
+        lineChartView.setLineModel(LineChart.CURVE_MODEL);
         BaseAxis verticalAxis =  lineChartView.getLeftVerticalAxis();
         BaseAxis horizontalAxis=  lineChartView.getHorizontalAxis();
         //设置竖轴方向

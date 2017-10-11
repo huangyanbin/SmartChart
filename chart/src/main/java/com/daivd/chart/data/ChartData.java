@@ -6,14 +6,14 @@ import java.util.List;
  * Created by huang on 2017/9/26.
  */
 
-public class ChartData {
+public class ChartData<T extends ColumnData> {
 
     private String chartName;
     private List<String> charXDataList;
-    private List<ColumnData> columnDataList;
     private ScaleData scaleData = new ScaleData();
+    private  List<T> columnDataList;
 
-    public ChartData(String chartName, List<String> charXDataList, List<ColumnData> columnDataList) {
+    public ChartData(String chartName,List<String> charXDataList, List<T> columnDataList){
         this.chartName = chartName;
         this.charXDataList = charXDataList;
         this.columnDataList = columnDataList;
@@ -27,12 +27,8 @@ public class ChartData {
         this.chartName = chartName;
     }
 
-    public List<ColumnData> getColumnDataList() {
-        return columnDataList;
-    }
-
-    public void setColumnDataList(List<ColumnData> columnDataList) {
-        this.columnDataList = columnDataList;
+    public boolean isEmpty() {
+        return columnDataList== null || this.columnDataList.size() ==0 ;
     }
 
     public List<String> getCharXDataList() {
@@ -49,5 +45,13 @@ public class ChartData {
 
     public void setScaleData(ScaleData scaleData) {
         this.scaleData = scaleData;
+    }
+
+    public List<T> getColumnDataList() {
+        return columnDataList;
+    }
+
+    public void setColumnDataList(List<T> columnDataList) {
+        this.columnDataList = columnDataList;
     }
 }

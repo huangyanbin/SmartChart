@@ -25,6 +25,9 @@
         <activity android:name=".Bar3DChartActivity">
 
         </activity>
+        <activity android:name=".PieChartActivity">
+
+        </activity>
     </application>
 
 </manifest>

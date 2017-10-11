@@ -2,6 +2,7 @@ package com.daivd.chart.matrix;
 
 import android.content.Context;
 import android.graphics.Rect;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
@@ -177,6 +178,9 @@ public class MatrixHelper extends Observable<ChartGestureObserver> implements Sc
         return scaleRect;
     }
 
+
+
+
     public boolean isCanZoom() {
         return isCanZoom;
     }
@@ -188,4 +192,6 @@ public class MatrixHelper extends Observable<ChartGestureObserver> implements Sc
     public float getZoom() {
         return zoom;
     }
+
+
 }

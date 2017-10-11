@@ -12,10 +12,7 @@ import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 
-import com.daivd.chart.axis.AxisDirection;
 import com.daivd.chart.axis.BaseAxis;
-import com.daivd.chart.axis.HorizontalAxis;
-import com.daivd.chart.axis.VerticalAxis;
 import com.daivd.chart.data.ChartData;
 import com.daivd.chart.data.ColumnData;
 import com.daivd.chart.legend.BaseChartTitle;
@@ -33,7 +30,7 @@ import com.daivd.chart.provider.IProvider;
  * Created by huang on 2017/9/26.
  */
 
-public abstract class BaseChartView<P extends IProvider> extends View implements ChartGestureObserver,OnClickChartListener {
+public abstract class BaseChart<P extends IProvider,C extends ColumnData> extends View implements ChartGestureObserver,OnClickChartListener {
 
     protected int width; //高
     protected int height; //宽
@@ -41,52 +38,47 @@ public abstract class BaseChartView<P extends IProvider> extends View implements
     protected int paddingRight= 10;
     protected int paddingTop = 10;
     protected int paddingBottom = 10;
-    private Rect chartRect = new Rect();
-    protected BaseAxis horizontalAxis; //横轴
-    protected BaseAxis leftVerticalAxis;//竖轴
-    protected BaseAxis rightVerticalAxis;//竖轴
+    protected Rect chartRect = new Rect();
     protected ILegend legend;
     protected IChartTitle chartTitle;
     protected P provider;//内容绘制者
-    private Paint paint;
-    private ChartData chartData;
-    private MatrixHelper matrixHelper;
-    private boolean isShowChartName = true;
-    private boolean isCharEmpty;
+    protected Paint paint;
+    protected ChartData<C> chartData;
+    protected MatrixHelper matrixHelper;
+    protected boolean isShowChartName = true;
+    protected boolean isCharEmpty;
     protected IEmpty emptyView;
 
-    public BaseChartView(Context context) {
+    public BaseChart(Context context) {
         super(context);
         init();
     }
 
-    public BaseChartView(Context context, AttributeSet attrs) {
+    public BaseChart(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
-    public BaseChartView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public BaseChart(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init();
     }
 
     @android.support.annotation.RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public BaseChartView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public BaseChart(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init();
     }
 
     protected  void init(){
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        horizontalAxis = new HorizontalAxis();
-        leftVerticalAxis = new VerticalAxis(AxisDirection.LEFT);
-        rightVerticalAxis = new VerticalAxis(AxisDirection.RIGHT);
         chartTitle = new BaseChartTitle();
         legend = new BaseLegend();
         legend.setOnClickChartListener(this);
         matrixHelper = new MatrixHelper(getContext());
         matrixHelper.register(this);
         emptyView = new EmptyView();
+        provider = initProvider();
     }
 
 
@@ -113,29 +105,20 @@ public abstract class BaseChartView<P extends IProvider> extends View implements
                 chartTitle.drawTitle(canvas, chartRect, paint);
                 computeTitleRect();
             }
-            if (chartData.getColumnDataList().size() > 0) {
+            if (!chartData.isEmpty()) {
                 legend.computeLegend(chartData, chartRect, paint);
                 legend.drawLegend(canvas, chartRect, paint);
                 computeLegendRect();
             }
             if (!isCharEmpty) {
-                horizontalAxis.computeScale(chartData, chartRect, paint);
-                if (chartData.getScaleData().isLeftHasValue)
-                    leftVerticalAxis.computeScale(chartData, chartRect, paint);
-                if (chartData.getScaleData().isRightHasValue)
-                    rightVerticalAxis.computeScale(chartData, chartRect, paint);
-                if (chartData.getScaleData().isLeftHasValue)
-                    leftVerticalAxis.draw(canvas, chartRect, matrixHelper, paint, chartData);
-                if (chartData.getScaleData().isRightHasValue)
-                    rightVerticalAxis.draw(canvas, chartRect, matrixHelper, paint, chartData);
-                horizontalAxis.draw(canvas, chartRect, matrixHelper, paint, chartData);
-                computeScaleRect();
-                provider.drawProvider(canvas, chartRect, matrixHelper, paint);
+               drawContent(canvas);
             } else {
                 emptyView.drawEmpty(canvas, chartRect, paint);
             }
         }
     }
+
+    protected abstract void drawContent(Canvas canvas);
 
     /**
      * 计算绘制刻度之后的大小
@@ -145,14 +128,7 @@ public abstract class BaseChartView<P extends IProvider> extends View implements
         Rect rect = chartData.getScaleData().titleRect;
         computeChartRect(rect);
     }
-    /**
-     * 计算绘制刻度之后的大小
-     */
-    private void computeScaleRect(){
 
-        Rect rect = chartData.getScaleData().scaleRect;
-        computeChartRect(rect);
-    }
     /**
      * 计算绘制图示之后的大小
      */
@@ -163,7 +139,7 @@ public abstract class BaseChartView<P extends IProvider> extends View implements
     }
 
 
-    private void computeChartRect(Rect rect) {
+    protected void computeChartRect(Rect rect) {
         chartRect.left = chartRect.left + rect.left;
         chartRect.top = chartRect.top +rect.top;
         chartRect.bottom = chartRect.bottom - rect.bottom;
@@ -191,29 +167,7 @@ public abstract class BaseChartView<P extends IProvider> extends View implements
 
     }
 
-    public BaseAxis getHorizontalAxis() {
-        return horizontalAxis;
-    }
-
-    public void setHorizontalAxis(BaseAxis horizontalAxis) {
-        this.horizontalAxis = horizontalAxis;
-    }
-
-    public BaseAxis getLeftVerticalAxis() {
-        return leftVerticalAxis;
-    }
-
-    public void setLeftVerticalAxis(BaseAxis leftVerticalAxis) {
-        this.leftVerticalAxis = leftVerticalAxis;
-    }
-
-    public BaseAxis getRightVerticalAxis() {
-        return rightVerticalAxis;
-    }
-
-    public void setRightVerticalAxis(BaseAxis rightVerticalAxis) {
-        this.rightVerticalAxis = rightVerticalAxis;
-    }
+    protected abstract P initProvider();
 
     public void setProvider(P provider) {
         this.provider = provider;
@@ -223,11 +177,11 @@ public abstract class BaseChartView<P extends IProvider> extends View implements
         return provider;
     }
 
-    public ChartData getChartData() {
+    public ChartData<C> getChartData() {
         return chartData;
     }
 
-    public void setChartData(ChartData chartData) {
+    public void setChartData(ChartData<C> chartData) {
         isCharEmpty = !provider.calculation(chartData);
         this.chartData = chartData;
         invalidate();

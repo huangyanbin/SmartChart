@@ -5,7 +5,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 
 import com.daivd.chart.axis.AxisDirection;
-import com.daivd.chart.data.ColumnData;
+import com.daivd.chart.data.LineData;
 import com.daivd.chart.data.ScaleData;
 import com.daivd.chart.data.style.LineStyle;
 import com.daivd.chart.data.style.PointStyle;
@@ -18,7 +18,7 @@ import java.util.List;
  * Created by huang on 2017/9/26.
  */
 
-public abstract  class BarLineProvider extends BaseProvider {
+public abstract  class BarLineProvider extends BaseLineProvider {
 
     private LineStyle lineStyle = new LineStyle();
 
@@ -30,7 +30,7 @@ public abstract  class BarLineProvider extends BaseProvider {
     public void drawProvider(Canvas canvas, Rect zoomRect, Rect rect,Paint paint) {
 
         ScaleData scaleData= chartData.getScaleData();
-        List<ColumnData> columnDatas = chartData.getColumnDataList();
+        List<LineData> columnDatas = chartData.getColumnDataList();
         int columnSize = columnDatas.size();
         int rowSize = chartData.getCharXDataList().size();
         double width = (zoomRect.right - zoomRect.left)/rowSize;
@@ -38,18 +38,19 @@ public abstract  class BarLineProvider extends BaseProvider {
         List<Float> pointXList = new ArrayList<>();
         List<Float> pointYList = new ArrayList<>();
         for(int i = 0;i <columnSize;i++){
-            ColumnData columnData = columnDatas.get(i);
+            LineData columnData = columnDatas.get(i);
             if(!columnData.isDraw()){
                 continue;
             }
             List<Float> pointX = new ArrayList<>();
             List<Float> pointY = new ArrayList<>();
             lineStyle.fillPaint(paint);
+            List<Double> datas = columnData.getChartYDataList();
             paint.setColor(columnData.getColor());
             for(int j = 0;j <rowSize;j++){
-                double value = columnData.getChartYDataList().get(j);
+                double value = datas.get(j);
                 float x = (float) (j*width + zoomRect.left);
-                float y = getStartY(zoomRect, scaleData, height, value,columnData.getDirection())*progress;
+                float y = getAnimValue(getStartY(zoomRect, scaleData, height, value,columnData.getDirection()));
                 pointX.add(x);
                 pointY.add(y);
                 drawPointText(x,y,canvas,paint,value);
@@ -98,7 +99,7 @@ public abstract  class BarLineProvider extends BaseProvider {
                List<String> groupList = chartData.getCharXDataList();
                int columnPos = minPosition/groupList.size();
                int rowPos = minPosition % groupList.size();
-               ColumnData columnData = chartData.getColumnDataList().get(columnPos);
+               LineData columnData = chartData.getColumnDataList().get(columnPos);
                markView.drawMark(centerX,centerY,groupList.get(rowPos),
                        columnData,rowPos);
            }
@@ -141,11 +142,11 @@ public abstract  class BarLineProvider extends BaseProvider {
     @Override
     public double[] setMaxMinValue(double maxValue, double minValue) {
         double dis = Math.abs(maxValue -minValue);
-         maxValue = maxValue + dis*0.2;
+         maxValue = maxValue + dis*0.3;
             if(minValue >0){
                 minValue = 0;
             }else{
-                minValue = minValue - dis*0.2;
+                minValue = minValue - dis*0.3;
             }
             return new double[]{maxValue,minValue};
         }

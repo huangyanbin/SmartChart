@@ -3,16 +3,6 @@ package com.daivd.chart.provider;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.graphics.PointF;
-import android.graphics.Rect;
-
-import com.daivd.chart.axis.AxisDirection;
-import com.daivd.chart.data.ChartData;
-import com.daivd.chart.data.ColumnData;
-import com.daivd.chart.data.ScaleData;
-import com.daivd.chart.utils.ColorUtils;
-
-import java.util.List;
 
 
 /**

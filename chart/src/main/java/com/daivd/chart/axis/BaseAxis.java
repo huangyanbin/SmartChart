@@ -6,6 +6,7 @@ import android.graphics.Rect;
 import android.view.Gravity;
 
 import com.daivd.chart.data.ChartData;
+import com.daivd.chart.data.LineData;
 import com.daivd.chart.data.ScaleData;
 import com.daivd.chart.data.style.FontStyle;
 import com.daivd.chart.data.style.LineStyle;
@@ -58,13 +59,13 @@ public  abstract class BaseAxis implements IAxis {
     }
 
     @Override
-    public void draw(Canvas canvas, Rect rect, MatrixHelper helper, Paint paint, ChartData chartData) {
+    public void draw(Canvas canvas, Rect rect, MatrixHelper helper, Paint paint, ChartData<LineData> chartData) {
         drawScale(canvas,rect,helper,paint,chartData);
         drawAxis(canvas,rect,paint,chartData);
     }
 
 
-    protected void drawScale(Canvas canvas, Rect rect, MatrixHelper helper, Paint paint, ChartData chartData) {
+    protected void drawScale(Canvas canvas, Rect rect, MatrixHelper helper, Paint paint,  ChartData<LineData> chartData) {
         ScaleData scaleData = chartData.getScaleData();
         Rect clipRect = new Rect(rect);
         Rect scaleRect = scaleData.scaleRect;
@@ -100,8 +101,8 @@ public  abstract class BaseAxis implements IAxis {
         return value;
     }
 
-    protected   abstract void drawAxis(Canvas canvas, Rect rect, Paint paint,ChartData chartData);
+    protected   abstract void drawAxis(Canvas canvas, Rect rect, Paint paint, ChartData<LineData> chartData);
 
-    protected   abstract void drawScale(Canvas canvas, Rect rect,Rect clipRect, Paint paint, ChartData chartData);
+    protected   abstract void drawScale(Canvas canvas, Rect rect,Rect clipRect, Paint paint,  ChartData<LineData> chartData);
 
 }

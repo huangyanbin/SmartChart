@@ -9,7 +9,7 @@ import android.graphics.NinePatch;
 import android.graphics.Paint;
 import android.graphics.Rect;
 
-import com.daivd.chart.data.ColumnData;
+import com.daivd.chart.data.LineData;
 import com.daivd.chart.utils.DensityUtils;
 import com.david.chart.R;
 
@@ -38,7 +38,7 @@ public  class MsgMarkView  extends MarkView{
     }
 
     @Override
-    public void drawMark(float x, float y, String content, ColumnData data, int position) {
+    public void drawMark(float x, float y, String content, LineData data, int position) {
         String text = content+data.getChartYDataList().get(position)+data.getUnit();
         int w = textHeight*text.length();
         int h = textHeight + padding*2;

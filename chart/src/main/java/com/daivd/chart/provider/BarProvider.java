@@ -8,6 +8,7 @@ import android.graphics.Rect;
 import com.daivd.chart.axis.AxisDirection;
 import com.daivd.chart.data.ChartData;
 import com.daivd.chart.data.ColumnData;
+import com.daivd.chart.data.LineData;
 import com.daivd.chart.data.ScaleData;
 import com.daivd.chart.utils.ColorUtils;
 
@@ -18,7 +19,7 @@ import java.util.List;
  * Created by huang on 2017/9/26.
  */
 
-public class BarProvider extends BaseProvider {
+public class BarProvider extends BaseLineProvider {
 
     private int groupPadding =20;
 
@@ -28,7 +29,7 @@ public class BarProvider extends BaseProvider {
     public void drawProvider(Canvas canvas, Rect zoomRect,Rect rect, Paint paint) {
         paint.setStyle(Paint.Style.FILL);
         ScaleData scaleData= chartData.getScaleData();
-        List<ColumnData> columnDatas = chartData.getColumnDataList();
+        List<LineData> columnDatas = chartData.getColumnDataList();
         int columnSize = columnDatas.size();
         int rowSize = chartData.getCharXDataList().size();
         double width = (zoomRect.right - zoomRect.left)/(columnSize*rowSize)-groupPadding/2;
@@ -45,7 +46,7 @@ public class BarProvider extends BaseProvider {
                     if (!columnData.isDraw()) {
                         continue;
                     }
-                    double d = columnData.getChartYDataList().get(j);
+                    double d = ((List<Double>) columnData.getChartYDataList()).get(j);
                     float left = (float) ((j * columnSize + i) * width) + j * groupPadding + zoomRect.left + 0.5f;
                     float right = (float) (left + width);
                     float top = getStartY(zoomRect, scaleData, height, d, columnData.getDirection());
@@ -58,8 +59,7 @@ public class BarProvider extends BaseProvider {
                         clickPosition = j;
                         clickColumnPosition = i;
                     }
-
-                    drawBar(canvas, paint, left, right, top + (bottom - top) * (1 - progress), bottom,d);
+                    drawBar(canvas, paint, left, right, top + (bottom - top) - getAnimValue(bottom - top), bottom,d);
                 }
             }
 
@@ -91,7 +91,7 @@ public class BarProvider extends BaseProvider {
             canvas.drawLine(rect.left, y, rect.right, y, paint);
         }
     }
-    private void drawMark(float x, float y, int position,int columnPosition, ChartData chartData){
+    private void drawMark(float x, float y, int position,int columnPosition,  ChartData<LineData> chartData){
 
         if(markView != null && isOpenMark()){
             markView.drawMark(x,y,chartData.getCharXDataList().get(position),

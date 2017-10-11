@@ -6,28 +6,26 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import com.daivd.chart.axis.BaseAxis;
-import com.daivd.chart.core.BarChart3DView;
-import com.daivd.chart.core.BarChartView;
+import com.daivd.chart.core.Bar3DChart;
 import com.daivd.chart.data.ChartData;
-import com.daivd.chart.data.ColumnData;
 import com.daivd.chart.data.LevelLine;
+import com.daivd.chart.data.LineData;
 import com.daivd.chart.data.style.FontStyle;
 import com.daivd.chart.data.style.PointStyle;
 import com.daivd.chart.legend.ILegend;
 import com.daivd.chart.mark.MsgMarkView;
-import com.daivd.chart.utils.DensityUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Bar3DChartActivity extends AppCompatActivity {
 
-    private BarChart3DView columnChartView;
+    private Bar3DChart columnChartView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_3dbar);
-        columnChartView = (BarChart3DView) findViewById(R.id.columnChart);
+        columnChartView = (Bar3DChart) findViewById(R.id.columnChart);
         Resources res = getResources();
         FontStyle.setDefaultTextSpSize(this,12);
         List<String> groupData = new ArrayList<>();
@@ -37,7 +35,7 @@ public class Bar3DChartActivity extends AppCompatActivity {
         groupData.add("华西");
 
 
-        List<ColumnData> ColumnDatas = new ArrayList<>();
+        List<LineData> ColumnDatas = new ArrayList<>();
         ArrayList<Double> tempList1 = new ArrayList<>();
         tempList1.add(26d);
         tempList1.add(35d);
@@ -45,18 +43,17 @@ public class Bar3DChartActivity extends AppCompatActivity {
         tempList1.add(10d);
 
 
-        ColumnData columnData1 = new ColumnData("温度","℃",getResources().getColor(R.color.arc3),tempList1);
+        LineData columnData1 = new LineData("温度","℃",getResources().getColor(R.color.arc3),tempList1);
         ArrayList<Double> humidityList = new ArrayList<>();
         humidityList.add(60d);
         humidityList.add(50d);
         humidityList.add(30d);
         humidityList.add(65d);
 
-        ColumnData columnData2 = new ColumnData("湿度","RH%",getResources().getColor(R.color.arc2),humidityList);
+        LineData columnData2 = new LineData("湿度","RH%",getResources().getColor(R.color.arc2),humidityList);
         ColumnDatas.add(columnData1);
         ColumnDatas.add(columnData2);
-        columnChartView.getProvider().setMarkView(new MsgMarkView(this));
-        ChartData chartData = new ChartData("柱状图",groupData,ColumnDatas);
+        ChartData<LineData> chartData = new ChartData<>("柱状图",groupData,ColumnDatas);
         columnChartView.setChartData(chartData);
         columnChartView.startChartAnim(1000);
         columnChartView.setZoom(true);

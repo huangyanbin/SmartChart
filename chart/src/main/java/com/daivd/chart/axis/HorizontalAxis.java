@@ -8,6 +8,7 @@ import android.graphics.Rect;
 import android.view.Gravity;
 
 import com.daivd.chart.data.ChartData;
+import com.daivd.chart.data.LineData;
 import com.daivd.chart.data.ScaleData;
 import com.daivd.chart.exception.ChartException;
 
@@ -25,7 +26,7 @@ public class HorizontalAxis extends BaseAxis {
     private int padding = 10;
 
     @Override
-    public void computeScale(ChartData chartData, Rect rect, Paint paint) {
+    public void computeScale(ChartData<LineData> chartData, Rect rect, Paint paint) {
         ScaleData scaleData = chartData.getScaleData();
         scaleStyle.fillPaint(paint);
         int textHeight = (int) (paint.measureText("1", 0, 1) * 2);
@@ -37,7 +38,7 @@ public class HorizontalAxis extends BaseAxis {
         }
     }
 
-    protected void drawScale(Canvas canvas, Rect zoomRect, Rect clipRect, Paint paint, ChartData chartData) {
+    protected void drawScale(Canvas canvas, Rect zoomRect, Rect clipRect, Paint paint,  ChartData<LineData> chartData) {
         //Log.e("huang","scale zoomRect:"+zoomRect.toString());
         ScaleData scaleData = chartData.getScaleData();
         List<String> groupDataList = chartData.getCharXDataList();
@@ -106,7 +107,7 @@ public class HorizontalAxis extends BaseAxis {
     }
 
     @Override
-    protected void drawAxis(Canvas canvas, Rect rect, Paint paint, ChartData chartData) {
+    protected void drawAxis(Canvas canvas, Rect rect, Paint paint,  ChartData<LineData> chartData) {
         Rect scaleRect = chartData.getScaleData().scaleRect;
         lineStyle.fillPaint(paint);
         paint.setStyle(Paint.Style.STROKE);

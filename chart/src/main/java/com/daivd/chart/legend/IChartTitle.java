@@ -5,15 +5,15 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 
 import com.daivd.chart.data.ChartData;
+import com.daivd.chart.data.ColumnData;
 import com.daivd.chart.data.style.FontStyle;
-import com.daivd.chart.data.style.PointStyle;
 
 /**
  * Created by huang on 2017/9/29.
  * 图例
  */
 
-public interface IChartTitle {
+public interface IChartTitle{
 
 
     int LEFT = 0;

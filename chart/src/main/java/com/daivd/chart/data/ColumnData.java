@@ -8,7 +8,7 @@ import java.util.List;
  * Created by huang on 2017/9/26.
  */
 
-public class ColumnData {
+public class ColumnData<T> {
 
     public String name;
 
@@ -16,15 +16,16 @@ public class ColumnData {
     private int color;
     private boolean isDraw = true;
     private AxisDirection  direction = AxisDirection.LEFT;
-    private List<Double> chartYDataList;
+    private T chartYDataList;
 
-    public ColumnData(String name, String unit, int color, List<Double> chartYDataList) {
+
+    public ColumnData(String name, String unit, int color, T chartYDataList) {
         this.name = name;
         this.unit = unit;
         this.color = color;
         this.chartYDataList = chartYDataList;
     }
-    public ColumnData(String name, String unit, AxisDirection direction, int color, List<Double> datas) {
+    public ColumnData(String name, String unit, AxisDirection direction, int color, T datas) {
 
         this.name = name;
         this.unit = unit;
@@ -67,11 +68,11 @@ public class ColumnData {
         this.color = color;
     }
 
-    public List<Double> getChartYDataList() {
+    public T getChartYDataList() {
         return chartYDataList;
     }
 
-    public void setChartYDataList(List<Double> chartYDataList) {
+    public void setChartYDataList(T chartYDataList) {
         this.chartYDataList = chartYDataList;
     }
 
