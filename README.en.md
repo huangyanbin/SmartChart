@@ -1,12 +1,9 @@
-# SmartChart
+# ![icon](/img/icon.png)SmartChart
 
 ------
-![icon](/img/icon.png)
+* [Chinese README](/README.md/)
 
 * SmartChart is an Android chart framework that supports linear diagrams (broken lines, curves, scatter points) bar charts, area charts, pie charts, and 3D columnar diagrams to support a variety of configurations.
-
-[Chinese README](/README.md/)
-
 
 ## Function display
 
