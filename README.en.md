@@ -3,69 +3,73 @@
 ------
 ![icon](/img/icon.png)
 
-* SmartChart是Android图表框架，支持线性图（折线，曲线，散点）柱状图、面积图、饼图、3D柱状图支持多样化配置。
+* SmartChart is an Android chart framework that supports linear diagrams (broken lines, curves, scatter points) bar charts, area charts, pie charts, and 3D columnar diagrams to support a variety of configurations.
 
-[英文版README](/README.en.md/)
+[Chinese README](/README.md/)
 
-## 功能展示
 
-####  1.折线图
-![折线图](/img/line1.png)
-####  2.曲线图
+## Function display
+
+####  1. Line chart
+![The line chart](/img/line1.png)
+####  2.  Graph chart
 ![曲线图](/img/line2.png)
-####  3.散点图
+####  3. Scatter chart
 ![散点图](/img/line3.png)
-####  4.面积图
+####  4.Area chart
 ![面积图](/img/line4.png)
-####  5.柱状图
+####  5.Bar chart
 ![柱状图](/img/bar1.png)
-####  6.3D柱状图
+####  6.3D bar chart
 ![3D柱状图](/img/bar2.png)
-####  7.饼图
+####  7.Pie chart
 ![饼图](/img/pie.png)
-####  8.雷达图
+####  8.Radar chart
 ![雷达图](/img/radar.png)
 
-#### 图表动画
+#### Chart anim
 
 ![动画](/img/gif/chart.gif)
 
-#### 图表缩放移动
+#### Chart zoom
 
 ![缩放移动](/img/gif/zoom.gif)
 
-#### 旋转
+#### Chart rotate
 
 ![旋转](/img/gif/rotate.gif)
 
 
-## 功能介绍
+## Function introduce
 
-* 支持轴方向，双轴，图示，水平线，十字轴，MarkView自定义，空白，标题，网格等，支持丰富的样式，包括字体样式（字体大小，颜色），图形样式（正方形，长方形，圆形），线（大小，颜色，DashPathEffect）,增加了图表移动和缩放功能以及动画。
+* Support shaft direction, biaxial, graphic, horizontal line, cross shaft, MarkView custom, blank, the title, grid, such as support rich style, including the font style, font size, color, graphic style (square, rectangle, round), line (size, color, DashPathEffect), increase the movement and zoom function diagram and animation.
 
 
-### 0.9版本更新日志
+### 0.9 version update log
 
-* 1.修复轴和网格显示不全问题；
-* 2.增加雷达图旋转手势；
-* 3.修复标题显示问题；
-* 4.修复曲线和折线动态切换崩溃问题。
+* 1. Repair axis and grid display incomplete problem;
+* 2. Increase the rotation gesture of radar map;
+* 3. Fix the title display problem;
+* 4. Repair curve and broken line dynamic switch collapse problem.
 
-### 0.8版本更新日志
+### 0.8 version update log
 
-* 1.新增散点图，面积图、饼图、3D柱状图；
-* 2.支持饼图手势旋转和选中块；
-* 3.修复之前0.7版本bug；
-* 4.重构了代码，以便支持更多图表类型。
+* 1. New scatter plots, area charts, pie charts, 3D column graphs;
+* 2. To support the rotation and selection of the pie chart;
+* 3. Fixed 0.7 bug before repair;
+* 4. Refactor the code to support more chart types.
 
-### 0.7版本更新日志
+### 0.7 version update log
 
-* 1.支持线性图（折线，曲线，散点）柱状图，
-* 2.支持图表轴方向，双轴，图示，水平线，十字轴，MarkView自定义，空白，标题，网格等
-* 3.支持丰富的样式，包括字体样式（字体大小，颜色），图形样式（正方形，长方形，圆形），线（大小，颜色，DashPathEffect）
-* 4.增加了图表移动和缩放功能以及动画。
+* 1. New scatter plots, area charts, pie charts, 3D column graphs;
+* 2. To support the rotation and selection of the pie chart;
+* 1. Support linear graph (line, curve, scatter) bar chart,
+* 2. Support chart axis, legend, graphical, horizontal, cross-axis, MarkView customization, blank, title, grid, etc
+* 3. Support rich styles, including font style (font size, color), graphic style (square, rectangle, circle), line (size, color, DashPathEffect)
+* 4. Add chart movement and zoom function and animation.
+* 4. Refactor the code to support more chart types.
 
-  ### 如何使用
+  ### How to use
 
 > * Step 1. Add the JitPack repository to your build file
 ```gradle
@@ -83,7 +87,7 @@ dependencies {
 	}
 ```
     
-#### 1. 使用图表 
+#### 1. Use the chart
 
     ```xml
     <!--柱状图-->
@@ -101,11 +105,11 @@ dependencies {
        android:layout_marginBottom="5dp"/>
     ```
     
-####  2.曲线图
+####  2.The graph
 
  lineChartView.setLineModel(LineChartView.CURVE_MODEL);
     
-#### 3. 设置轴方向 
+#### 3. Set axis
 
     ```java
       BaseAxis verticalAxis =  lineChartView.getLeftVerticalAxis();
@@ -121,12 +125,12 @@ dependencies {
         verticalAxis.getLineStyle().setWidth(this,1);
     ```
 
-#### 4. 开启缩放
+#### 4. Open the zoom
 
       ```java
      chartView.setZoom(true);
     ```
-#### 5. 图表内容样式和功能
+#### 5. Chart content styles and functions
 
       ```java
        //开启十字架
@@ -141,7 +145,7 @@ dependencies {
         lineChartView.getProvider().getPointStyle().setShape(PointStyle.CIRCLE);
        
     ```
-#### 6. 图示
+#### 6. Legend
 
       ```java
         //设置图示方向
@@ -151,7 +155,7 @@ dependencies {
          lineChartView.getLegend().setLegendPercent(0.2f);
        
     ```
-### 7.标题  
+### 7.Chart Title  
 
      ```java
       //设置显示标题
@@ -164,7 +168,7 @@ dependencies {
         lineChartView.getChartTitle().getTextStyle().setTextColor(res.getColor(R.color.arc21));
        
     ```
-### 8.数据设置
+### 8.Chart Data Set
 
      ```java
      //Y轴数据
@@ -195,7 +199,7 @@ dependencies {
     ```
 
 
-###  9.动画
+###  9.Anim
 
      ```java
      //你可以使用默认动画 也可以设置Interpolator
@@ -203,18 +207,17 @@ dependencies {
       lineChartView.startChartAnim(1000);
     ```
  
-### 10.下版本1.0
+### 10.Next version 1.0
     
-* 1.支持仪表盘图表；
-* 2.修复ViewPager和列表滑动引起手势冲突；
-* 3.优化图表展示效果。
+* 1. Support dashboard charts;
+* 2. Fix the view pager and list sliding to cause gesture conflict;
+* 3. Optimize the graphics display effect.
         
     
-### 11.结尾
+### 11.End
     
-* 项目包括还有很多配置项，这里不一一列举，包括设置Padding等。
-    做到几乎所有图表属性都可以配置，但由于这个框架只开发了3天，还有很多待完善的地方。再一次感谢您花费时间阅读。
- 
+* the project includes a number of configuration items, which are not listed here, including setting up Padding.
+Almost all of the chart attributes can be configured, but since this framework has only been developed for three days, there is still a lot to be done. Thank you again for spending time reading.
 
 
 
