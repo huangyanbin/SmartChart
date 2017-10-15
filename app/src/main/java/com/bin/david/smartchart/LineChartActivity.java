@@ -1,24 +1,16 @@
 package com.bin.david.smartchart;
 
-import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.DashPathEffect;
 import android.graphics.PathEffect;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Toast;
 
-import com.bin.david.smartchart.adapter.ItemAdapter;
-import com.bin.david.smartchart.adapter.LineAdapter;
 import com.bin.david.smartchart.bean.ChartStyle;
-import com.bin.david.smartchart.bean.MainItem;
-import com.bin.david.smartchart.bean.SelectItem;
 import com.bin.david.smartchart.view.BaseCheckDialog;
 import com.bin.david.smartchart.view.QuickChartDialog;
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.daivd.chart.axis.AxisDirection;
 import com.daivd.chart.axis.BaseAxis;
 import com.daivd.chart.core.LineChart;
@@ -109,8 +101,15 @@ public class LineChartActivity extends AppCompatActivity {
         //设置标题比例
         lineChartView.getChartTitle().setTitlePercent(0.2f);
         //设置标题样式
-        lineChartView.getChartTitle().getTextStyle().setTextColor(res.getColor(R.color.arc_text));
-        lineChartView.getProvider().setLevelLine(new LevelLine(true,20));
+        FontStyle fontStyle = lineChartView.getChartTitle().getTextStyle();
+        fontStyle.setTextColor(res.getColor(R.color.arc_temp));
+        fontStyle.setTextSpSize(this,15);
+
+        LevelLine levelLine = new LevelLine(true,20);
+        DashPathEffect effects2 = new DashPathEffect(new float[] { 1, 2,2,4}, 1);
+        levelLine.getLineStyle().setWidth(this,1).setColor(res.getColor(R.color.arc23)).setEffect(effects);
+        levelLine.getLineStyle().setEffect(effects2);
+        lineChartView.getProvider().setLevelLine(levelLine);
         lineChartView.getLegend().setLegendDirection(ILegend.BOTTOM);
         lineChartView.getLegend().getLegendStyle().setShape(PointStyle.RECT);
         lineChartView.getLegend().setLegendPercent(0.2f);
@@ -119,7 +118,7 @@ public class LineChartActivity extends AppCompatActivity {
         lineChartView.setOnClickColumnListener(new OnClickColumnListener<LineData>() {
             @Override
             public void onClickColumn(LineData lineData, int position) {
-                Toast.makeText(LineChartActivity.this,lineData.getChartYDataList().get(position)+lineData.getUnit(),Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(LineChartActivity.this,lineData.getChartYDataList().get(position)+lineData.getUnit(),Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -212,7 +211,7 @@ public class LineChartActivity extends AppCompatActivity {
         items.add(ChartStyle.MARK_VIEW);
         items.add(ChartStyle.H_GRID);
         items.add(ChartStyle.V_GRID);
-        items.add(ChartStyle.SHOW_TITLE);
+        items.add(ChartStyle.SHOW_LINE);
         items.add(ChartStyle.SHOW_AREA);
         chartDialog.show(this,true,items);
     }

@@ -60,16 +60,21 @@ public class Bar3DChartActivity extends AppCompatActivity {
         columnChartView.startChartAnim(1000);
         columnChartView.setZoom(true);
         columnChartView.setShowChartName(true);
+        //设置标题样式
+        FontStyle fontStyle = columnChartView.getChartTitle().getTextStyle();
+        fontStyle.setTextColor(res.getColor(R.color.arc23));
+        fontStyle.setTextSpSize(this,15);
         columnChartView.getProvider().setOpenMark(true);
         columnChartView.getProvider().setOpenCross(true);
         LevelLine levelLine = new LevelLine(true,20);
         DashPathEffect effects = new DashPathEffect(new float[] { 1, 2, 4, 8}, 1);
-        levelLine.getLineStyle().setWidth(this,1).setColor(res.getColor(R.color.arc22)).setEffect(effects);
+        levelLine.getLineStyle().setWidth(this,1).setColor(res.getColor(R.color.arc23)).setEffect(effects);
         columnChartView.getProvider().setLevelLine(levelLine);
         columnChartView.getProvider().setMarkView(new MsgMarkView(this));
         columnChartView.getLegend().getLegendStyle().setShape(PointStyle.CIRCLE);
         BaseAxis vaxis = columnChartView.getLeftVerticalAxis();
         vaxis.setDrawGrid(true);
+        columnChartView.getLeftVerticalAxis().getGridStyle().setEffect(effects);
         vaxis.getGridStyle().setColor(R.color.arc_inteval);
         columnChartView.getLegend().setLegendDirection(ILegend.TOP);
         columnChartView.setOnClickColumnListener(new OnClickColumnListener<LineData>() {

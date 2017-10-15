@@ -1,6 +1,7 @@
 # SmartChart
 
 ------
+![折线图](/img/icon.png)
 
 SmartChart是Android图表框架，支持线性图（折线，曲线，散点）柱状图、面积图、饼图、3D柱状图支持多样化配置。
 
@@ -8,12 +9,29 @@ SmartChart是Android图表框架，支持线性图（折线，曲线，散点）
 
 ![github](gifeditor_20170930_170556.gif)
 
+##功能展示
+
+![折线图](/img/line1.png)
+![曲线图](/img/line2.png)
+![散点图](/img/line3.png)
+![面积图](/img/line4.png)
+![柱状图](/img/bar1.png)
+![3D柱状图](/img/bar2.png)
+![饼图](/img/pie.png)
+![雷达图](/img/radar.png)
+
 
 ## 功能介绍
 
 支持轴方向，双轴，图示，水平线，十字轴，MarkView自定义，空白，标题，网格等，支持丰富的样式，包括字体样式（字体大小，颜色），图形样式（正方形，长方形，圆形），线（大小，颜色，DashPathEffect）,增加了图表移动和缩放功能以及动画。
    
-   
+
+## 0.9版本更新日志
+
+1.修复轴和网格显示不全问题；
+2.增加雷达图旋转手势；
+3.修复标题显示问题；
+4.修复曲线和折线动态切换崩溃问题。
 
 ## 0.8版本更新日志
 
@@ -51,13 +69,13 @@ dependencies {
 
     ```xml
     <!--柱状图-->
-    <com.daivd.chart.core.ColumnChartView
+    <com.daivd.chart.core.ColumnChart
        android:id="@+id/columnChart"
        android:layout_width="match_parent"
        android:background="#f4f4f4"
        android:layout_height="320dp"/>
     <!--线型图-->   
-    <com.daivd.chart.core.LineChartView
+    <com.daivd.chart.core.LineChart
        android:id="@+id/lineChart"
        android:layout_width="match_parent"
        android:background="#f4f4f4"
@@ -167,12 +185,11 @@ dependencies {
       lineChartView.startChartAnim(1000);
  ```
  
-### 10.下版本0.8
+### 10.下版本1.0
     
-        1.支持点击所有属性的回调
-	2.支持图表轴单位显示
-        2.新增饼图,雷达图
-	3.修复之前的已知的bug.
+      1.支持仪表盘图表；
+      2.修复ViewPager和列表滑动引起手势冲突；
+      3.优化图表展示效果。
         
     
    

@@ -37,8 +37,8 @@ public abstract class BaseChart<P extends IProvider<C>,C extends ColumnData> ext
 
     protected int width; //高
     protected int height; //宽
-    protected int paddingLeft = 30;
-    protected int paddingRight = 30;
+    protected int paddingLeft = 10;
+    protected int paddingRight = 10;
     protected int paddingTop = 30;
     protected int paddingBottom = 30;
     protected Rect chartRect = new Rect();
@@ -167,8 +167,8 @@ public abstract class BaseChart<P extends IProvider<C>,C extends ColumnData> ext
     private void computePaddingRect() {
         chartRect.left = paddingLeft;
         chartRect.top = paddingTop;
-        chartRect.bottom = height - paddingBottom - paddingTop;
-        chartRect.right = width - paddingRight - paddingLeft;
+        chartRect.bottom = height - paddingBottom;
+        chartRect.right = width - paddingRight;
     }
 
 

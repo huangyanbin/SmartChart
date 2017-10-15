@@ -35,7 +35,7 @@ public class VerticalAxis extends BaseAxis {
         int length = Math.max(formatVerticalAxisData(scaleData.getMaxScaleValue(direction)).length(),
                 formatVerticalAxisData(scaleData.getMinScaleValue(direction)).length());
         int textHeight = (int) (paint.measureText("1", 0, 1) * length);
-        int dis = (int) (textHeight + scaleStyle.getPadding() * 2 + lineStyle.getWidth());
+        int dis = (int) (textHeight + scaleStyle.getPadding()  + lineStyle.getWidth());
         if (direction == AxisDirection.LEFT) {
             scaleData.scaleRect.left = dis;
         } else {

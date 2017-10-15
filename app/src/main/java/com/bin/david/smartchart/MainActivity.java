@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<MainItem> items = new ArrayList<>();
         items.add(new MainItem(LineChartActivity.class,"线性图"));
         items.add(new MainItem(ScatterChartActivity.class,"散点图"));
+        items.add(new MainItem(AreaChartActivity.class,"面积图"));
         items.add(new MainItem(BarChartActivity.class,"柱状图"));
         items.add(new MainItem(Bar3DChartActivity.class,"3D柱状图"));
         items.add(new MainItem(PieChartActivity.class,"饼图"));

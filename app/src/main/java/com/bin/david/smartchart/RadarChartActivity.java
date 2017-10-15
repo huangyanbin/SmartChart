@@ -74,7 +74,7 @@ public class RadarChartActivity extends AppCompatActivity {
         //设置标题比例
         radarChart.getChartTitle().setTitlePercent(0.1f);
         //设置标题样式
-        radarChart.getChartTitle().getTextStyle().setTextColor(res.getColor(R.color.arc22));
+        radarChart.getChartTitle().getTextStyle().setTextColor(res.getColor(R.color.arc23));
         radarChart.getLegend().setLegendDirection(ILegend.BOTTOM);
         radarChart.getLegend().getLegendStyle().setShape(PointStyle.SQUARE);
         radarChart.getLegend().setLegendPercent(0.2f);

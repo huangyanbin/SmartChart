@@ -2,6 +2,7 @@ package com.daivd.chart.provider.barLine;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.Rect;
 
 import com.daivd.chart.axis.AxisDirection;
@@ -102,7 +103,10 @@ public abstract class BarLineProvider extends BaseProvider<LineData> {
     void drawLevelLine(Canvas canvas, Rect rect, float centerY, Paint paint){
 
         levelLine.getLineStyle().fillPaint(paint);
-        canvas.drawLine(rect.left, centerY, rect.right, centerY, paint);
+        Path path = new Path();
+        path.moveTo(rect.left,centerY);
+        path.lineTo( rect.right,centerY);
+        canvas.drawPath(path, paint);
         levelLine.getTextStyle().fillPaint(paint);
         float textHeight = paint.measureText("1",0,1);
         float startX;

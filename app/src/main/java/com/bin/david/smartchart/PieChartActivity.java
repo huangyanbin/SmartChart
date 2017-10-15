@@ -51,10 +51,14 @@ public class PieChartActivity extends AppCompatActivity {
         pieDatas.add(columnData4);
         ChartData<PieData> chartData = new ChartData<>("饼图",groupData,pieDatas);
         pieChart.setShowChartName(true);
+        //设置标题样式
+        FontStyle fontStyle = pieChart.getChartTitle().getTextStyle();
+        fontStyle.setTextColor(res.getColor(R.color.arc3));
+        fontStyle.setTextSpSize(this,15);
         pieChart.getProvider().setOpenMark(true);
         LevelLine levelLine = new LevelLine(true,20);
-        DashPathEffect effects = new DashPathEffect(new float[] { 1, 2, 4, 8}, 1);
-        levelLine.getLineStyle().setWidth(this,1).setColor(res.getColor(R.color.arc22)).setEffect(effects);
+        DashPathEffect effects = new DashPathEffect(new float[] { 1, 2, 2, 1}, 1);
+        levelLine.getLineStyle().setWidth(this,2).setColor(res.getColor(R.color.arc23)).setEffect(effects);
         pieChart.getProvider().setMarkView(new MsgMarkView(this));
         pieChart.getLegend().getLegendStyle().setShape(PointStyle.CIRCLE);
         pieChart.getLegend().setLegendDirection(ILegend.TOP);

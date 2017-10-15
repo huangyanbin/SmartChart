@@ -52,7 +52,7 @@ public class BaseChartTitle implements IChartTitle {
                 startY = (int) (rect.top + rect.height() * percent/2);
                 startX = rect.centerX();
                 startY+= textHeight;
-                startX -=textHeight * chartName.length()/2;
+                startX -=textHeight * chartName.length();
                 canvas.drawText(chartName, startX, startY, paint);
                 break;
             case LEFT:
@@ -74,7 +74,7 @@ public class BaseChartTitle implements IChartTitle {
                 startY = (int) (rect.bottom - rect.height() * percent/2);
                 startX =  rect.centerX();
                 startY+= textHeight;
-                startX -=textHeight * chartName.length()/2;
+                startX -=textHeight * chartName.length();
                 canvas.drawText(chartName, startX, startY, paint);
                 break;
         }

@@ -2,12 +2,12 @@ package com.daivd.chart.matrix;
 
 import android.content.Context;
 import android.graphics.Rect;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 
-import com.daivd.chart.core.Observable;
+import com.daivd.chart.listener.Observable;
+import com.daivd.chart.listener.ChartGestureObserver;
 
 import java.util.List;
 
