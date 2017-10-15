@@ -33,7 +33,7 @@ SmartChart是Android图表框架，支持线性图（折线，曲线，散点）
 
 ![缩放移动](/img/gif/zoom.gif)
 
-#### 缩放移动
+#### 旋转
 
 ![旋转](/img/gif/rotate.gif)
 
@@ -191,7 +191,7 @@ dependencies {
         ChartData chartData = new ChartData("线型图",chartYDataList,ColumnDatas);
         //设置数据
         lineChartView.setChartData(chartData);
- ```
+    ```
 
 
 ###  9.动画
