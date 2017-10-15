@@ -5,11 +5,11 @@ import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.Rect;
 
-import com.daivd.chart.core.OnClickChartListener;
 import com.daivd.chart.data.ChartData;
 import com.daivd.chart.data.ColumnData;
 import com.daivd.chart.data.style.FontStyle;
 import com.daivd.chart.data.style.PointStyle;
+import com.daivd.chart.listener.OnClickLegendListener;
 
 /**
  * Created by huang on 2017/9/29.
@@ -42,5 +42,10 @@ public interface ILegend<C extends ColumnData> {
     void setLegendDirection(int legendDirection);
 
     void onClickLegend(PointF pointF);
-    void setOnClickChartListener(OnClickChartListener onClickChartListener);
+
+    void setOnClickLegendListener(OnClickLegendListener<C> onClickLegendListener);
+    public void setPadding(int padding);
+
+
+    public void setSelectColumn(boolean selectColumn);
 }

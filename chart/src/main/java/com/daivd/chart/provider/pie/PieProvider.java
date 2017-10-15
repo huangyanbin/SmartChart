@@ -1,4 +1,4 @@
-package com.daivd.chart.provider;
+package com.daivd.chart.provider.pie;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -14,6 +14,7 @@ import com.daivd.chart.data.ChartData;
 import com.daivd.chart.data.PieData;
 import com.daivd.chart.data.style.FontStyle;
 import com.daivd.chart.matrix.RotateHelper;
+import com.daivd.chart.provider.BaseProvider;
 import com.daivd.chart.utils.ColorUtils;
 
 import java.util.List;
@@ -34,6 +35,7 @@ public class PieProvider extends BaseProvider<PieData> {
     private FontStyle textStyle = new FontStyle();
     private float centerCirclePercent = 0.3f;
     private boolean isShader;
+    private boolean isClick;
 
     @Override
     public boolean calculationChild(ChartData<PieData> chartData) {
@@ -55,13 +57,10 @@ public class PieProvider extends BaseProvider<PieData> {
         float startAngle = this.startAngle;
         float totalAngle = getAnimValue(this.totalAngle);
         paint.setStyle(Paint.Style.FILL);
-        int w = zoomRect.right - zoomRect.left;
-        int h = zoomRect.bottom - zoomRect.top;
-        int px = w/ 2;
-        int py = h / 2;
-        int maxRadius = Math.min(px, py);
-        centerPoint = new PointF(zoomRect.left + w/2, zoomRect.top + h/2);
-        py = maxRadius;
+        int w = zoomRect.width();
+        int h = zoomRect.height();
+        int maxRadius = Math.min(w/2, h/2);
+        centerPoint = new PointF(zoomRect.centerX(), zoomRect.centerY());
         int x = maxRadius / 10;
         centerRadius = maxRadius - x;
         if(rotateHelper != null){
@@ -82,8 +81,11 @@ public class PieProvider extends BaseProvider<PieData> {
             if(pieData.isDraw()) {
                 paint.setColor(pieData.getColor());
                 if (clickAngle != -1 && clickAngle > startAngle && clickAngle < startAngle + sweepAngle) {
-                    setSelection(i);
                     paint.setColor(ColorUtils.getDarkerColor(pieData.getColor()));
+                    if(isClick && onClickColumnListener != null){
+                        onClickColumnListener.onClickColumn(pieData,0);
+                        isClick = false;
+                    }
                 }
                 canvas.drawArc(oval, startAngle, sweepAngle, true, paint);
                 canvas.save();
@@ -132,6 +134,7 @@ public class PieProvider extends BaseProvider<PieData> {
                 angle = (angle -rotateHelper.getStartAngle())%360;
                 angle = angle <0 ? 360+angle:angle;
                 clickAngle = angle + startAngle;
+                isClick = true;
                 return;
             }
             clickAngle = -1;
@@ -139,9 +142,7 @@ public class PieProvider extends BaseProvider<PieData> {
 
     }
 
-    void setSelection(int position){
 
-    }
 
 
 

@@ -2,6 +2,7 @@ package com.daivd.chart.legend;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.Rect;
 
 import com.daivd.chart.data.ChartData;
@@ -25,58 +26,63 @@ public class BaseChartTitle implements IChartTitle {
         Rect titleRect = chartData.getScaleData().titleRect;
         switch (titleDirection){
             case TOP:
-                titleRect.top = (int) ((rect.bottom - rect.top)*percent);
+                titleRect.top = (int) (rect.height()*percent);
                 break;
             case LEFT:
-                titleRect.left = (int) ((rect.right - rect.left)*percent);
+                titleRect.left = (int) (rect.width()*percent);
                 break;
             case RIGHT:
-                titleRect.right = (int) ((rect.right - rect.left)*percent);
+                titleRect.right = (int) (rect.width()*percent);
                 break;
             case BOTTOM:
-                titleRect.bottom = (int) ((rect.bottom - rect.top)*percent);
+                titleRect.bottom = (int) (rect.height()*percent);
                 break;
         }
     }
 
     @Override
     public void drawTitle(Canvas canvas, Rect rect, Paint paint) {
-
-        int startX = 0,startY = 0;
+        fontStyle.fillPaint(paint);
+        int startX,startY;
         int textHeight = (int)paint.measureText("1",0,1);
-        int offsetY = textHeight;
+        String chartName = chartData.getChartName();
+        Path path = new Path();
         switch (titleDirection) {
             case TOP:
-                startY = (int) (rect.top + (rect.bottom - rect.top) * percent/2);
-                startX = rect.left+(rect.right - rect.left)/2;
+                startY = (int) (rect.top + rect.height() * percent/2);
+                startX = rect.centerX();
+                startY+= textHeight;
+                startX -=textHeight * chartName.length()/2;
+                canvas.drawText(chartName, startX, startY, paint);
                 break;
             case LEFT:
-                startX = (int) (rect.left +  (rect.right - rect.left) * percent/2);
-                startY =rect.top + (rect.bottom -rect.top)/2;
+
+                startX = (int) (rect.left +  rect.width() * percent/2);
+                startX += textHeight;
+                path.moveTo(startX,rect.top);
+                path.lineTo(startX,rect.bottom);
+                canvas.drawTextOnPath(chartName,path,rect.width()/2-textHeight * chartName.length()/2,0,paint);
                 break;
             case RIGHT:
-                startX = (int) (rect.right - (rect.right - rect.left) * percent/2);
-                startY =rect.top + (rect.bottom -rect.top)/2;
+                startX = (int) (rect.right - rect.width()* percent/2);
+                startX += textHeight;
+                path.moveTo(startX,rect.top);
+                path.lineTo(startX,rect.bottom);
+                canvas.drawTextOnPath(chartName,path,rect.width()/2-textHeight * chartName.length()/2,0,paint);
                 break;
             case BOTTOM:
-                startY = (int) (rect.bottom - (rect.bottom - rect.top) * percent/2);
-                startX =  rect.left+(rect.right - rect.left)/2;
+                startY = (int) (rect.bottom - rect.height() * percent/2);
+                startX =  rect.centerX();
+                startY+= textHeight;
+                startX -=textHeight * chartName.length()/2;
+                canvas.drawText(chartName, startX, startY, paint);
                 break;
         }
-        startY+=offsetY;
-        String chartName = chartData.getChartName();
-        startX -=textHeight * chartName.length();
-        drawText(canvas,startX,startY,chartName,paint);
+
     }
 
 
-    /**
-     * 绘制文字
-     */
-    private void drawText(Canvas canvas, int startX, int startY, String  content, Paint paint) {
-        fontStyle.fillPaint(paint);
-        canvas.drawText(content, startX, startY, paint);
-    }
+
 
     @Override
     public void setTitlePercent(float percent) {

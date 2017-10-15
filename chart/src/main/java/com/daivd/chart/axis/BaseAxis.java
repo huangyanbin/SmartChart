@@ -14,7 +14,8 @@ import com.daivd.chart.matrix.MatrixHelper;
 
 
 /**
- * Created by huang on 2017/9/26.
+ * Created by huangYanBin on 2017/9/26.
+ * 轴
  */
 
 public  abstract class BaseAxis implements IAxis {
@@ -76,22 +77,20 @@ public  abstract class BaseAxis implements IAxis {
            Rect zoomRect = helper.getZoomProviderRect(scaleData.getOffsetRect(new Rect(rect),scaleRect));
 
            chartData.getScaleData().zoom = helper.getZoom();
-            int padding =  scaleStyle.getPadding();
+
             if(direction == AxisDirection.BOTTOM || direction == AxisDirection.TOP){
                 zoomRect.top = rect.top;
                 zoomRect.bottom = rect.bottom;
-                clipRect.left = rect.left + scaleRect.left/2-padding;
-                clipRect.right = rect.right - scaleRect.right/2-padding;
+                clipRect.left = rect.left + scaleRect.left;
+                clipRect.right = rect.right - scaleRect.right;
             }else{
                 zoomRect.left = rect.left;
                 zoomRect.right = rect.right;
-                clipRect.top = rect.top + scaleRect.top/2-padding;
-                clipRect.bottom = rect.bottom - scaleRect.bottom/2-padding;
+                clipRect.top = rect.top + scaleRect.top;
+                clipRect.bottom = rect.bottom - scaleRect.bottom;
             }
-            canvas.save();
-            canvas.clipRect(clipRect);
-            drawScale(canvas,zoomRect,clipRect,paint,chartData);
-            canvas.restore();
+             drawScale(canvas,zoomRect,clipRect,paint,chartData);
+
 
     }
 

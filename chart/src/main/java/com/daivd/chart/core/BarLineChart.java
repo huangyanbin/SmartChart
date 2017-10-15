@@ -23,9 +23,10 @@ import com.daivd.chart.provider.IProvider;
 
 /**
  * Created by huang on 2017/9/26.
+ * 线性和柱状图
  */
 
-public abstract class BarLineChart<P extends IProvider> extends BaseChart<P,LineData>  {
+public abstract class BarLineChart<P extends IProvider<LineData>> extends BaseChart<P,LineData>  {
 
 
     protected BaseAxis horizontalAxis; //横轴
@@ -140,11 +141,6 @@ public abstract class BarLineChart<P extends IProvider> extends BaseChart<P,Line
         invalidate();
     }
 
-    @Override
-    public void clickLegend(ILegend legend, ColumnData columnData) {
-         isCharEmpty =  !provider.calculation(chartData);
-        startChartAnim(400);
-    }
 
     public IEmpty getEmptyView() {
         return emptyView;

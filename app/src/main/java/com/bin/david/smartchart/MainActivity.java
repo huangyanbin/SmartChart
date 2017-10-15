@@ -3,37 +3,45 @@ package com.bin.david.smartchart;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+import com.bin.david.smartchart.adapter.ItemAdapter;
+import com.bin.david.smartchart.bean.MainItem;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 
+import java.util.ArrayList;
+
+public class MainActivity extends AppCompatActivity {
+    private RecyclerView recyclerView;
+    private ItemAdapter itemAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        ArrayList<MainItem> items = new ArrayList<>();
+        items.add(new MainItem(LineChartActivity.class,"线性图"));
+        items.add(new MainItem(ScatterChartActivity.class,"散点图"));
+        items.add(new MainItem(BarChartActivity.class,"柱状图"));
+        items.add(new MainItem(Bar3DChartActivity.class,"3D柱状图"));
+        items.add(new MainItem(PieChartActivity.class,"饼图"));
+        items.add(new MainItem(RadarChartActivity.class,"雷达图"));
+        itemAdapter = new ItemAdapter(items);
+        recyclerView.setAdapter(itemAdapter);
+        itemAdapter.openLoadAnimation();
+        itemAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+               MainItem mainItem = (MainItem) adapter.getData().get(position);
+                Intent i = new Intent(MainActivity.this,mainItem.clazz);
+                startActivity(i);
+            }
+        });
     }
 
-    @Override
-    public void onClick(View v) {
-        if(v.getId() == R.id.line){
-            Intent i = new Intent(this,LineChartActivity.class);
-            startActivity(i);
-        }else if(v.getId() == R.id.column3D){
-            Intent i = new Intent(this,Bar3DChartActivity.class);
-            startActivity(i);
-        }else if(v.getId() == R.id.pie){
-            Intent i = new Intent(this,PieChartActivity.class);
-            startActivity(i);
-        }else if(v.getId() == R.id.scatter){
-            Intent i = new Intent(this,ScatterChartActivity.class);
-            startActivity(i);
-        }else if(v.getId() == R.id.area){
-            Intent i = new Intent(this,AreaChartActivity.class);
-            startActivity(i);
-        }else{
-            Intent i = new Intent(this,BarChartActivity.class);
-            startActivity(i);
-        }
-    }
+
+
 }

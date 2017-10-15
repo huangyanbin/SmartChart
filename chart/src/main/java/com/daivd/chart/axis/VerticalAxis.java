@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
+import android.util.Log;
 
 import com.daivd.chart.data.ChartData;
 import com.daivd.chart.data.LineData;
@@ -15,19 +16,17 @@ import java.util.List;
 
 /**
  * Created by huang on 2017/9/26.
+ * 竖轴
  */
 
 public class VerticalAxis extends BaseAxis {
 
 
-    public VerticalAxis() {
-        direction = AxisDirection.LEFT;
-    }
     public VerticalAxis(AxisDirection direction) {
         this.direction = direction;
     }
 
-    java.text.DecimalFormat df = new java.text.DecimalFormat("0.00");
+    private java.text.DecimalFormat df = new java.text.DecimalFormat("0.00");
 
     @Override
     public void computeScale(ChartData<LineData> chartData, Rect rect, Paint paint) {
@@ -54,18 +53,16 @@ public class VerticalAxis extends BaseAxis {
         } else {
             startX = zoomRect.right - scaleData.scaleRect.right + scaleStyle.getPadding();
         }
-        int bottom = zoomRect.bottom ;
-        int height = bottom - zoomRect.top;
+        int bottom = zoomRect.bottom;
+        int height = zoomRect.height();
         float textHeight = paint.measureText("1", 0, 1);
-        int perHeight = height / scaleList.size();
+        int perHeight = height / (scaleList.size()-1);
         for (int i = 0; i < scaleList.size(); i++) {
             double value = scaleList.get(i);
             float startY = bottom - i * perHeight;
-
-            if (startY+ textHeight / 2 > clipRect.top && startY< clipRect.bottom) {
+            if (clipRect.contains(clipRect.centerX(), (int) startY-1)) {
                 drawText(canvas, startX, startY + textHeight / 2, value, paint);
-                int startGirdPos = direction == AxisDirection.LEFT ? perHeight : 0;
-                drawGrid(canvas, startY - startGirdPos, zoomRect, scaleData.scaleRect, paint);
+                drawGrid(canvas, startY, zoomRect, scaleData.scaleRect, paint);
             }
         }
 

@@ -1,19 +1,17 @@
-package com.daivd.chart.provider;
+package com.daivd.chart.provider.barLine.model;
 
-import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.graphics.Path;
 
 import java.util.List;
 
 
 
-public class LineProvider extends BaseLineProvider {
+public class BrokenLineModel implements ILineModel {
 
 
 
     @Override
-    protected Path getLinePath(List<Float> pointX, List<Float> pointY) {
+    public Path getLinePath(List<Float> pointX, List<Float> pointY) {
         Path path = new Path();
         for(int i = 0; i < pointY.size();i++){
             float x = pointX.get(i);

@@ -1,26 +1,21 @@
-package com.daivd.chart.provider;
+package com.daivd.chart.provider.barLine;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.ValueAnimator;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.PointF;
 import android.graphics.Rect;
-import android.view.animation.Interpolator;
 
 import com.daivd.chart.axis.AxisDirection;
-import com.daivd.chart.core.BaseChart;
 import com.daivd.chart.data.ChartData;
 import com.daivd.chart.data.LevelLine;
 import com.daivd.chart.data.LineData;
 import com.daivd.chart.data.style.LineStyle;
 import com.daivd.chart.data.ScaleData;
 import com.daivd.chart.exception.ChartException;
+import com.daivd.chart.provider.BaseProvider;
 
 import java.util.List;
 
-/**
+/**线和柱状内容绘制
  * Created by huang on 2017/9/26.
  */
 
@@ -36,25 +31,25 @@ public abstract class BarLineProvider extends BaseProvider<LineData> {
     public boolean calculationChild( ChartData<LineData> chartData) {
         this.chartData = chartData;
         ScaleData scaleData =this.chartData.getScaleData();
-        List<LineData> columnDatas  =  chartData.getColumnDataList();
-        if(columnDatas == null || columnDatas.size() == 0){
+        List<LineData> columnDataList  =  chartData.getColumnDataList();
+        if(columnDataList == null || columnDataList.size() == 0){
             return  false;
         }
-        int columnSize = columnDatas.size();
+        int columnSize = columnDataList.size();
         for(int i = 0 ; i <columnSize; i++){
-            LineData columnData = columnDatas.get(i);
+            LineData columnData = columnDataList.get(i);
             if(!columnData.isDraw()){
                 continue;
             }
-            List<Double> datas = columnData.getChartYDataList();
-            if(datas == null || datas.size() == 0){
+            List<Double> chartYDataList = columnData.getChartYDataList();
+            if(chartYDataList == null || chartYDataList.size() == 0){
                 throw new ChartException("请设置Column数据");
             }
-            scaleData.rowSize = datas.size();
-            if(datas.size() != scaleData.rowSize){
+            scaleData.rowSize = chartYDataList.size();
+            if(chartYDataList.size() != scaleData.rowSize){
                 throw new ChartException("Column rows数据数量不一致");
             }
-            double[] scale = getColumnScale(datas);
+            double[] scale = getColumnScale(chartYDataList);
             scale = setMaxMinValue(scale[0],scale[1]);
             if(columnData.getDirection() == AxisDirection.LEFT){
                 if(!scaleData.isLeftHasValue){
@@ -77,11 +72,7 @@ public abstract class BarLineProvider extends BaseProvider<LineData> {
                 }
             }
         }
-        if(chartData.getScaleData().rowSize == 0){
-            return false;
-        }
-        return true;
-
+        return chartData.getScaleData().rowSize != 0;
 
 
     }
@@ -108,7 +99,7 @@ public abstract class BarLineProvider extends BaseProvider<LineData> {
     /**
      * 绘制水平线
      */
-    protected void drawLevelLine(Canvas canvas, Rect rect,float centerY,Paint paint){
+    void drawLevelLine(Canvas canvas, Rect rect, float centerY, Paint paint){
 
         levelLine.getLineStyle().fillPaint(paint);
         canvas.drawLine(rect.left, centerY, rect.right, centerY, paint);

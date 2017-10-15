@@ -1,4 +1,4 @@
-package com.daivd.chart.provider;
+package com.daivd.chart.provider.barLine;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -7,7 +7,6 @@ import android.graphics.Rect;
 
 import com.daivd.chart.axis.AxisDirection;
 import com.daivd.chart.data.ChartData;
-import com.daivd.chart.data.ColumnData;
 import com.daivd.chart.data.LineData;
 import com.daivd.chart.data.ScaleData;
 import com.daivd.chart.utils.ColorUtils;
@@ -15,7 +14,7 @@ import com.daivd.chart.utils.ColorUtils;
 import java.util.List;
 
 
-/**
+/**柱状内容绘制
  * Created by huang on 2017/9/26.
  */
 
@@ -29,11 +28,11 @@ public class BarProvider extends BarLineProvider {
     public void drawProvider(Canvas canvas, Rect zoomRect,Rect rect, Paint paint) {
         paint.setStyle(Paint.Style.FILL);
         ScaleData scaleData= chartData.getScaleData();
-        List<LineData> columnDatas = chartData.getColumnDataList();
-        int columnSize = columnDatas.size();
+        List<LineData> columnDataList = chartData.getColumnDataList();
+        int columnSize = columnDataList.size();
         int rowSize = chartData.getCharXDataList().size();
-        double width = (zoomRect.right - zoomRect.left)/(columnSize*rowSize)-groupPadding/2;
-        float height =(zoomRect.bottom - zoomRect.top);
+        double width = zoomRect.width()/(columnSize*rowSize)-groupPadding/2;
+        float height =zoomRect.height();
         PointF clickPoint = null;
         int clickPosition = 0;
         int clickColumnPosition = 0;
@@ -42,11 +41,11 @@ public class BarProvider extends BarLineProvider {
 
             for(int j = 0;j <rowSize;j++) {
                 for(int i = 0;i <columnSize;i++) {
-                    ColumnData columnData = columnDatas.get(i);
+                    LineData columnData = columnDataList.get(i);
                     if (!columnData.isDraw()) {
                         continue;
                     }
-                    double d = ((List<Double>) columnData.getChartYDataList()).get(j);
+                    double d = columnData.getChartYDataList().get(j);
                     float left = (float) ((j * columnSize + i) * width) + j * groupPadding + zoomRect.left + 0.5f;
                     float right = (float) (left + width);
                     float top = getStartY(zoomRect, scaleData, height, d, columnData.getDirection());
@@ -58,6 +57,9 @@ public class BarProvider extends BarLineProvider {
                         clickPoint = new PointF((left + right) / 2, top);
                         clickPosition = j;
                         clickColumnPosition = i;
+                        if(onClickColumnListener != null){
+                            onClickColumnListener.onClickColumn(columnData,j);
+                        }
                     }
                     drawBar(canvas, paint, left, right, top + (bottom - top) - getAnimValue(bottom - top), bottom,d);
                 }
@@ -78,7 +80,7 @@ public class BarProvider extends BarLineProvider {
         drawPointText((right + left) / 2, top, canvas, paint, value);
     }
 
-    protected float getStartY(Rect rect, ScaleData scaleData, float height, double d, AxisDirection direction) {
+    private float getStartY(Rect rect, ScaleData scaleData, float height, double d, AxisDirection direction) {
         return (float) (rect.bottom -(d - scaleData.getMinScaleValue(direction)) * height / scaleData.getTotalScaleLength(direction));
     }
 
@@ -99,11 +101,8 @@ public class BarProvider extends BarLineProvider {
         }
     }
 
-    private  boolean isClickRect(float left, float right, float top, float bottom){
-        if(pointF != null) {
-            return  pointF.x >= left && pointF.x <= right && pointF.y >= top && pointF.y <= bottom;
-        }
-        return false;
+    private  boolean isClickRect(float left, float right, float top, float bottom) {
+        return pointF != null && pointF.x >= left && pointF.x <= right && pointF.y >= top && pointF.y <= bottom;
     }
 
 

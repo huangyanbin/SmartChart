@@ -9,7 +9,8 @@ import com.daivd.chart.data.LineData;
 import com.daivd.chart.matrix.MatrixHelper;
 
 /**
- * Created by huang on 2017/9/26.
+ * Created by huangYanBin on 2017/9/26.
+ * 轴接口
  */
 
 public interface IAxis {

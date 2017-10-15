@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.bin.david.smartchart">
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/icon"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        tools:replace="android:icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
@@ -16,24 +17,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".BarChartActivity">
-
-        </activity>
-        <activity android:name=".LineChartActivity">
-
-        </activity>
-        <activity android:name=".Bar3DChartActivity">
-
-       </activity>
-        <activity android:name=".PieChartActivity">
-
-        </activity>
-        <activity android:name=".AreaChartActivity">
-
-        </activity>
-        <activity android:name=".ScatterChartActivity">
-
-        </activity>
+        <activity android:name=".BarChartActivity"/>
+        <activity android:name=".LineChartActivity"/>
+        <activity android:name=".Bar3DChartActivity"/>
+        <activity android:name=".PieChartActivity"/>
+        <activity android:name=".AreaChartActivity"/>
+        <activity android:name=".ScatterChartActivity"/>
+        <activity android:name=".RadarChartActivity"/>
 
     </application>
 

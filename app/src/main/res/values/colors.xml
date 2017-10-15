@@ -23,4 +23,6 @@
     <color name="arc21">#fc843b</color>
     <color name="arc22">#37d547</color>
     <color name="arc23">#079df9</color>
+    <color name="white">#FFFFFF</color> <!--白色 -->
+    <color name="windows_bg">#f6f6f6</color>
 </resources>

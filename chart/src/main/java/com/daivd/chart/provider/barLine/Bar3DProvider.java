@@ -1,11 +1,12 @@
-package com.daivd.chart.provider;
+package com.daivd.chart.provider.barLine;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
 
 
-/**
+
+/**柱状内容绘制
  * Created by huang on 2017/9/26.
  */
 

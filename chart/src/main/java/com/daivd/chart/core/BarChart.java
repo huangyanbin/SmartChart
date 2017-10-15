@@ -5,10 +5,11 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 
-import com.daivd.chart.provider.BarProvider;
+import com.daivd.chart.provider.barLine.BarProvider;
 
 /**
  * Created by huang on 2017/9/26.
+ * 柱状图
  */
 
 public class BarChart extends BarLineChart<BarProvider> {

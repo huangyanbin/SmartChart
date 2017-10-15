@@ -7,15 +7,16 @@ import android.util.AttributeSet;
 import android.view.Gravity;
 
 import com.daivd.chart.exception.ChartException;
-import com.daivd.chart.provider.BaseLineProvider;
-import com.daivd.chart.provider.CurveProvider;
-import com.daivd.chart.provider.LineProvider;
+import com.daivd.chart.provider.barLine.LineProvider;
+import com.daivd.chart.provider.barLine.model.CurveLineModel;
+import com.daivd.chart.provider.barLine.model.BrokenLineModel;
 
 /**
  * Created by huang on 2017/9/26.
+ * 线性图
  */
 
-public class LineChart extends BarLineChart<BaseLineProvider> {
+public class LineChart extends BarLineChart<LineProvider> {
 
     public static final int LINE_MODEL = 0;
     public static final  int CURVE_MODEL = 1;
@@ -39,20 +40,17 @@ public class LineChart extends BarLineChart<BaseLineProvider> {
 
 
     @Override
-    protected BaseLineProvider initProvider() {
+    protected LineProvider initProvider() {
         horizontalAxis.setGravity(Gravity.LEFT);
         horizontalAxis.isLine(true);
-        if(provider == null) {
-            return new LineProvider();
-        }
-        return provider;
+        return new LineProvider();
     }
 
     public void setLineModel(int model){
         if(model == LINE_MODEL){
-            provider = new LineProvider();
+            provider.setLineModel(new BrokenLineModel());
         }else if( model == CURVE_MODEL){
-            provider = new CurveProvider();
+            provider.setLineModel(new CurveLineModel());
         }else {
             throw new ChartException("请设置正确的Line model");
         }

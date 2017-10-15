@@ -9,10 +9,11 @@ import android.view.MotionEvent;
 
 import com.daivd.chart.data.PieData;
 import com.daivd.chart.matrix.RotateHelper;
-import com.daivd.chart.provider.PieProvider;
+import com.daivd.chart.provider.pie.PieProvider;
 
 /**
  * Created by huang on 2017/10/9.
+ * 饼图
  */
 
 public class PieChart  extends BaseChart<PieProvider,PieData> implements RotateHelper.OnRotateListener{

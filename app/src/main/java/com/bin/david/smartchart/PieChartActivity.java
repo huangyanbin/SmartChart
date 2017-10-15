@@ -4,6 +4,7 @@ import android.content.res.Resources;
 import android.graphics.DashPathEffect;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Toast;
 
 import com.daivd.chart.axis.BaseAxis;
 import com.daivd.chart.core.PieChart;
@@ -14,6 +15,7 @@ import com.daivd.chart.data.PieData;
 import com.daivd.chart.data.style.FontStyle;
 import com.daivd.chart.data.style.PointStyle;
 import com.daivd.chart.legend.ILegend;
+import com.daivd.chart.listener.OnClickColumnListener;
 import com.daivd.chart.mark.MsgMarkView;
 
 import java.util.ArrayList;
@@ -59,5 +61,11 @@ public class PieChartActivity extends AppCompatActivity {
         pieChart.setRotate(true);
         pieChart.setChartData(chartData);
         pieChart.startChartAnim(1000);
+        pieChart.setOnClickColumnListener(new OnClickColumnListener<PieData>() {
+            @Override
+            public void onClickColumn(PieData lineData, int position) {
+                Toast.makeText(PieChartActivity.this,lineData.getChartYDataList()+lineData.getUnit(),Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

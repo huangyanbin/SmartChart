@@ -11,7 +11,7 @@
        android:id="@+id/columnChart"
        android:layout_width="match_parent"
        android:background="#f4f4f4"
-       android:layout_height="320dp"
+       android:layout_height="400dp"
        android:layout_marginBottom="5dp"/>
 
 

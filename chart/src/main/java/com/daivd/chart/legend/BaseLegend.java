@@ -5,11 +5,11 @@ import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.Rect;
 
-import com.daivd.chart.core.OnClickChartListener;
 import com.daivd.chart.data.ChartData;
 import com.daivd.chart.data.ColumnData;
 import com.daivd.chart.data.style.FontStyle;
 import com.daivd.chart.data.style.PointStyle;
+import com.daivd.chart.listener.OnClickLegendListener;
 
 import java.util.List;
 
@@ -25,9 +25,10 @@ public class BaseLegend<C extends ColumnData> implements ILegend<C> {
     private float percent = DEFAULT_PERCENT;
     private int legendDirection = BOTTOM;
     private ChartData<C> chartData;
-    private int padding = 5;
+    private int padding = 10;
     private PointF pointF;
-    private OnClickChartListener onClickChartListener;
+    private boolean isSelectColumn = true;
+    private OnClickLegendListener<C> onClickLegendListener;
 
     public BaseLegend(){
         legendStyle = new PointStyle();
@@ -63,41 +64,43 @@ public class BaseLegend<C extends ColumnData> implements ILegend<C> {
         int offsetY = Math.max(textHeight,(int) legendStyle.getWidth());
         switch (legendDirection) {
             case TOP:
-                startY = (int) (rect.top + (rect.bottom - rect.top) * percent/2);
+                startY = (int) (rect.top + rect.height() * percent/2);
                 startX = rect.left+(rect.right - rect.left)/2;
                 break;
             case LEFT:
-                startX = (int) (rect.left +  (rect.right - rect.left) * percent/2);
+                startX = (int) (rect.left +  rect.width()* percent/2);
                 startY =rect.top + (rect.bottom -rect.top)/2;
                 break;
             case RIGHT:
-                startX = (int) (rect.right - (rect.right - rect.left) * percent/2);
+                startX = (int) (rect.right - rect.width()* percent/2);
                 startY =rect.top + (rect.bottom -rect.top)/2;
                 break;
             case BOTTOM:
-                startY = (int) (rect.bottom - (rect.bottom - rect.top) * percent/2);
+                startY = (int) (rect.bottom - rect.height()* percent/2);
                 startX =  rect.left+(rect.right - rect.left)/2;
                 break;
         }
-        List<? extends  ColumnData> columnDatas = chartData.getColumnDataList();
+        List<C> columnDataList = chartData.getColumnDataList();
         startY+=offsetY;
         int tempStartX =startX;
-        for(int i = 0;i <columnDatas.size();i++){
-            ColumnData columnData = columnDatas.get(i);
+        for(int i = 0;i <columnDataList.size();i++){
+            ColumnData columnData = columnDataList.get(i);
             String name =  columnData.getName();
             tempStartX+= legendStyle.getWidth()+padding;
             tempStartX+= textHeight*name.length()*2+padding;
         }
         startX  = startX-(tempStartX - startX)/2;
-        for(int i = 0;i <columnDatas.size();i++){
-            ColumnData columnData = columnDatas.get(i);
+        for(int i = 0;i <columnDataList.size();i++){
+            C columnData = columnDataList.get(i);
             String name =  columnData.getName();
             float right =startX + legendStyle.getWidth()+padding*2+textHeight*name.length()*3;
             if(pointF != null && isClickRect(startX,right,startY-offsetY, startY+ offsetY*2)){
-                columnData.setDraw(!columnData.isDraw());
+                if(isSelectColumn) {
+                    columnData.setDraw(!columnData.isDraw());
+                }
                 pointF = null;
-                if(onClickChartListener != null){
-                    onClickChartListener.clickLegend(this,columnData);
+                if(onClickLegendListener != null){
+                    onClickLegendListener.onClickLegend(columnData,this);
                 }
             }
             paint.setColor(columnData.getColor());
@@ -175,10 +178,24 @@ public class BaseLegend<C extends ColumnData> implements ILegend<C> {
         this.pointF = pointF;
     }
 
+
+
     @Override
-    public void setOnClickChartListener(OnClickChartListener onClickChartListener) {
-       this.onClickChartListener = onClickChartListener;
+    public void setOnClickLegendListener(OnClickLegendListener<C> onClickLegendListener) {
+       this.onClickLegendListener = onClickLegendListener;
     }
 
 
+    public int getPadding() {
+        return padding;
+    }
+
+    public void setPadding(int padding) {
+        this.padding = padding;
+    }
+
+
+    public void setSelectColumn(boolean selectColumn) {
+        isSelectColumn = selectColumn;
+    }
 }

@@ -38,7 +38,7 @@ public class ScaleData {
 
         List<Double> scaleList = new ArrayList<>();
         int total = (int) (totalScale *zoom);
-        double scale = getTotalScaleLength(direction) /total;
+        double scale = getTotalScaleLength(direction) /(total-1);
         double minValue = getMinScaleValue(direction);
         for(int i = 0;i < total;i++){
             scaleList.add(minValue +scale*i);
@@ -71,9 +71,9 @@ public class ScaleData {
     }
 
     /**
-     *
-     * @param direction
-     * @return
+     *获取总刻度值
+     * @param direction 方向
+     * @return 总刻度
      */
     public double getTotalScaleLength(AxisDirection direction){
         if(direction == AxisDirection.LEFT){
@@ -81,6 +81,7 @@ public class ScaleData {
         }
         return  maxRightValue - minRightValue;
     }
+
 
     public Rect getOffsetRect(Rect rect, Rect offsetRect){
         rect.left = rect.left + offsetRect.left;

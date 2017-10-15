@@ -1,19 +1,19 @@
-package com.daivd.chart.provider;
+package com.daivd.chart.provider.barLine.model;
 
 import android.graphics.Path;
 
 import java.util.LinkedList;
 import java.util.List;
 
-/**
+/**曲线内容绘制
  * Created by huang on 2017/9/27.
  */
 
-public class CurveProvider extends BaseLineProvider {
+public class CurveLineModel  implements ILineModel {
     private final int STEP = 12;
 
     @Override
-    protected Path getLinePath(List<Float> pointX, List<Float> pointY) {
+    public Path getLinePath(List<Float> pointX, List<Float> pointY) {
         List<Cubic> calculate_x = calculate(pointX);
         List<Cubic> calculate_y = calculate(pointY);
         Path path = new Path();
@@ -60,12 +60,12 @@ public class CurveProvider extends BaseLineProvider {
                 D[i] = delta[i] - gamma[i] * D[i + 1];
             }
 
-            List<Cubic> cubics = new LinkedList<>();
+            List<Cubic> cubicList = new LinkedList<>();
             for (i = 0; i < n; i++) {
                 Cubic c = new Cubic(x.get(i), D[i], 3 * (x.get(i + 1) - x.get(i)) - 2 * D[i] - D[i + 1], 2 * (x.get(i) - x.get(i + 1)) + D[i] + D[i + 1]);
-                cubics.add(c);
+                cubicList.add(c);
             }
-            return cubics;
+            return cubicList;
         }
         return null;
     }
@@ -73,11 +73,11 @@ public class CurveProvider extends BaseLineProvider {
 
 
 
-    public class Cubic {
+    private class Cubic {
 
         float a, b, c, d; /* a + b*u + c*u^2 +d*u^3 */
 
-        public Cubic(float a, float b, float c, float d) {
+        Cubic(float a, float b, float c, float d) {
             this.a = a;
             this.b = b;
             this.c = c;
@@ -85,7 +85,7 @@ public class CurveProvider extends BaseLineProvider {
         }
 
         /** evaluate cubic */
-        public float eval(float u) {
+        float eval(float u) {
             return (((d * u) + c) * u + b) * u + a;
         }
     }

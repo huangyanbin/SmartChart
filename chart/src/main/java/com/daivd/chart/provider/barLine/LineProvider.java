@@ -1,7 +1,6 @@
-package com.daivd.chart.provider;
+package com.daivd.chart.provider.barLine;
 
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
@@ -11,17 +10,20 @@ import com.daivd.chart.data.LineData;
 import com.daivd.chart.data.ScaleData;
 import com.daivd.chart.data.style.LineStyle;
 import com.daivd.chart.data.style.PointStyle;
+import com.daivd.chart.provider.barLine.BarLineProvider;
+import com.daivd.chart.provider.barLine.model.BrokenLineModel;
+import com.daivd.chart.provider.barLine.model.ILineModel;
 import com.daivd.chart.utils.ColorUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-/**
+/**线内容绘制
  * Created by huang on 2017/9/26.
  */
 
-public abstract  class BaseLineProvider extends BarLineProvider {
+public   class LineProvider extends BarLineProvider {
 
     private LineStyle lineStyle = new LineStyle();
 
@@ -30,30 +32,30 @@ public abstract  class BaseLineProvider extends BarLineProvider {
     private boolean isShowPoint;
     private  boolean isArea; //是否打开面积图
     private boolean isDrawLine = true;
+    private ILineModel lineModel = new BrokenLineModel();
 
     @Override
     public void drawProvider(Canvas canvas, Rect zoomRect, Rect rect,Paint paint) {
 
         ScaleData scaleData= chartData.getScaleData();
-        List<LineData> columnDatas = chartData.getColumnDataList();
-        int columnSize = columnDatas.size();
+        List<LineData> columnDataList = chartData.getColumnDataList();
+        int columnSize = columnDataList.size();
         int rowSize = chartData.getCharXDataList().size();
-        double width = (zoomRect.right - zoomRect.left)/(rowSize-1);
-        float height =(zoomRect.bottom - zoomRect.top);
-
+        double width = zoomRect.width()/(rowSize-1);
+        float height =zoomRect.height();
         for(int i = 0;i <columnSize;i++){
-            LineData columnData = columnDatas.get(i);
+            LineData columnData = columnDataList.get(i);
             paint.setColor(columnData.getColor());
             if(!columnData.isDraw()){
                 continue;
             }
             List<Float> pointX = new ArrayList<>();
             List<Float> pointY = new ArrayList<>();
-            List<Double> datas = columnData.getChartYDataList();
+            List<Double> chartYDataList = columnData.getChartYDataList();
             for(int j = 0;j <rowSize;j++){
-                double value = datas.get(j);
+                double value = chartYDataList.get(j);
                 float x = (float) (j*width + zoomRect.left);
-                float y = getAnimValue(getStartY(zoomRect, scaleData, height, value,columnData.getDirection()));
+                float y = getStartY(zoomRect, scaleData, height, value,columnData.getDirection());
                 pointX.add(x);
                 pointY.add(y);
             }
@@ -71,7 +73,7 @@ public abstract  class BaseLineProvider extends BarLineProvider {
 
     private void drawLine(Canvas canvas,Rect rect, List<Float> pointX, List<Float> pointY,Paint paint) {
        if(isDrawLine) {
-           Path path = getLinePath(pointX, pointY);
+           Path path = lineModel.getLinePath(pointX, pointY);
            if (isArea) {
                paint.setStyle(Paint.Style.FILL);
                path.lineTo(rect.right, rect.bottom);
@@ -87,8 +89,8 @@ public abstract  class BaseLineProvider extends BarLineProvider {
     @Override
     protected void drawPeripheral(Canvas canvas, Rect zoomRect, Rect rect, Paint paint) {
         ScaleData scaleData= chartData.getScaleData();
-        List<LineData> columnDatas = chartData.getColumnDataList();
-        int columnSize = columnDatas.size();
+        List<LineData> columnDataList = chartData.getColumnDataList();
+        int columnSize = columnDataList.size();
         int rowSize = chartData.getCharXDataList().size();
         double width = (zoomRect.right - zoomRect.left)/(rowSize-1);
         float height =(zoomRect.bottom - zoomRect.top);
@@ -96,18 +98,18 @@ public abstract  class BaseLineProvider extends BarLineProvider {
         List<Float> pointYList = new ArrayList<>();
 
         for(int i = 0;i <columnSize;i++){
-            LineData columnData = columnDatas.get(i);
+            LineData columnData = columnDataList.get(i);
             paint.setColor(columnData.getColor());
             if(!columnData.isDraw()){
                 continue;
             }
             List<Float> pointX = new ArrayList<>();
             List<Float> pointY = new ArrayList<>();
-            List<Double> datas = columnData.getChartYDataList();
+            List<Double> chartYDataList = columnData.getChartYDataList();
             for(int j = 0;j <rowSize;j++){
-                double value = datas.get(j);
+                double value = chartYDataList.get(j);
                 float x = (float) (j*width + zoomRect.left);
-                float y = getAnimValue(getStartY(zoomRect, scaleData, height, value,columnData.getDirection()));
+                float y = getStartY(zoomRect, scaleData, height, value,columnData.getDirection());
                 if(rect.contains((int)x,(int)y)) {
                     pointX.add(x);
                     pointY.add(y);
@@ -124,7 +126,8 @@ public abstract  class BaseLineProvider extends BarLineProvider {
     }
 
     private float getStartY(Rect zoomRect, ScaleData scaleData, float height, double value, AxisDirection direction) {
-        return (float) (zoomRect.bottom - (value - scaleData.getMinScaleValue(direction))*height/scaleData.getTotalScaleLength(direction));
+        double y = (value - scaleData.getMinScaleValue(direction))*height/scaleData.getTotalScaleLength(direction);
+        return zoomRect.bottom -getAnimValue((float) y) ;
     }
 
 
@@ -148,23 +151,26 @@ public abstract  class BaseLineProvider extends BarLineProvider {
            }
            float centerX = pointX.get(minPosition);
            float centerY = pointY.get(minPosition);
+           List<String> groupList = chartData.getCharXDataList();
+           int columnPos = minPosition/groupList.size();
+           int rowPos = minPosition % groupList.size();
+           LineData columnData = chartData.getColumnDataList().get(columnPos);
+           if(onClickColumnListener != null){
+               onClickColumnListener.onClickColumn(columnData,rowPos);
+           }
            if(isOpenCross()) {
                crossStyle.fillPaint(paint);
                canvas.drawLine(centerX, rect.top, centerX, rect.bottom, paint);
                canvas.drawLine(rect.left, centerY, rect.right, centerY, paint);
            }
            if(markView != null && isOpenMark()){
-               List<String> groupList = chartData.getCharXDataList();
-               int columnPos = minPosition/groupList.size();
-               int rowPos = minPosition % groupList.size();
-               LineData columnData = chartData.getColumnDataList().get(columnPos);
                markView.drawMark(centerX,centerY,groupList.get(rowPos),
                        columnData,rowPos);
            }
        }
     }
 
-    protected void drawPoint(Canvas canvas,List<Float> pointX, List<Float> pointY,Paint paint){
+    private void drawPoint(Canvas canvas, List<Float> pointX, List<Float> pointY, Paint paint){
 
         if(isShowPoint && pointStyle != null && pointStyle.isDraw()) {
             float w = pointStyle.getWidth();
@@ -179,13 +185,13 @@ public abstract  class BaseLineProvider extends BarLineProvider {
                 }else if(pointStyle.getShape() == PointStyle.SQUARE){
                     canvas.drawRect(x-w/2,y-w/2,x+w/2,y+w/2,paint);
                 }else if(pointStyle.getShape() == PointStyle.RECT){
-                    canvas.drawRect(x-w*2/3,y-w/2,w*2/3,y+w/2,paint);
+                    canvas.drawRect(x-w*2/3,y-w/2,x+w*2/3,y+w/2,paint);
                 }
             }
         }
     }
 
-   protected  abstract Path getLinePath(List<Float> pointX, List<Float> pointY);
+
 
     public LineStyle getLineStyle() {
         return lineStyle;
@@ -223,7 +229,9 @@ public abstract  class BaseLineProvider extends BarLineProvider {
         this.isArea = isArea;
     }
 
-
+    public void setLineModel(ILineModel lineModel) {
+        this.lineModel = lineModel;
+    }
 
     public void setDrawLine(boolean drawLine) {
         isDrawLine = drawLine;

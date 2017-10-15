@@ -12,34 +12,37 @@ import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 
-import com.daivd.chart.axis.BaseAxis;
 import com.daivd.chart.data.ChartData;
 import com.daivd.chart.data.ColumnData;
+import com.daivd.chart.data.ScaleData;
 import com.daivd.chart.legend.BaseChartTitle;
 import com.daivd.chart.legend.BaseLegend;
 import com.daivd.chart.legend.EmptyView;
 import com.daivd.chart.legend.IChartTitle;
 import com.daivd.chart.legend.IEmpty;
 import com.daivd.chart.legend.ILegend;
-import com.daivd.chart.matrix.ChartGestureObserver;
+import com.daivd.chart.listener.OnClickColumnListener;
+import com.daivd.chart.listener.OnClickLegendListener;
+import com.daivd.chart.listener.ChartGestureObserver;
 import com.daivd.chart.matrix.MatrixHelper;
 import com.daivd.chart.provider.IProvider;
 
 
-/**
+/**基本图表
  * Created by huang on 2017/9/26.
  */
 
-public abstract class BaseChart<P extends IProvider,C extends ColumnData> extends View implements ChartGestureObserver,OnClickChartListener {
+public abstract class BaseChart<P extends IProvider<C>,C extends ColumnData> extends View
+        implements ChartGestureObserver,OnClickLegendListener<C> {
 
     protected int width; //高
     protected int height; //宽
-    protected int paddingLeft = 10;
-    protected int paddingRight= 10;
-    protected int paddingTop = 10;
-    protected int paddingBottom = 10;
+    protected int paddingLeft = 30;
+    protected int paddingRight = 30;
+    protected int paddingTop = 30;
+    protected int paddingBottom = 30;
     protected Rect chartRect = new Rect();
-    protected ILegend legend;
+    protected ILegend<C> legend;
     protected IChartTitle chartTitle;
     protected P provider;//内容绘制者
     protected Paint paint;
@@ -48,6 +51,8 @@ public abstract class BaseChart<P extends IProvider,C extends ColumnData> extend
     protected boolean isShowChartName = true;
     protected boolean isCharEmpty;
     protected IEmpty emptyView;
+    private OnClickLegendListener<C> onClickLegendListener;
+    private boolean isFirstAnim =true;
 
     public BaseChart(Context context) {
         super(context);
@@ -70,11 +75,11 @@ public abstract class BaseChart<P extends IProvider,C extends ColumnData> extend
         init();
     }
 
-    protected  void init(){
+    protected void init() {
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         chartTitle = new BaseChartTitle();
-        legend = new BaseLegend();
-        legend.setOnClickChartListener(this);
+        legend = new BaseLegend<>();
+        legend.setOnClickLegendListener(this);
         matrixHelper = new MatrixHelper(getContext());
         matrixHelper.register(this);
         emptyView = new EmptyView();
@@ -99,6 +104,7 @@ public abstract class BaseChart<P extends IProvider,C extends ColumnData> extend
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         if (chartData != null) {
+            resetScaleData();
             computePaddingRect();
             if (isShowChartName) {
                 chartTitle.computeTitle(chartData, chartRect, paint);
@@ -111,11 +117,17 @@ public abstract class BaseChart<P extends IProvider,C extends ColumnData> extend
                 computeLegendRect();
             }
             if (!isCharEmpty) {
-               drawContent(canvas);
+                drawContent(canvas);
             } else {
                 emptyView.drawEmpty(canvas, chartRect, paint);
             }
         }
+    }
+    private void resetScaleData(){
+        ScaleData scaleData = chartData.getScaleData();
+        scaleData.scaleRect.set(0,0,0,0);
+        scaleData.legendRect.set(0,0,0,0);
+        scaleData.titleRect.set(0,0,0,0);
     }
 
     protected abstract void drawContent(Canvas canvas);
@@ -123,7 +135,7 @@ public abstract class BaseChart<P extends IProvider,C extends ColumnData> extend
     /**
      * 计算绘制刻度之后的大小
      */
-    private void computeTitleRect(){
+    private void computeTitleRect() {
 
         Rect rect = chartData.getScaleData().titleRect;
         computeChartRect(rect);
@@ -132,7 +144,7 @@ public abstract class BaseChart<P extends IProvider,C extends ColumnData> extend
     /**
      * 计算绘制图示之后的大小
      */
-    private void computeLegendRect(){
+    private void computeLegendRect() {
 
         Rect rect = chartData.getScaleData().legendRect;
         computeChartRect(rect);
@@ -141,29 +153,30 @@ public abstract class BaseChart<P extends IProvider,C extends ColumnData> extend
 
     protected void computeChartRect(Rect rect) {
         chartRect.left = chartRect.left + rect.left;
-        chartRect.top = chartRect.top +rect.top;
+        chartRect.top = chartRect.top + rect.top;
         chartRect.bottom = chartRect.bottom - rect.bottom;
-        chartRect.right = chartRect.right -rect.right;
+        chartRect.right = chartRect.right - rect.right;
     }
 
 
     /**
      * 计算图表的区域
+     *
      * @return
      */
-    private void computePaddingRect(){
+    private void computePaddingRect() {
         chartRect.left = paddingLeft;
         chartRect.top = paddingTop;
-        chartRect.bottom = height -paddingBottom-paddingTop;
-        chartRect.right = width - paddingRight-paddingLeft;
+        chartRect.bottom = height - paddingBottom - paddingTop;
+        chartRect.right = width - paddingRight - paddingLeft;
     }
 
 
-    public void setPadding(int[] padding){
+    public void setPadding(int[] padding) {
         this.paddingLeft = padding[0];
         this.paddingTop = padding[1];
         this.paddingRight = padding[2];
-        this.paddingBottom= padding[3];
+        this.paddingBottom = padding[3];
 
     }
 
@@ -187,12 +200,26 @@ public abstract class BaseChart<P extends IProvider,C extends ColumnData> extend
         invalidate();
     }
 
+    private int duration = 400;
+    private Interpolator interpolator;
+
+    private void startChartAnim() {
+
+        if (interpolator == null)
+            startChartAnim(duration);
+        else
+            startChartAnim(duration, interpolator);
+    }
 
 
     public void startChartAnim(int duration){
+        new DecelerateInterpolator();
         provider.startAnim(this,duration,new DecelerateInterpolator());
     }
     public void startChartAnim(int duration, Interpolator interpolator){
+
+        this.duration = duration;
+        this.interpolator = interpolator;
         provider.startAnim(this,duration,interpolator);
     }
 
@@ -203,12 +230,18 @@ public abstract class BaseChart<P extends IProvider,C extends ColumnData> extend
         legend.onClickLegend(pointF);
         invalidate();
     }
-
     @Override
-    public void clickLegend(ILegend legend, ColumnData columnData) {
-         isCharEmpty =  !provider.calculation(chartData);
-        startChartAnim(400);
+    public void onClickLegend(C c, ILegend<C> legend){
+        isCharEmpty =  !provider.calculation(chartData);
+        if(!isFirstAnim) {
+             startChartAnim();
+        }
+        if(onClickLegendListener != null){
+            onClickLegendListener.onClickLegend(c,legend);
+        }
     }
+
+
 
     public IEmpty getEmptyView() {
         return emptyView;
@@ -245,5 +278,20 @@ public abstract class BaseChart<P extends IProvider,C extends ColumnData> extend
     @Override
     public void onViewChanged(float scale, float translateX, float translateY) {
         invalidate();
+    }
+
+
+
+    public void setOnClickColumnListener(OnClickColumnListener<C> onClickColumnListener) {
+        provider.setOnClickColumnListener(onClickColumnListener);
+    }
+
+
+    public void setOnClickLegendListener(OnClickLegendListener<C> onClickLegendListener) {
+        this.onClickLegendListener = onClickLegendListener;
+    }
+
+    public void setFirstAnim(boolean isFirstAnim) {
+        this.isFirstAnim = isFirstAnim;
     }
 }

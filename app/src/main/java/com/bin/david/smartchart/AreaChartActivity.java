@@ -4,6 +4,7 @@ import android.content.res.Resources;
 import android.graphics.DashPathEffect;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Toast;
 
 import com.daivd.chart.axis.AxisDirection;
 import com.daivd.chart.axis.BaseAxis;
@@ -16,6 +17,7 @@ import com.daivd.chart.data.style.LineStyle;
 import com.daivd.chart.data.style.PointStyle;
 import com.daivd.chart.legend.IChartTitle;
 import com.daivd.chart.legend.ILegend;
+import com.daivd.chart.listener.OnClickColumnListener;
 import com.daivd.chart.mark.MsgMarkView;
 
 import java.util.ArrayList;
@@ -99,7 +101,12 @@ public class AreaChartActivity extends AppCompatActivity {
         lineChartView.getLegend().setLegendPercent(0.2f);
         lineChartView.getProvider().setArea(true);
         lineChartView.setChartData(chartData2);
-        lineChartView.startChartAnim(1000);
+        lineChartView.setOnClickColumnListener(new OnClickColumnListener<LineData>() {
+            @Override
+            public void onClickColumn(LineData lineData, int position) {
+                Toast.makeText(AreaChartActivity.this,lineData.getChartYDataList().get(position)+lineData.getUnit(),Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 }

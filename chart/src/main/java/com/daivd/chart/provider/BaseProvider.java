@@ -13,6 +13,7 @@ import com.daivd.chart.core.BaseChart;
 import com.daivd.chart.data.ChartData;
 import com.daivd.chart.data.ColumnData;
 import com.daivd.chart.data.style.FontStyle;
+import com.daivd.chart.listener.OnClickColumnListener;
 import com.daivd.chart.mark.MarkView;
 import com.daivd.chart.matrix.MatrixHelper;
 
@@ -22,15 +23,16 @@ import com.daivd.chart.matrix.MatrixHelper;
 
 public abstract class BaseProvider<C extends ColumnData> implements IProvider<C> {
 
-     private float progress = 1;
-     PointF pointF;
-     MarkView markView;
+    private float progress = 1;
+    protected  PointF pointF;
+    protected  MarkView markView;
     private boolean isOpenMark;
     private boolean isShowText =true;
     private int pointTextHeight;
     protected ChartData<C> chartData;
     private Rect providerRect;
     private FontStyle textStyle = new FontStyle();
+    protected OnClickColumnListener<C> onClickColumnListener;
 
     @Override
     public boolean calculation(ChartData<C> chartData) {
@@ -148,4 +150,10 @@ public abstract class BaseProvider<C extends ColumnData> implements IProvider<C>
     public void setShowText(boolean showText) {
         isShowText = showText;
     }
+
+    public void setOnClickColumnListener(OnClickColumnListener<C> onClickColumnListener) {
+        this.onClickColumnListener = onClickColumnListener;
+    }
+
+
 }

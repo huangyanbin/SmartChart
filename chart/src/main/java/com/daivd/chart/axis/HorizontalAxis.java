@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
+import android.util.Log;
 import android.view.Gravity;
 
 import com.daivd.chart.data.ChartData;
@@ -15,7 +16,8 @@ import com.daivd.chart.exception.ChartException;
 import java.util.List;
 
 /**
- * Created by huang on 2017/9/26.
+ * Created by huangYanBin on 2017/9/26.
+ * 横轴
  */
 
 public class HorizontalAxis extends BaseAxis {
@@ -62,41 +64,47 @@ public class HorizontalAxis extends BaseAxis {
         int filterMultiple = groupSize/maxScaleSize <1 ? 1 : groupSize/maxScaleSize;
         for (int i = 0; i < groupSize; i++) {
             String content = groupDataList.get(i);
-            int textWidth = textHeight * content.length();
-            int startX = getGravityStartY(left, i, perWidth, textWidth);
-            if (rect.contains(startX,rect.centerY())) {
+
+            int startX = getGravityStartY(left, i, perWidth);
+            if (rect.contains(startX+1,rect.centerY())) {
                 if( i % filterMultiple == 0) {
-                    drawText(canvas, content, startY, startX, paint);
+                    drawText(canvas, content, textHeight,startX, startY, paint);
+                    drawGrid(canvas, startX, rect, scaleData.scaleRect, paint);
+
                 }
-                int startGirdPos = direction == AxisDirection.BOTTOM ? perWidth : 0;
-                drawGrid(canvas, left + i * perWidth+startGirdPos, rect, scaleData.scaleRect, paint);
+                //int startGirdPos = direction == AxisDirection.BOTTOM ? perWidth : 0;
+                //int gridX = left + i * perWidth+startGirdPos;
+                //if(rect.contains(gridX,rect.centerY())) {
+
+               // }
             }
         }
     }
 
-    private int getGravityStartY(int left, int position, int perWidth, int textWidth) {
+    private int getGravityStartY(int left, int position, int perWidth) {
         int startX = left + position * perWidth;
         if (gravity == Gravity.CENTER) {
             startX += perWidth / 2;
         } else if (gravity == Gravity.RIGHT) {
             startX += perWidth;
         }
-        return startX - textWidth / 2;
+        return startX;
     }
 
     /**
      * 绘制文字
      */
-    private void drawText(Canvas canvas, String contentStr, float startY, int startX, Paint paint) {
+    private void drawText(Canvas canvas, String contentStr,int textHeight,int startX,float startY, Paint paint) {
         String content = formatHorizontalAxisData(contentStr);
         scaleStyle.fillPaint(paint);
-        canvas.drawText(content, startX, startY, paint);
+        int textWidth = textHeight * content.length();
+        canvas.drawText(content, startX-textWidth/2, startY, paint);
     }
 
     /**
      * 绘制网格
      */
-    public void drawGrid(Canvas canvas, int startX, Rect rect, Rect scaleRect, Paint paint) {
+    public void drawGrid(Canvas canvas, float startX, Rect rect, Rect scaleRect, Paint paint) {
         if (gridStyle != null && isDrawGrid) {
            // if(rect.contains(startX,rect.centerY())) {
                 gridStyle.fillPaint(paint);

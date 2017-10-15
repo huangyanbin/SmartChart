@@ -7,54 +7,10 @@
     android:gravity="center"
     tools:context="com.bin.david.smartchart.MainActivity">
 
- <Button
-     android:id="@+id/line"
-     android:layout_width="match_parent"
-     android:layout_margin="10dp"
-     android:text="线性图"
-     android:onClick="onClick"
-     android:clickable="true"
-     android:layout_height="wrap_content" />
-   <Button
-       android:id="@+id/column"
-       android:layout_width="match_parent"
-       android:layout_margin="10dp"
-       android:text="柱状图"
-       android:onClick="onClick"
-       android:clickable="true"
-       android:layout_height="wrap_content" />
-    <Button
-        android:id="@+id/column3D"
-        android:layout_width="match_parent"
-        android:layout_margin="10dp"
-        android:text="3D柱状图"
-        android:onClick="onClick"
-        android:clickable="true"
-        android:layout_height="wrap_content" />
-    <Button
-        android:id="@+id/pie"
-        android:layout_width="match_parent"
-        android:layout_margin="10dp"
-        android:text="饼图"
-        android:onClick="onClick"
-        android:clickable="true"
-        android:layout_height="wrap_content" />
+  <android.support.v7.widget.RecyclerView
+      android:id="@+id/recyclerView"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"/>
 
-    <Button
-        android:id="@+id/scatter"
-        android:layout_width="match_parent"
-        android:layout_margin="10dp"
-        android:text="散点图"
-        android:onClick="onClick"
-        android:clickable="true"
-        android:layout_height="wrap_content" />
-    <Button
-        android:id="@+id/area"
-        android:layout_width="match_parent"
-        android:layout_margin="10dp"
-        android:text="面积图"
-        android:onClick="onClick"
-        android:clickable="true"
-        android:layout_height="wrap_content" />
 
 </LinearLayout>

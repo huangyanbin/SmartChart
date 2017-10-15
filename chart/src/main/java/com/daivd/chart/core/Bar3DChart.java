@@ -5,7 +5,7 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 
-import com.daivd.chart.provider.Bar3DProvider;
+import com.daivd.chart.provider.barLine.Bar3DProvider;
 
 /**
  * Created by huang on 2017/9/26.

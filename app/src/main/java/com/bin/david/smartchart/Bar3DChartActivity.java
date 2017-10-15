@@ -4,6 +4,7 @@ import android.content.res.Resources;
 import android.graphics.DashPathEffect;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Toast;
 
 import com.daivd.chart.axis.BaseAxis;
 import com.daivd.chart.core.Bar3DChart;
@@ -13,6 +14,7 @@ import com.daivd.chart.data.LineData;
 import com.daivd.chart.data.style.FontStyle;
 import com.daivd.chart.data.style.PointStyle;
 import com.daivd.chart.legend.ILegend;
+import com.daivd.chart.listener.OnClickColumnListener;
 import com.daivd.chart.mark.MsgMarkView;
 
 import java.util.ArrayList;
@@ -70,7 +72,12 @@ public class Bar3DChartActivity extends AppCompatActivity {
         vaxis.setDrawGrid(true);
         vaxis.getGridStyle().setColor(R.color.arc_inteval);
         columnChartView.getLegend().setLegendDirection(ILegend.TOP);
-
+        columnChartView.setOnClickColumnListener(new OnClickColumnListener<LineData>() {
+            @Override
+            public void onClickColumn(LineData lineData, int position) {
+                Toast.makeText(Bar3DChartActivity.this,lineData.getChartYDataList().get(position)+lineData.getUnit(),Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 }
