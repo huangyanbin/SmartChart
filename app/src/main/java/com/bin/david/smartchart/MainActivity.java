@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
         items.add(new MainItem(Bar3DChartActivity.class,"3D柱状图"));
         items.add(new MainItem(PieChartActivity.class,"饼图"));
         items.add(new MainItem(RadarChartActivity.class,"雷达图"));
+        items.add(new MainItem(RoseChartActivity.class,"玫瑰图"));
         itemAdapter = new ItemAdapter(items);
         recyclerView.setAdapter(itemAdapter);
         itemAdapter.openLoadAnimation();

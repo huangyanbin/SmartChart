@@ -5,7 +5,6 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PointF;
 import android.graphics.Rect;
-import android.graphics.RectF;
 
 import com.daivd.chart.axis.AxisDirection;
 import com.daivd.chart.data.ChartData;
@@ -26,14 +25,13 @@ import java.util.List;
 
 public class RadarProvider extends BaseProvider<LineData> {
 
-    private PointF centerPoint;
     private int centerRadius;
-    private final float startAngle = -90;
     private RotateHelper rotateHelper;
-    private FontStyle textStyle = new FontStyle();
+    private FontStyle scaleStyle = new FontStyle();
     private LineStyle lineStyle = new LineStyle();
     protected LineStyle gridStyle = new LineStyle(); //网格样式
     private int textHeight;
+    private boolean isShowScale;
 
     @Override
     protected void matrixRect(Canvas canvas, Rect rect) {
@@ -49,7 +47,7 @@ public class RadarProvider extends BaseProvider<LineData> {
         int h = zoomRect.height();
         int maxRadius = Math.min(w/2, h/2);
         textHeight = (int) (paint.measureText("1",0,1));
-        textStyle.fillPaint(paint);
+        scaleStyle.fillPaint(paint);
         String oneXData = chartData.getCharXDataList().get(0);
         int x = maxRadius / 10 + textHeight * oneXData.length();
         centerRadius = maxRadius - x;
@@ -57,9 +55,7 @@ public class RadarProvider extends BaseProvider<LineData> {
             rotateHelper.setRect(rect);
             rotateHelper.setRadius(centerRadius);
         }
-        centerPoint = new PointF(zoomRect.left + w/2, zoomRect.top + h/2);
         drawRadarBorder(canvas,zoomRect,paint);
-        drawRadarLines(canvas,zoomRect,paint);
         drawRadarLines(canvas,zoomRect,paint);
         drawLinePath(canvas,zoomRect,paint);
         drawQuadrantText(canvas,zoomRect,paint);
@@ -71,7 +67,6 @@ public class RadarProvider extends BaseProvider<LineData> {
         ScaleData scaleData = chartData.getScaleData();
         List<LineData>  columnDataList = chartData.getColumnDataList();
         double scaleLength = scaleData.getTotalScaleLength(AxisDirection.LEFT);
-        double maxScale = scaleData.getMaxScaleValue(AxisDirection.LEFT);
         float angle = (float) (Math.PI*2/count);
         Path path = new Path();
         lineStyle.fillPaint(paint);
@@ -82,7 +77,7 @@ public class RadarProvider extends BaseProvider<LineData> {
                 path.reset();
                 for (int j = 0; j < columnData.getChartYDataList().size(); j++) {
                     double value = columnData.getChartYDataList().get(j);
-                    float curR = getAnimValue((float) ((maxScale - value) * centerRadius / scaleLength));
+                    float curR = getAnimValue((float) ( value * centerRadius / scaleLength));
                     if (j == 0) {
                         path.moveTo(zoomRect.centerX() + curR, zoomRect.centerY());
                     } else {
@@ -105,11 +100,11 @@ public class RadarProvider extends BaseProvider<LineData> {
         ScaleData scaleData = chartData.getScaleData();
         List<Double> scaleList= scaleData.getScaleList(AxisDirection.LEFT);
         double maxScale = scaleData.getMaxScaleValue(AxisDirection.LEFT);
-
         Path path = new Path();
         for(int i = 0;i < scaleList.size();i++){
             path.reset();
-            float curR = (float)(scaleList.get(i)*centerRadius/maxScale);
+            double value = scaleList.get(i);
+            float curR = (float)(value*centerRadius/maxScale);
             for(int j = 0; j <count;j++){
                 float y;
                 float x;
@@ -127,6 +122,12 @@ public class RadarProvider extends BaseProvider<LineData> {
             gridStyle.fillPaint(paint);
             path.close();
             canvas.drawPath(path,paint);
+            scaleStyle.fillPaint(paint);
+            int textHeight = (int) paint.measureText("1",0,1);
+            if(isShowScale) {
+                String valueStr = String.valueOf(value);
+                canvas.drawText(value + "", zoomRect.centerX() - textHeight*valueStr.length()/2 , (float)( zoomRect.centerY() - curR*Math.sin(Math.PI/3)), paint);
+            }
         }
     }
 
@@ -135,7 +136,7 @@ public class RadarProvider extends BaseProvider<LineData> {
      * @param canvas
      */
     private void drawQuadrantText(Canvas canvas,Rect zoomRect,Paint paint){
-        textStyle.fillPaint(paint);
+        scaleStyle.fillPaint(paint);
         List<String> charXDataList = chartData.getCharXDataList();
         int count = charXDataList.size();
         float angle = (float) (Math.PI*2/count);
@@ -299,8 +300,8 @@ public class RadarProvider extends BaseProvider<LineData> {
         return new double[] {maxValue,minValue};
     }
 
-    public FontStyle getTextStyle() {
-        return textStyle;
+    public FontStyle getScaleStyle() {
+        return scaleStyle;
     }
 
     public LineStyle getLineStyle() {
@@ -313,5 +314,10 @@ public class RadarProvider extends BaseProvider<LineData> {
 
     public void setRotateHelper(RotateHelper rotateHelper) {
         this.rotateHelper = rotateHelper;
+    }
+
+
+    public void setShowScale(boolean showScale) {
+        isShowScale = showScale;
     }
 }

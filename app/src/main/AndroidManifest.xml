@@ -24,6 +24,7 @@
         <activity android:name=".AreaChartActivity"/>
         <activity android:name=".ScatterChartActivity"/>
         <activity android:name=".RadarChartActivity"/>
+        <activity android:name=".RoseChartActivity"/>
 
     </application>
 

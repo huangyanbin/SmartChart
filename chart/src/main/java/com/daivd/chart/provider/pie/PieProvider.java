@@ -57,8 +57,8 @@ public class PieProvider extends BaseProvider<PieData> {
         float startAngle = this.startAngle;
         float totalAngle = getAnimValue(this.totalAngle);
         paint.setStyle(Paint.Style.FILL);
-        int w = zoomRect.width();
         int h = zoomRect.height();
+        int w = zoomRect.width();
         int maxRadius = Math.min(w/2, h/2);
         centerPoint = new PointF(zoomRect.centerX(), zoomRect.centerY());
         int x = maxRadius / 10;
