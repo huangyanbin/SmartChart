@@ -1,6 +1,7 @@
 # ![icon](/img/icon.png)SmartChart
+[![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
 
-* [英文版README](/README.en.md/)
+* [English README](/README.en.md/)
 
 * SmartChart是Android图表框架，支持线性图（折线，曲线，散点）柱状图、面积图、饼图、3D柱状图、雷达图支持多样化配置。
 
@@ -214,6 +215,23 @@ dependencies {
 * 项目包括还有很多配置项，这里不一一列举，包括设置Padding等。
     做到几乎所有图表属性都可以配置，但由于这个框架只开发了3天，还有很多待完善的地方。再一次感谢您花费时间阅读。
  
+## *License*
 
+SmartChart is released under the Apache 2.0 license.
+
+```
+Copyright 2017 BakerJ.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at following link.
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitat
 
 
