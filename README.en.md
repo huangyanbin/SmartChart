@@ -50,6 +50,10 @@ there is a need for reference.
 
 * Support shaft direction, biaxial, graphic, horizontal line, cross shaft, MarkView custom, blank, the title, grid, such as support rich style, including the font style, font size, color, graphic style (square, rectangle, round), line (size, color, DashPathEffect), increase the movement and zoom function diagram and animation.
 
+### 1.0 version update log
+* 1. Increased wind rose chart;
+* 2. Fixed the Legend location display problem;
+* 3. Increase the format of the scale.
 
 ### 0.9 version update log
 
@@ -213,11 +217,11 @@ dependencies {
       lineChartView.startChartAnim(1000);
     ```
  
-### 10.Next version 1.0
+### 10.Next version 1.1
     
-* 1. Support dashboard charts;
-* 2. Fix the view pager and list sliding to cause gesture conflict;
-* 3. Optimize the graphics display effect.
+* 1. Fix the view pager and list sliding to cause gesture conflict;
+* 2. Continuous optimization of chart display effects;
+* 3. Support lines and histogram composition diagrams.
         
     
 ### 11.End
