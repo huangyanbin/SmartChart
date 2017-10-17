@@ -26,10 +26,10 @@
 ####  9.Rose chart
 ![玫瑰图](/img/rose1.png)
 ### 10.DashBoradChart
-![仪表盘](https://github.com/huangyanbin/CalendarView/blob/master/screenshort_dash.png)
-* note: the dashboard is intended to be finished, but it has been used in an example, and the wheel is not repeated.
-* https://github.com/huangyanbin/CalendarView.
-* there is a need for reference.
+![仪表盘](/img/dashBorad.png)
+*  note: the dashboard is intended to be finished, but it has been used in an example, and the wheel is not repeated.
+https://github.com/huangyanbin/CalendarView
+there is a need for reference.
 
 #### Chart anim
 
