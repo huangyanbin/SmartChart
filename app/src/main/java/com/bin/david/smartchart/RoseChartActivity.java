@@ -48,7 +48,7 @@ public class RoseChartActivity extends AppCompatActivity {
         chartYDataList.add("西北");
         chartYDataList.add("北北西");
         int[] colors = new int[]{res.getColor(R.color.arc1),res.getColor(R.color.arc2),res.getColor(R.color.arc3),res.getColor(R.color.arc21)
-        ,res.getColor(R.color.arc22),res.getColor(R.color.arc23)};
+        ,res.getColor(R.color.cal_sign_color),res.getColor(R.color.cal_safe_color)};
         List<RoseData> lineDatas = new ArrayList<>();
         for(int j = 0; j<6; j++) {
             ArrayList<Double> dataList = new ArrayList<>();
@@ -71,14 +71,16 @@ public class RoseChartActivity extends AppCompatActivity {
         //设置显示标题
         roseChart.setShowChartName(true);
         //设置标题方向
-        roseChart.getChartTitle().setTitleDirection(IChartTitle.TOP);
+        roseChart.getChartTitle().setTitleDirection(IChartTitle.LEFT);
         //设置标题比例
-        roseChart.getChartTitle().setTitlePercent(0.1f);
+        roseChart.getChartTitle().setTitlePercent(0.2f);
         //设置标题样式
-        roseChart.getChartTitle().getTextStyle().setTextColor(res.getColor(R.color.arc23));
+        FontStyle fontStyle = roseChart.getChartTitle().getTextStyle();
+        fontStyle.setTextColor(res.getColor(R.color.arc23));
+        fontStyle.setTextSpSize(this,16);
         roseChart.getLegend().setLegendDirection(ILegend.BOTTOM);
         roseChart.getLegend().getLegendStyle().setShape(PointStyle.SQUARE);
-        roseChart.getLegend().setLegendPercent(0.05f);
+        roseChart.getLegend().setLegendPercent(0.2f);
         roseChart.getProvider().setScaleFormat(new IFormat<Double>() {
             @Override
             public String format(Double d) {

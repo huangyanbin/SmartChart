@@ -58,14 +58,14 @@ public class BaseChartTitle implements IChartTitle {
             case LEFT:
 
                 startX = (int) (rect.left +  rect.width() * percent/2);
-                startX += textHeight;
+                startX -= textHeight;
                 path.moveTo(startX,rect.top);
                 path.lineTo(startX,rect.bottom);
                 canvas.drawTextOnPath(chartName,path,rect.width()/2-textHeight * chartName.length()/2,0,paint);
                 break;
             case RIGHT:
                 startX = (int) (rect.right - rect.width()* percent/2);
-                startX += textHeight;
+                startX -= textHeight;
                 path.moveTo(startX,rect.top);
                 path.lineTo(startX,rect.bottom);
                 canvas.drawTextOnPath(chartName,path,rect.width()/2-textHeight * chartName.length()/2,0,paint);

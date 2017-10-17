@@ -23,6 +23,8 @@
 ![饼图](/img/pie.png)
 ####  8.Radar chart
 ![雷达图](/img/radar.png)
+####  9.Rose chart
+![玫瑰图](/img/rose1.png)
 
 #### Chart anim
 
@@ -36,6 +38,8 @@
 
 ![旋转](/img/gif/rotate.gif)
 
+### Legend position
+![Legend位置](/img/rose2)
 
 ## Function introduce
 

@@ -3,7 +3,7 @@
 
 * [English README](/README.en.md/)
 
-* SmartChart是Android图表框架，支持线性图（折线，曲线，散点）柱状图、面积图、饼图、3D柱状图、雷达图支持多样化配置。
+* SmartChart是Android图表框架，支持线性图（折线，曲线，散点）柱状图、面积图、饼图、3D柱状图、雷达图、风向玫瑰图支持多样化配置。
 
 
 
@@ -25,6 +25,8 @@
 ![饼图](/img/pie.png)
 ####  8.雷达图
 ![雷达图](/img/radar.png)
+####  9.玫瑰图
+![玫瑰图](/img/rose1.png)
 
 #### 图表动画
 
@@ -37,6 +39,9 @@
 #### 旋转
 
 ![旋转](/img/gif/rotate.gif)
+
+### Legend位置
+![Legend位置](/img/rose2)
 
 
 ## 功能介绍

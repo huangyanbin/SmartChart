@@ -107,10 +107,12 @@ public class RoseProvider extends BaseProvider<RoseData> {
         double maxScale = chartData.getScaleData().getMaxScaleValue(AxisDirection.LEFT);
         if(isShowScale) {
             scaleStyle.fillPaint(paint);
+            Paint.FontMetrics fontMetrics = paint.getFontMetrics();
+            float fontHeight = fontMetrics.descent - fontMetrics.ascent;
             canvas.drawText(getFormatValue(maxScale),
-                    zoomRect.centerX(), zoomRect.centerY() - centerRadius, paint);
+                    zoomRect.centerX(), zoomRect.centerY() - centerRadius+fontHeight, paint);
             canvas.drawText(getFormatValue(maxScale/2),
-                    zoomRect.centerX(),zoomRect.centerY()-centerRadius/2,paint);
+                    zoomRect.centerX(),zoomRect.centerY()-centerRadius/2+fontHeight,paint);
         }
     }
 
