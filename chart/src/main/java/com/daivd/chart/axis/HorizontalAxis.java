@@ -20,7 +20,7 @@ import java.util.List;
  * 横轴
  */
 
-public class HorizontalAxis extends BaseAxis {
+public class HorizontalAxis extends BaseAxis<String> {
 
     public HorizontalAxis() {
         direction = AxisDirection.BOTTOM;
@@ -95,7 +95,7 @@ public class HorizontalAxis extends BaseAxis {
      * 绘制文字
      */
     private void drawText(Canvas canvas, String contentStr,int textHeight,int startX,float startY, Paint paint) {
-        String content = formatHorizontalAxisData(contentStr);
+        String content = (getFormat()!= null ? getFormat().format(contentStr) :contentStr);
         scaleStyle.fillPaint(paint);
         int textWidth = textHeight * content.length();
         canvas.drawText(content, startX-textWidth/2, startY, paint);
@@ -147,6 +147,7 @@ public class HorizontalAxis extends BaseAxis {
             this.direction = axisDirection;
         } else throw new ChartException("只能设置BOTTOM,TOP方向");
     }
+
 
 
 

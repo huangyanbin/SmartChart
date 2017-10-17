@@ -8,7 +8,9 @@ import android.graphics.Rect;
 
 import com.daivd.chart.axis.AxisDirection;
 import com.daivd.chart.data.ChartData;
+import com.daivd.chart.data.IFormat;
 import com.daivd.chart.data.LineData;
+import com.daivd.chart.data.RadarData;
 import com.daivd.chart.data.ScaleData;
 import com.daivd.chart.data.style.FontStyle;
 import com.daivd.chart.data.style.LineStyle;
@@ -21,9 +23,10 @@ import java.util.List;
 
 /**
  * Created by huang on 2017/10/9.
+ *雷达图内容绘制
  */
 
-public class RadarProvider extends BaseProvider<LineData> {
+public class RadarProvider extends BaseProvider<RadarData> {
 
     private int centerRadius;
     private RotateHelper rotateHelper;
@@ -32,6 +35,7 @@ public class RadarProvider extends BaseProvider<LineData> {
     protected LineStyle gridStyle = new LineStyle(); //网格样式
     private int textHeight;
     private boolean isShowScale;
+    private IFormat<Double> scaleFormat;
 
     @Override
     protected void matrixRect(Canvas canvas, Rect rect) {
@@ -65,7 +69,7 @@ public class RadarProvider extends BaseProvider<LineData> {
         List<String> charXDataList = chartData.getCharXDataList();
         int count = charXDataList.size();
         ScaleData scaleData = chartData.getScaleData();
-        List<LineData>  columnDataList = chartData.getColumnDataList();
+        List<RadarData>  columnDataList = chartData.getColumnDataList();
         double scaleLength = scaleData.getTotalScaleLength(AxisDirection.LEFT);
         float angle = (float) (Math.PI*2/count);
         Path path = new Path();
@@ -125,10 +129,14 @@ public class RadarProvider extends BaseProvider<LineData> {
             scaleStyle.fillPaint(paint);
             int textHeight = (int) paint.measureText("1",0,1);
             if(isShowScale) {
-                String valueStr = String.valueOf(value);
-                canvas.drawText(value + "", zoomRect.centerX() - textHeight*valueStr.length()/2 , (float)( zoomRect.centerY() - curR*Math.sin(Math.PI/3)), paint);
+                String valueStr = getFormatValue(value);
+                canvas.drawText(valueStr, zoomRect.centerX() - textHeight*valueStr.length()/2 , (float)( zoomRect.centerY() - curR*Math.sin(Math.PI/3)), paint);
             }
         }
+    }
+
+    private String getFormatValue(double value){
+        return scaleFormat !=null ? scaleFormat.format(value):String.valueOf(value);
     }
 
     /**
@@ -216,10 +224,10 @@ public class RadarProvider extends BaseProvider<LineData> {
 
 
     @Override
-    public boolean calculationChild( ChartData<LineData> chartData) {
+    public boolean calculationChild( ChartData<RadarData> chartData) {
         this.chartData = chartData;
         ScaleData scaleData =this.chartData.getScaleData();
-        List<LineData> columnDatas  =  chartData.getColumnDataList();
+        List<RadarData> columnDatas  =  chartData.getColumnDataList();
         if(columnDatas == null || columnDatas.size() == 0){
             return  false;
         }
@@ -316,6 +324,9 @@ public class RadarProvider extends BaseProvider<LineData> {
         this.rotateHelper = rotateHelper;
     }
 
+    public void setScaleFormat(IFormat<Double> scaleFormat) {
+        this.scaleFormat = scaleFormat;
+    }
 
     public void setShowScale(boolean showScale) {
         isShowScale = showScale;

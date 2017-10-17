@@ -12,6 +12,7 @@ import com.daivd.chart.core.RadarChart;
 import com.daivd.chart.data.ChartData;
 import com.daivd.chart.data.LevelLine;
 import com.daivd.chart.data.LineData;
+import com.daivd.chart.data.RadarData;
 import com.daivd.chart.data.style.FontStyle;
 import com.daivd.chart.data.style.LineStyle;
 import com.daivd.chart.data.style.PointStyle;
@@ -40,7 +41,7 @@ public class RadarChartActivity extends AppCompatActivity {
         chartYDataList.add("华西");
         chartYDataList.add("华东");
         chartYDataList.add("华西");
-        List<LineData> ColumnDatas = new ArrayList<>();
+        List<RadarData> ColumnDatas = new ArrayList<>();
         ArrayList<Double> tempList1 = new ArrayList<>();
         tempList1.add(26d);
         tempList1.add(35d);
@@ -48,7 +49,7 @@ public class RadarChartActivity extends AppCompatActivity {
         tempList1.add(10d);
         tempList1.add(26d);
         tempList1.add(35d);
-        LineData columnData1 = new LineData("温度","℃",AxisDirection.RIGHT,getResources().getColor(R.color.arc3),tempList1);
+        RadarData columnData1 = new RadarData("温度","℃",getResources().getColor(R.color.arc3),tempList1);
         ArrayList<Double> humidityList = new ArrayList<>();
         humidityList.add(60d);
         humidityList.add(50d);
@@ -56,10 +57,10 @@ public class RadarChartActivity extends AppCompatActivity {
         humidityList.add(65d);
         humidityList.add(30d);
         humidityList.add(65d);
-        LineData columnData2 = new LineData("湿度","RH%",getResources().getColor(R.color.arc2),humidityList);
+        RadarData columnData2 = new RadarData("湿度","RH%",getResources().getColor(R.color.arc2),humidityList);
         ColumnDatas.add(columnData1);
         ColumnDatas.add(columnData2);
-        ChartData<LineData> chartData2 = new ChartData<>("雷达图",chartYDataList,ColumnDatas);
+        ChartData<RadarData> chartData2 = new ChartData<>("雷达图",chartYDataList,ColumnDatas);
 
         //开启MarkView
         radarChart.getProvider().setOpenMark(true);

@@ -8,6 +8,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 
 import com.daivd.chart.data.LineData;
+import com.daivd.chart.data.RadarData;
 import com.daivd.chart.matrix.RotateHelper;
 import com.daivd.chart.provider.radar.RadarProvider;
 
@@ -16,7 +17,7 @@ import com.daivd.chart.provider.radar.RadarProvider;
  * 雷达图
  */
 
-public class RadarChart extends BaseChart<RadarProvider,LineData> implements RotateHelper.OnRotateListener{
+public class RadarChart extends BaseChart<RadarProvider,RadarData> implements RotateHelper.OnRotateListener{
     private RotateHelper rotateHelper;
     private boolean isOnRotate;
 

@@ -29,9 +29,9 @@ import com.daivd.chart.provider.IProvider;
 public abstract class BarLineChart<P extends IProvider<LineData>> extends BaseChart<P,LineData>  {
 
 
-    protected BaseAxis horizontalAxis; //横轴
-    protected BaseAxis leftVerticalAxis;//竖轴
-    protected BaseAxis rightVerticalAxis;//竖轴
+    protected HorizontalAxis horizontalAxis; //横轴
+    protected VerticalAxis leftVerticalAxis;//竖轴
+    protected VerticalAxis rightVerticalAxis;//竖轴
 
 
     public BarLineChart(Context context) {
@@ -95,31 +95,21 @@ public abstract class BarLineChart<P extends IProvider<LineData>> extends BaseCh
 
 
 
-    public BaseAxis getHorizontalAxis() {
+    public HorizontalAxis getHorizontalAxis() {
         return horizontalAxis;
     }
 
-    public void setHorizontalAxis(BaseAxis horizontalAxis) {
-        this.horizontalAxis = horizontalAxis;
-    }
 
-    public BaseAxis getLeftVerticalAxis() {
+
+    public VerticalAxis getLeftVerticalAxis() {
         return leftVerticalAxis;
     }
 
-    public void setLeftVerticalAxis(BaseAxis leftVerticalAxis) {
-        this.leftVerticalAxis = leftVerticalAxis;
-    }
 
-    public BaseAxis getRightVerticalAxis() {
+
+    public VerticalAxis getRightVerticalAxis() {
         return rightVerticalAxis;
     }
-
-    public void setRightVerticalAxis(BaseAxis rightVerticalAxis) {
-        this.rightVerticalAxis = rightVerticalAxis;
-    }
-
-
 
 
 

@@ -10,6 +10,7 @@ import android.view.MotionEvent;
 import com.daivd.chart.core.BaseChart;
 import com.daivd.chart.data.LineData;
 import com.daivd.chart.data.PieData;
+import com.daivd.chart.data.RoseData;
 import com.daivd.chart.matrix.RotateHelper;
 import com.daivd.chart.provider.pie.PieProvider;
 import com.daivd.chart.provider.rose.RoseProvider;
@@ -19,7 +20,7 @@ import com.daivd.chart.provider.rose.RoseProvider;
  * 饼图
  */
 
-public class RoseChart extends BaseChart<RoseProvider,LineData> implements RotateHelper.OnRotateListener{
+public class RoseChart extends BaseChart<RoseProvider,RoseData> implements RotateHelper.OnRotateListener{
     private RotateHelper rotateHelper;
     private boolean isOnRotate;
 

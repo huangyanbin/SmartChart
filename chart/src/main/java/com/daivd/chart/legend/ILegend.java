@@ -26,7 +26,7 @@ public interface ILegend<C extends ColumnData> {
     /**
      * 计算图例大小
      */
-    void computeLegend(ChartData chartData, Rect rect, Paint paint);
+    void computeLegend(ChartData<C> chartData, Rect rect, Paint paint);
 
     /**
      * 绘制图例

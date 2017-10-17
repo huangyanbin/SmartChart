@@ -19,7 +19,7 @@ import java.util.List;
  * 竖轴
  */
 
-public class VerticalAxis extends BaseAxis {
+public class VerticalAxis extends BaseAxis<Double> {
 
 
     public VerticalAxis(AxisDirection direction) {
@@ -123,8 +123,10 @@ public class VerticalAxis extends BaseAxis {
         } else throw new ChartException("只能设置LEFT,RIGHT方向");
     }
 
-    @Override
-    public String formatVerticalAxisData(double value) {
+    private String formatVerticalAxisData(double value) {
+        if(getFormat() != null){
+            return getFormat().format(value);
+        }
         return df.format(value);
     }
 

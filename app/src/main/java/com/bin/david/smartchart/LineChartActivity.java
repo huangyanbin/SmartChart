@@ -113,6 +113,7 @@ public class LineChartActivity extends AppCompatActivity {
         lineChartView.getLegend().setLegendDirection(ILegend.BOTTOM);
         lineChartView.getLegend().getLegendStyle().setShape(PointStyle.RECT);
         lineChartView.getLegend().setLegendPercent(0.2f);
+        lineChartView.setFirstAnim(false);
         lineChartView.setChartData(chartData2);
         lineChartView.startChartAnim(1000);
         lineChartView.setOnClickColumnListener(new OnClickColumnListener<LineData>() {
@@ -121,6 +122,7 @@ public class LineChartActivity extends AppCompatActivity {
               //  Toast.makeText(LineChartActivity.this,lineData.getChartYDataList().get(position)+lineData.getUnit(),Toast.LENGTH_SHORT).show();
             }
         });
+
 
     }
 

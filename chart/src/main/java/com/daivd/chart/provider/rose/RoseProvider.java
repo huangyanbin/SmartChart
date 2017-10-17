@@ -8,7 +8,9 @@ import android.graphics.RectF;
 
 import com.daivd.chart.axis.AxisDirection;
 import com.daivd.chart.data.ChartData;
+import com.daivd.chart.data.IFormat;
 import com.daivd.chart.data.LineData;
+import com.daivd.chart.data.RoseData;
 import com.daivd.chart.data.ScaleData;
 import com.daivd.chart.data.style.FontStyle;
 import com.daivd.chart.data.style.LineStyle;
@@ -23,7 +25,7 @@ import java.util.List;
  * Created by huang on 2017/10/9.
  */
 
-public class RoseProvider extends BaseProvider<LineData> {
+public class RoseProvider extends BaseProvider<RoseData> {
 
     private int centerRadius;
     private RotateHelper rotateHelper;
@@ -33,6 +35,7 @@ public class RoseProvider extends BaseProvider<LineData> {
     protected LineStyle gridStyle = new LineStyle(); //网格样式
     private int textHeight;
     private  boolean isShowScale;
+    private IFormat<Double> scaleFormat;
 
     @Override
     protected void matrixRect(Canvas canvas, Rect rect) {
@@ -60,6 +63,7 @@ public class RoseProvider extends BaseProvider<LineData> {
         drawRadarLines(canvas, zoomRect, paint);
         drawLinePath(canvas, zoomRect, rect, paint);
         drawQuadrantText(canvas, zoomRect, paint);
+        drawScale(canvas,zoomRect,paint);
     }
 
     private void drawLinePath(Canvas canvas, Rect zoomRect, Rect rect, Paint paint) {
@@ -67,7 +71,7 @@ public class RoseProvider extends BaseProvider<LineData> {
         List<String> charXDataList = chartData.getCharXDataList();
         int count = charXDataList.size();
         ScaleData scaleData = chartData.getScaleData();
-        List<LineData> columnDataList = chartData.getColumnDataList();
+        List<RoseData> columnDataList = chartData.getColumnDataList();
         double maxScale = scaleData.getMaxScaleValue(AxisDirection.LEFT);
         float angle = 360f / count;
         startAngle = angle/2;
@@ -75,15 +79,19 @@ public class RoseProvider extends BaseProvider<LineData> {
         for (int j = 0; j < count; j++) {
             double value = 0;
             for (LineData lineData :columnDataList) {
-                value += lineData.getChartYDataList().get(j);
+                if(lineData.isDraw()) {
+                    value += lineData.getChartYDataList().get(j);
+                }
             }
             for (int i = columnDataList.size() - 1; i >= 0; i--) {
                 LineData lineData = columnDataList.get(i);
-                float curR = getAnimValue((float) (value * centerRadius / maxScale));
-                RectF rectF = new RectF(zoomRect.centerX() - curR, zoomRect.centerY() - curR, zoomRect.centerX() + curR, zoomRect.centerY() + curR);
-                paint.setColor(lineData.getColor());
-                canvas.drawArc(rectF, angle * j +angle/6-startAngle , angle-angle/6, true, paint);
-                value -= lineData.getChartYDataList().get(j);
+                if(lineData.isDraw()) {
+                    float curR = getAnimValue((float) (value * centerRadius / maxScale));
+                    RectF rectF = new RectF(zoomRect.centerX() - curR, zoomRect.centerY() - curR, zoomRect.centerX() + curR, zoomRect.centerY() + curR);
+                    paint.setColor(lineData.getColor());
+                    canvas.drawArc(rectF, angle * j + angle / 6 - startAngle - 90, angle - angle / 6, true, paint);
+                    value -= lineData.getChartYDataList().get(j);
+                }
             }
 
         }
@@ -93,11 +101,16 @@ public class RoseProvider extends BaseProvider<LineData> {
         gridStyle.fillPaint(paint);
         canvas.drawCircle(zoomRect.centerX(), zoomRect.centerY(), centerRadius, paint);
         canvas.drawCircle(zoomRect.centerX(), zoomRect.centerY(), centerRadius / 2, paint);
+    }
+
+    private void drawScale(Canvas canvas, Rect zoomRect, Paint paint){
         double maxScale = chartData.getScaleData().getMaxScaleValue(AxisDirection.LEFT);
         if(isShowScale) {
             scaleStyle.fillPaint(paint);
-            canvas.drawText(String.valueOf(maxScale), zoomRect.centerX(), zoomRect.centerY() - centerRadius, paint);
-            canvas.drawText(String.valueOf(maxScale/2),zoomRect.centerX(),zoomRect.centerY()-centerRadius/2,paint);
+            canvas.drawText(getFormatValue(maxScale),
+                    zoomRect.centerX(), zoomRect.centerY() - centerRadius, paint);
+            canvas.drawText(getFormatValue(maxScale/2),
+                    zoomRect.centerX(),zoomRect.centerY()-centerRadius/2,paint);
         }
     }
 
@@ -114,17 +127,18 @@ public class RoseProvider extends BaseProvider<LineData> {
         Paint.FontMetrics fontMetrics = paint.getFontMetrics();
         float fontHeight = fontMetrics.descent - fontMetrics.ascent;
         for(int i=0;i<count;i++){
+            float realAngle = (float) (angle*i - Math.PI/2);
             String xData = charXDataList.get(i);
-            float x = (float) (zoomRect.centerX()+(centerRadius+fontHeight/2)*Math.cos(angle*i));
-            float y = (float) (zoomRect.centerY()+(centerRadius+fontHeight/2)*Math.sin(angle*i))+5;
-            if(angle*i>=0&&angle*i<=Math.PI/2){//第4象限
+            float x = (float) (zoomRect.centerX()+(centerRadius+fontHeight/2)*Math.cos(realAngle));
+            float y = (float) (zoomRect.centerY()+(centerRadius+fontHeight/2)*Math.sin(realAngle))+5;
+            if(realAngle>=0&&realAngle<=Math.PI/2){//第4象限
                 canvas.drawText(xData, x,y,paint);
-            }else if(angle*i>=3*Math.PI/2&&angle*i<=Math.PI*2){//第3象限
+            }else if(realAngle<0){//第3象限
                 canvas.drawText(xData, x,y,paint);
-            }else if(angle*i>Math.PI/2&&angle*i<=Math.PI){//第2象限
+            }else if(realAngle>Math.PI/2&&realAngle<=Math.PI){//第2象限
                 float dis = paint.measureText(xData);//文本长度
                 canvas.drawText(xData, x-dis,y,paint);
-            }else if(angle*i>=Math.PI&&angle*i<3*Math.PI/2){//第1象限
+            }else if(realAngle>=Math.PI&&realAngle<3*Math.PI/2){//第1象限
                 float dis = paint.measureText(xData);//文本长度
                 canvas.drawText(xData, x-dis,y,paint);
             }
@@ -143,14 +157,17 @@ public class RoseProvider extends BaseProvider<LineData> {
         for (int i = 0; i < count; i++) {
             path.reset();
             path.moveTo(zoomRect.centerX(), zoomRect.centerY());
-            float x = (float) (zoomRect.centerX() + centerRadius * Math.cos(angle * i));
-            float y = (float) (zoomRect.centerY() + centerRadius * Math.sin(angle * i));
+            float x = (float) (zoomRect.centerX() + centerRadius * Math.cos(angle * i-Math.PI/2));
+            float y = (float) (zoomRect.centerY() + centerRadius * Math.sin(angle * i-Math.PI/2));
             path.lineTo(x, y);
             canvas.drawPath(path, paint);
         }
     }
 
 
+    private String getFormatValue(double value){
+        return scaleFormat !=null ? scaleFormat.format(value):String.valueOf(value);
+    }
 
    /* @Override
     public void clickPoint(PointF point) {
@@ -186,10 +203,11 @@ public class RoseProvider extends BaseProvider<LineData> {
 
 
     @Override
-    public boolean calculationChild(ChartData<LineData> chartData) {
+    public boolean calculationChild(ChartData<RoseData> chartData) {
         this.chartData = chartData;
         ScaleData scaleData = this.chartData.getScaleData();
-        List<LineData> columnDatas = chartData.getColumnDataList();
+        scaleData.maxLeftValue = 0;
+        List<RoseData> columnDatas = chartData.getColumnDataList();
         if (columnDatas == null || columnDatas.size() == 0) {
             return false;
         }
@@ -252,6 +270,11 @@ public class RoseProvider extends BaseProvider<LineData> {
         this.rotateHelper = rotateHelper;
     }
 
+
+
+    public void setScaleFormat(IFormat<Double> scaleFormat) {
+        this.scaleFormat = scaleFormat;
+    }
 
     public void setShowScale(boolean showScale) {
         isShowScale = showScale;

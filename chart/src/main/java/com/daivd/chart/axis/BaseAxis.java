@@ -6,6 +6,7 @@ import android.graphics.Rect;
 import android.view.Gravity;
 
 import com.daivd.chart.data.ChartData;
+import com.daivd.chart.data.IFormat;
 import com.daivd.chart.data.LineData;
 import com.daivd.chart.data.ScaleData;
 import com.daivd.chart.data.style.FontStyle;
@@ -18,7 +19,7 @@ import com.daivd.chart.matrix.MatrixHelper;
  * 轴
  */
 
-public  abstract class BaseAxis implements IAxis {
+public  abstract class BaseAxis<V> implements IAxis<V> {
 
     protected LineStyle lineStyle = new LineStyle();
     protected FontStyle scaleStyle = new FontStyle();
@@ -27,6 +28,7 @@ public  abstract class BaseAxis implements IAxis {
     protected int  gravity = Gravity.CENTER;
     protected AxisDirection direction;
     protected boolean isLine;
+    private IFormat<V> format;
 
     public void setDrawGrid(boolean drawGrid) {
         isDrawGrid = drawGrid;
@@ -94,18 +96,17 @@ public  abstract class BaseAxis implements IAxis {
 
     }
 
-    @Override
-    public String formatVerticalAxisData(double value) {
-        return String.valueOf(value);
-    }
-
-    @Override
-    public String formatHorizontalAxisData(String value) {
-        return value;
-    }
 
     protected   abstract void drawAxis(Canvas canvas, Rect rect, Paint paint, ChartData<LineData> chartData);
 
     protected   abstract void drawScale(Canvas canvas, Rect rect,Rect clipRect, Paint paint,  ChartData<LineData> chartData);
 
+    public IFormat<V> getFormat() {
+        return format;
+    }
+
+    @Override
+    public void setFormat(IFormat<V> format) {
+        this.format = format;
+    }
 }

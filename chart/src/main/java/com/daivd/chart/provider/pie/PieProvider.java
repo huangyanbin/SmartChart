@@ -11,6 +11,7 @@ import android.graphics.RectF;
 import android.util.Log;
 
 import com.daivd.chart.data.ChartData;
+import com.daivd.chart.data.IFormat;
 import com.daivd.chart.data.PieData;
 import com.daivd.chart.data.style.FontStyle;
 import com.daivd.chart.matrix.RotateHelper;
@@ -36,6 +37,7 @@ public class PieProvider extends BaseProvider<PieData> {
     private float centerCirclePercent = 0.3f;
     private boolean isShader;
     private boolean isClick;
+    private IFormat<Double> valueFormat;
 
     @Override
     public boolean calculationChild(ChartData<PieData> chartData) {
@@ -88,13 +90,15 @@ public class PieProvider extends BaseProvider<PieData> {
                     }
                 }
                 canvas.drawArc(oval, startAngle, sweepAngle, true, paint);
-                canvas.save();
-                canvas.rotate(startAngle + sweepAngle / 2 - this.startAngle, zoomRect.centerX(), zoomRect.centerY());
-                textStyle.fillPaint(paint);
-                int textHeight = (int) paint.measureText("1", 0, 1);
-                String val = String.valueOf(value);
-                canvas.drawText(val, zoomRect.centerX() - val.length() * textHeight / 2, zoomRect.centerY() - maxRadius / 2, paint);
-                canvas.restore();
+               if(isShowText()) {
+                   canvas.save();
+                   canvas.rotate(startAngle + sweepAngle / 2 - this.startAngle, zoomRect.centerX(), zoomRect.centerY());
+                   textStyle.fillPaint(paint);
+                   int textHeight = (int) paint.measureText("1", 0, 1);
+                   String val =valueFormat != null ?valueFormat.format(value):String.valueOf(value);
+                   canvas.drawText(val, zoomRect.centerX() - val.length() * textHeight / 2, zoomRect.centerY() - maxRadius / 2, paint);
+                   canvas.restore();
+               }
             }
             startAngle += sweepAngle;
         }
@@ -144,7 +148,9 @@ public class PieProvider extends BaseProvider<PieData> {
 
 
 
-
+    public void setValueFormat(IFormat<Double> valueFormat) {
+        this.valueFormat = valueFormat;
+    }
 
     public void setCenterCirclepercent(float centerCirclePercent) {
         this.centerCirclePercent = centerCirclePercent;

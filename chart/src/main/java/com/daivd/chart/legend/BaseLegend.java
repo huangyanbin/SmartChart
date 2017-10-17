@@ -13,7 +13,9 @@ import com.daivd.chart.listener.OnClickLegendListener;
 
 import java.util.List;
 
-/**
+import static android.R.attr.startY;
+
+/**BaseLegend
  * Created by huang on 2017/9/29.
  */
 
@@ -36,8 +38,12 @@ public class BaseLegend<C extends ColumnData> implements ILegend<C> {
         legendStyle.setWidth(25);
         fontStyle = new FontStyle();
     }
+
+    /**
+     * Calculate the size of the legend so that the legend position can be calculated
+     */
     @Override
-    public void computeLegend(ChartData chartData, Rect rect, Paint paint) {
+    public void computeLegend(ChartData<C> chartData, Rect rect, Paint paint) {
         this.chartData = chartData;
         Rect legendRect = chartData.getScaleData().legendRect;
         switch (legendDirection){
@@ -56,63 +62,79 @@ public class BaseLegend<C extends ColumnData> implements ILegend<C> {
         }
     }
 
+    /**
+     *draw legend
+     */
     @Override
     public void drawLegend(Canvas canvas, Rect rect, Paint paint) {
-
-        int startX = 0,startY = 0;
-        int textHeight = (int)paint.measureText("1",0,1);
-        int offsetY = Math.max(textHeight,(int) legendStyle.getWidth());
+        Rect legendRect = new Rect(rect);
         switch (legendDirection) {
             case TOP:
-                startY = (int) (rect.top + rect.height() * percent/2);
-                startX = rect.left+(rect.right - rect.left)/2;
+                legendRect.bottom = rect.top + (int) (rect.height() * percent);
                 break;
             case LEFT:
-                startX = (int) (rect.left +  rect.width()* percent/2);
-                startY =rect.top + (rect.bottom -rect.top)/2;
+                legendRect.right = rect.left+ (int) (rect.width()*percent);
                 break;
             case RIGHT:
-                startX = (int) (rect.right - rect.width()* percent/2);
-                startY =rect.top + (rect.bottom -rect.top)/2;
+                legendRect.left = rect.right- (int) (rect.width()*percent);
                 break;
             case BOTTOM:
-                startY = (int) (rect.bottom - rect.height()* percent/2);
-                startX =  rect.left+(rect.right - rect.left)/2;
+                legendRect.top = rect.bottom- (int) (rect.height() * percent);
                 break;
         }
         List<C> columnDataList = chartData.getColumnDataList();
-        startY+=offsetY;
-        int tempStartX =startX;
-        for(int i = 0;i <columnDataList.size();i++){
+        int  maxLegendNameLength = 0;
+        int columnDataSize = columnDataList.size();
+        String maxLengthColumnName = null;
+        for(int i = 0;i <columnDataSize;i++){
             ColumnData columnData = columnDataList.get(i);
             String name =  columnData.getName();
-            tempStartX+= legendStyle.getWidth()+padding;
-            tempStartX+= textHeight*name.length()*2+padding;
+            if(maxLegendNameLength < name.length()){
+                maxLengthColumnName = name;
+                maxLegendNameLength= name.length();
+            }
         }
-        startX  = startX-(tempStartX - startX)/2;
-        for(int i = 0;i <columnDataList.size();i++){
+        fontStyle.fillPaint(paint);
+        int textWidth = (int) paint.measureText(maxLengthColumnName);//文本长度
+        Paint.FontMetrics fontMetrics = paint.getFontMetrics();
+        float textHeight = fontMetrics.descent - fontMetrics.ascent;
+        int maxLegendLength = (int) (legendStyle.getWidth()+padding*3+textWidth);
+        int columnSize = legendRect.width()/maxLegendLength; //列
+        columnSize = columnSize >0?columnSize:1;
+        int rowSize = columnDataSize/columnSize;
+        rowSize = rowSize >0?rowSize:1;
+        int perHeight = (int) (textHeight + padding);
+        int perWidth =  legendRect.width()/columnSize;
+        int offsetY = (legendRect.height()-perHeight*rowSize)/2;
+        offsetY =  offsetY >0 ?offsetY:0;
+        int offsetX = columnDataSize< columnSize ? (columnSize - columnDataSize)*perWidth/2:0;
+        for(int i = 0;i <columnDataList.size();i++) {
+            int column = i % columnSize;
+            int row = i / columnSize;
+            int startX = offsetX+legendRect.left + column  *perWidth +(perWidth-maxLegendLength)/2;
+            int startY = legendRect.top +offsetY+ row * perHeight;
             C columnData = columnDataList.get(i);
-            String name =  columnData.getName();
-            float right =startX + legendStyle.getWidth()+padding*2+textHeight*name.length()*3;
-            if(pointF != null && isClickRect(startX,right,startY-offsetY, startY+ offsetY*2)){
-                if(isSelectColumn) {
+            String name = columnData.getName();
+
+            if (pointF != null && isClickRect(startX-legendStyle.getWidth()/2, startX +perWidth-legendStyle.getWidth()/2, startY-padding/2, startY + perHeight+padding/2)) {
+                if (isSelectColumn) {
                     columnData.setDraw(!columnData.isDraw());
                 }
                 pointF = null;
-                if(onClickLegendListener != null){
-                    onClickLegendListener.onClickLegend(columnData,this);
+                if (onClickLegendListener != null) {
+                    onClickLegendListener.onClickLegend(columnData, this);
                 }
             }
             paint.setColor(columnData.getColor());
-            drawPoint(canvas,columnData.isDraw(),startX,(int) (startY-legendStyle.getWidth()/2),paint);
-            startX+= legendStyle.getWidth()+padding;
-            drawText(canvas,startX,startY,name,paint);
-            startX+= textHeight*name.length()*3+padding;
-
+            drawPoint(canvas, columnData.isDraw(), startX, (int) (startY - legendStyle.getWidth() / 2), paint);
+            startX += legendStyle.getWidth() + padding;
+            drawText(canvas, startX, startY, name, paint);
         }
     }
 
-
+    /**
+     * Determine whether to click or not rect
+     */
     private  boolean isClickRect(float left, float right, float top, float bottom){
         if(pointF != null) {
             return  pointF.x >= left && pointF.x <= right && pointF.y >= top && pointF.y <= bottom;
@@ -138,6 +160,7 @@ public class BaseLegend<C extends ColumnData> implements ILegend<C> {
             legendStyle.fillPaint(paint);
         }
         float w = legendStyle.getWidth();
+        x += w/2;
         if(legendStyle.getShape() == PointStyle.CIRCLE) {
             canvas.drawCircle(x, y, w/2, paint);
         }else if(legendStyle.getShape() == PointStyle.SQUARE){
