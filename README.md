@@ -28,7 +28,7 @@
 ####  9.玫瑰图
 ![玫瑰图](/img/rose1.png)
 
-### 10.DashBoradChart
+### 10.仪表盘(Other)
 ![仪表盘](/img/dashBorad.png)
 *  说明：仪表盘本打算写完，但之前在一个示例中也有，就不重复造轮子了。
       https://github.com/huangyanbin/CalendarView
