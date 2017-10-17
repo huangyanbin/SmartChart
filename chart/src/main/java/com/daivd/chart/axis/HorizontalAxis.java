@@ -5,7 +5,6 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
-import android.util.Log;
 import android.view.Gravity;
 
 import com.daivd.chart.data.ChartData;
@@ -25,14 +24,36 @@ public class HorizontalAxis extends BaseAxis<String> {
     public HorizontalAxis() {
         direction = AxisDirection.BOTTOM;
     }
-    private int padding = 10;
-
+    private int rotateAngle= 0;
+    private boolean isRotateAngle;
+    private int textWidth;
+    private int textHeight;
     @Override
     public void computeScale(ChartData<LineData> chartData, Rect rect, Paint paint) {
         ScaleData scaleData = chartData.getScaleData();
         scaleStyle.fillPaint(paint);
-        int textHeight = (int) (paint.measureText("1", 0, 1) * 2);
-        int dis = (int) (textHeight + scaleStyle.getPadding() * 2 + lineStyle.getWidth());
+        Paint.FontMetrics fontMetrics = paint.getFontMetrics();
+        textHeight = (int) (fontMetrics.descent - fontMetrics.ascent);
+
+           int maxLength = 0;
+           String maxLengthXData = null;
+           for (String xData : chartData.getCharXDataList()) {
+               String formatData = formatData(xData);
+               if (maxLength < formatData.length()) {
+                   maxLengthXData = formatData;
+               }
+           }
+          textWidth = (int) paint.measureText(maxLengthXData);
+        //计算旋转的高宽
+        if(isRotateAngle) {
+            int tempHeight = (int) (textWidth *Math.sin(rotateAngle*Math.PI/180)
+                    + textHeight*Math.cos(rotateAngle*Math.PI/180));
+            int tempWidth = (int) (textWidth *Math.cos(rotateAngle*Math.PI/180)
+                    +textHeight*Math.sin(rotateAngle*Math.PI/180));
+            textHeight = tempHeight;
+            textWidth = tempWidth;
+       }
+        int dis = (int) (textHeight+scaleStyle.getPadding()*2  + lineStyle.getWidth());
         if (direction == AxisDirection.BOTTOM) {
             scaleData.scaleRect.bottom = dis;
         } else {
@@ -41,7 +62,7 @@ public class HorizontalAxis extends BaseAxis<String> {
     }
 
     protected void drawScale(Canvas canvas, Rect zoomRect, Rect rect, Paint paint,  ChartData<LineData> chartData) {
-        //Log.e("huang","scale zoomRect:"+zoomRect.toString());
+
         ScaleData scaleData = chartData.getScaleData();
         List<String> groupDataList = chartData.getCharXDataList();
         int rowSize = scaleData.rowSize;
@@ -50,38 +71,28 @@ public class HorizontalAxis extends BaseAxis<String> {
             throw new ChartException("横竖轴数据不一致");
         }
         float startY;
-
         if (direction == AxisDirection.BOTTOM) {
-            startY = zoomRect.bottom - scaleStyle.getPadding();
+            startY = zoomRect.bottom -textHeight- scaleStyle.getPadding();
         } else {
             startY = zoomRect.top + scaleData.scaleRect.top - scaleStyle.getPadding();
         }
         int left = zoomRect.left ;
         int width = zoomRect.right - left;
         int perWidth = width / (isLine? groupSize -1 : groupSize);
-        int textHeight = (int) paint.measureText("1", 0, 1) * 2;
-        int maxScaleSize = width /(textHeight*2+padding);
-        int filterMultiple = groupSize/maxScaleSize <1 ? 1 : groupSize/maxScaleSize;
+        int filterMultiple = textWidth / perWidth <1 ? 1 : textWidth / perWidth;
         for (int i = 0; i < groupSize; i++) {
             String content = groupDataList.get(i);
-
-            int startX = getGravityStartY(left, i, perWidth);
+            int startX = getGravityStartX(left, i, perWidth);
             if (rect.contains(startX+1,rect.centerY())) {
                 if( i % filterMultiple == 0) {
-                    drawText(canvas, content, textHeight,startX, startY, paint);
+                    drawText(canvas, content,startX- textWidth / 2, startY, paint);
                     drawGrid(canvas, startX, rect, scaleData.scaleRect, paint);
-
                 }
-                //int startGirdPos = direction == AxisDirection.BOTTOM ? perWidth : 0;
-                //int gridX = left + i * perWidth+startGirdPos;
-                //if(rect.contains(gridX,rect.centerY())) {
-
-               // }
             }
         }
     }
 
-    private int getGravityStartY(int left, int position, int perWidth) {
+    private int getGravityStartX(int left, int position, int perWidth) {
         int startX = left + position * perWidth;
         if (gravity == Gravity.CENTER) {
             startX += perWidth / 2;
@@ -94,11 +105,23 @@ public class HorizontalAxis extends BaseAxis<String> {
     /**
      * 绘制文字
      */
-    private void drawText(Canvas canvas, String contentStr,int textHeight,int startX,float startY, Paint paint) {
-        String content = (getFormat()!= null ? getFormat().format(contentStr) :contentStr);
+    private void drawText(Canvas canvas, String contentStr,int startX,float startY, Paint paint) {
+        String content = formatData(contentStr);
         scaleStyle.fillPaint(paint);
-        int textWidth = textHeight * content.length();
-        canvas.drawText(content, startX-textWidth/2, startY, paint);
+        if(isRotateAngle){
+            canvas.save();
+           // canvas.drawCircle(startX,startY,10,paint);
+            canvas.rotate(rotateAngle,startX,startY);
+            canvas.drawText(content, startX , startY, paint);
+            canvas.restore();
+        }else {
+            //canvas.drawCircle(startX,startY,10,paint);
+            canvas.drawText(content, startX, startY+textHeight, paint);
+        }
+    }
+
+    private String formatData(String data){
+        return  getFormat()!= null ? getFormat().format(data) :data;
     }
 
     /**
@@ -150,5 +173,8 @@ public class HorizontalAxis extends BaseAxis<String> {
 
 
 
-
+    public void setRotateAngle(int rotateAngle) {
+        isRotateAngle = true;
+        this.rotateAngle = rotateAngle;
+    }
 }

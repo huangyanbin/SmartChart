@@ -22,6 +22,7 @@ import java.util.List;
 public class VerticalAxis extends BaseAxis<Double> {
 
 
+
     public VerticalAxis(AxisDirection direction) {
         this.direction = direction;
     }

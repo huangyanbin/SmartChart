@@ -14,6 +14,7 @@ import com.daivd.chart.axis.AxisDirection;
 import com.daivd.chart.axis.BaseAxis;
 import com.daivd.chart.core.LineChart;
 import com.daivd.chart.data.ChartData;
+import com.daivd.chart.data.IFormat;
 import com.daivd.chart.data.LevelLine;
 import com.daivd.chart.data.LineData;
 import com.daivd.chart.data.style.FontStyle;
@@ -135,7 +136,14 @@ public class ScatterChartActivity extends AppCompatActivity {
         lineChartView.getLegend().setLegendDirection(ILegend.BOTTOM);
         lineChartView.getLegend().getLegendStyle().setShape(PointStyle.RECT);
         lineChartView.getLegend().setLegendPercent(0.2f);
+        lineChartView.getHorizontalAxis().setRotateAngle(45);
         lineChartView.getProvider().setDrawLine(false);
+        lineChartView.getHorizontalAxis().setFormat(new IFormat<String>() {
+            @Override
+            public String format(String s) {
+                return s+s+s; //测试
+            }
+        });
         lineChartView.setChartData(chartData2);
         lineChartView.startChartAnim(1000);
 

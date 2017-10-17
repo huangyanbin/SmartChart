@@ -36,6 +36,7 @@ public abstract class BarLineProvider extends BaseProvider<LineData> {
         if(columnDataList == null || columnDataList.size() == 0){
             return  false;
         }
+        scaleData.rowSize = chartData.getCharXDataList().size();
         int columnSize = columnDataList.size();
         for(int i = 0 ; i <columnSize; i++){
             LineData columnData = columnDataList.get(i);
@@ -46,7 +47,7 @@ public abstract class BarLineProvider extends BaseProvider<LineData> {
             if(chartYDataList == null || chartYDataList.size() == 0){
                 throw new ChartException("请设置Column数据");
             }
-            scaleData.rowSize = chartYDataList.size();
+
             if(chartYDataList.size() != scaleData.rowSize){
                 throw new ChartException("Column rows数据数量不一致");
             }
