@@ -39,7 +39,7 @@
 ![旋转](/img/gif/rotate.gif)
 
 ### Legend position
-![Legend位置](/img/rose2)
+![Legend位置](/img/rose2.png)
 
 ## Function introduce
 

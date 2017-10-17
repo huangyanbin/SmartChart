@@ -41,7 +41,7 @@
 ![旋转](/img/gif/rotate.gif)
 
 ### Legend位置
-![Legend位置](/img/rose2)
+![Legend位置](/img/rose2.png)
 
 
 ## 功能介绍
