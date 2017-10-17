@@ -28,6 +28,13 @@
 ####  9.玫瑰图
 ![玫瑰图](/img/rose1.png)
 
+### 10.DashBoradChart
+![仪表盘](https://github.com/huangyanbin/CalendarView/blob/master/screenshort_dash.png)
+*说明：仪表盘本打算写完，但之前在一个示例中也有，就不重复造轮子了。
+*https://github.com/huangyanbin/CalendarView。
+*有需要的可以借鉴一下。
+
+
 #### 图表动画
 
 ![动画](/img/gif/chart.gif)
