@@ -43,38 +43,40 @@ public class BaseChartTitle implements IChartTitle {
     @Override
     public void drawTitle(Canvas canvas, Rect rect, Paint paint) {
         fontStyle.fillPaint(paint);
-        int startX,startY;
-        int textHeight = (int)paint.measureText("1",0,1);
+
         String chartName = chartData.getChartName();
+        Paint.FontMetrics fontMetrics = paint.getFontMetrics();
+        float textHeight = fontMetrics.descent - fontMetrics.ascent;
+        int textWidth = (int)paint.measureText(chartName);
+        int startX,startY;
         Path path = new Path();
         switch (titleDirection) {
             case TOP:
                 startY = (int) (rect.top + rect.height() * percent/2);
                 startX = rect.centerX();
-                startY+= textHeight;
-                startX -=textHeight * chartName.length();
+                startY-= textHeight/2;
+                startX -=textWidth/2;
                 canvas.drawText(chartName, startX, startY, paint);
                 break;
             case LEFT:
-
                 startX = (int) (rect.left +  rect.width() * percent/2);
-                startX -= textHeight;
+                startX -= textWidth/2;
                 path.moveTo(startX,rect.top);
                 path.lineTo(startX,rect.bottom);
-                canvas.drawTextOnPath(chartName,path,rect.width()/2-textHeight * chartName.length()/2,0,paint);
+                canvas.drawTextOnPath(chartName,path,rect.width()/2-textWidth/2,0,paint);
                 break;
             case RIGHT:
                 startX = (int) (rect.right - rect.width()* percent/2);
-                startX -= textHeight;
+                startX -= textHeight/2;
                 path.moveTo(startX,rect.top);
                 path.lineTo(startX,rect.bottom);
-                canvas.drawTextOnPath(chartName,path,rect.width()/2-textHeight * chartName.length()/2,0,paint);
+                canvas.drawTextOnPath(chartName,path,rect.width()/2-textWidth/2,0,paint);
                 break;
             case BOTTOM:
                 startY = (int) (rect.bottom - rect.height() * percent/2);
                 startX =  rect.centerX();
-                startY+= textHeight;
-                startX -=textHeight * chartName.length();
+                startY -= textHeight/2;
+                startX -=textWidth/2;
                 canvas.drawText(chartName, startX, startY, paint);
                 break;
         }
