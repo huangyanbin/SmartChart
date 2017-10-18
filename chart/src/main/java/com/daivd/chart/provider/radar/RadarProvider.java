@@ -55,7 +55,7 @@ public class RadarProvider extends BaseProvider<RadarData> {
         int x = maxRadius / 10 + textHeight * oneXData.length();
         centerRadius = maxRadius - x;
         if(rotateHelper != null){
-            rotateHelper.setRect(rect);
+            rotateHelper.setOriginRect(rect);
             rotateHelper.setRadius(centerRadius);
         }
         drawRadarBorder(canvas,zoomRect,paint);

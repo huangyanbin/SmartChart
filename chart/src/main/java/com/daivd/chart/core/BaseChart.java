@@ -7,6 +7,7 @@ import android.graphics.PointF;
 import android.graphics.Rect;
 import android.os.Build;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
@@ -89,9 +90,15 @@ public abstract class BaseChart<P extends IProvider<C>,C extends ColumnData> ext
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        return matrixHelper.HandlerGestureDetector(event);
+        Log.e("huang","onTouchEvent"+event.getAction());
+        return matrixHelper.handlerTouchEvent(event);
     }
 
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        matrixHelper.onDisallowInterceptEvent(this,event);
+        return super.dispatchTouchEvent(event);
+    }
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {

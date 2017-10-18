@@ -3,12 +3,15 @@ package com.daivd.chart.matrix;
 import android.graphics.Rect;
 import android.os.Handler;
 import android.view.MotionEvent;
+import android.view.ViewParent;
+
+import com.daivd.chart.core.BaseChart;
 
 /**
  * Created by huang on 2017/10/10.
  */
 
-public class RotateHelper {
+public class RotateHelper implements ITouch {
 
     private int mRadius;
 
@@ -53,7 +56,7 @@ public class RotateHelper {
     private float mLastX;
     private float mLastY;
     private  boolean isRotate;
-    private Rect rect;
+    private Rect originRect;
 
     /**
      * 自动滚动的Runnable
@@ -66,8 +69,8 @@ public class RotateHelper {
        this.listener = listener;
     }
 
-
-    public boolean dispatchTouchEvent(MotionEvent event) {
+    @Override
+    public boolean handlerTouchEvent(MotionEvent event) {
         if(!isRotate()){
             return false;
         }
@@ -154,6 +157,43 @@ public class RotateHelper {
         return true;
     }
 
+
+    @Override
+    public void onDisallowInterceptEvent(BaseChart chart, MotionEvent event){
+        ViewParent parent = chart.getParent();
+        if (!isRotate() || originRect == null) {
+            parent.requestDisallowInterceptTouchEvent(false);
+            return;
+        }
+        switch (event.getAction()&MotionEvent.ACTION_MASK) {
+            case MotionEvent.ACTION_DOWN:
+            case MotionEvent.ACTION_MOVE:
+
+                if(containsPoint(event)){
+                    parent.requestDisallowInterceptTouchEvent(true);
+                }else {
+                    parent.requestDisallowInterceptTouchEvent(false);
+                }
+                break;
+            case MotionEvent.ACTION_CANCEL:
+            case MotionEvent.ACTION_UP:
+                parent.requestDisallowInterceptTouchEvent(false);
+                break;
+        }
+    }
+
+    public boolean containsPoint(MotionEvent event){
+        if(originRect != null) {
+            float x = event.getX();
+            float y = event.getY();
+            int centerY = originRect.centerY();
+            int centerX = originRect.centerX();
+            return x >= centerX - mRadius && x <= centerX + mRadius
+                    && y >= centerY - mRadius && y <= centerY + mRadius;
+        }
+        return false;
+    }
+
     /**
      * 自动滚动的任务
      *
@@ -200,8 +240,8 @@ public class RotateHelper {
      */
     private float getAngle(float xTouch, float yTouch)
     {
-        double x = xTouch-rect.left - (mRadius );
-        double y = yTouch-rect.top - (mRadius );
+        double x = xTouch- originRect.left - (mRadius );
+        double y = yTouch- originRect.top - (mRadius );
         return (float) (Math.asin(y / Math.hypot(x, y)) * 180 / Math.PI);
     }
 
@@ -214,8 +254,8 @@ public class RotateHelper {
      */
     private int getQuadrant(float x, float y)
     {
-        int tmpX = (int) (x-rect.left - mRadius );
-        int tmpY = (int) (y-rect.top - mRadius );
+        int tmpX = (int) (x- originRect.left - mRadius );
+        int tmpY = (int) (y- originRect.top - mRadius );
         if (tmpX >= 0)
         {
             return tmpY >= 0 ? 4 : 1;
@@ -235,8 +275,8 @@ public class RotateHelper {
     public void setRadius(int radius) {
         this.mRadius = radius;
     }
-    public void setRect(Rect rect){
-        this.rect = rect;
+    public void setOriginRect(Rect originRect){
+        this.originRect = originRect;
     }
 
     public double getStartAngle() {

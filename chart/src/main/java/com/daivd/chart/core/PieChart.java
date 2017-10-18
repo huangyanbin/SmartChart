@@ -16,9 +16,8 @@ import com.daivd.chart.provider.pie.PieProvider;
  * 饼图
  */
 
-public class PieChart  extends BaseChart<PieProvider,PieData> implements RotateHelper.OnRotateListener{
-    private RotateHelper rotateHelper;
-    private boolean isOnRotate;
+public class PieChart  extends BaseRotateChart<PieProvider,PieData>{
+
 
     public PieChart(Context context) {
         super(context);
@@ -39,13 +38,7 @@ public class PieChart  extends BaseChart<PieProvider,PieData> implements RotateH
 
 
     @Override
-    protected void drawContent(Canvas canvas) {
-        provider.drawProvider(canvas, chartRect, matrixHelper, paint);
-    }
-
-    @Override
-    protected PieProvider initProvider() {
-        rotateHelper = new RotateHelper(this);
+    protected PieProvider initProvider(RotateHelper rotateHelper) {
         PieProvider provider =  new PieProvider();
         provider.setRotateHelper(rotateHelper);
         return provider;
@@ -53,27 +46,4 @@ public class PieChart  extends BaseChart<PieProvider,PieData> implements RotateH
 
 
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        if(event.getAction()== MotionEvent.ACTION_DOWN){
-            isOnRotate = provider.getProviderRect().contains((int)event.getX(),(int)event.getY());
-        }
-        if(isOnRotate){
-            super.onTouchEvent(event);
-            return  rotateHelper.dispatchTouchEvent(event);
-        }
-         return super.onTouchEvent(event);
-    }
-
-    public void setRotate(boolean rotate) {
-        if(rotate){
-            setZoom(false);
-        }
-        rotateHelper.setRotate(rotate);
-    }
-
-    @Override
-    public void onRotate(double angle) {
-        invalidate();
-    }
 }

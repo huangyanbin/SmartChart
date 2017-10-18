@@ -8,7 +8,6 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.util.Log;
 
 import com.daivd.chart.data.ChartData;
 import com.daivd.chart.data.IFormat;
@@ -67,7 +66,7 @@ public class PieProvider extends BaseProvider<PieData> {
         centerRadius = maxRadius - x;
         if(rotateHelper != null){
             rotateHelper.setRadius(centerRadius);
-            rotateHelper.setRect(rect);
+            rotateHelper.setOriginRect(rect);
         }
         oval= new RectF(zoomRect.centerX()-centerRadius,zoomRect.centerY() - centerRadius,
                 zoomRect.centerX()+centerRadius,zoomRect.centerY() + centerRadius);
