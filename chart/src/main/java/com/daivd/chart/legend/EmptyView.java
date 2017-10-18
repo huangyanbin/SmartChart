@@ -12,7 +12,7 @@ import com.daivd.chart.data.style.FontStyle;
 
 public class EmptyView implements IEmpty{
     private FontStyle fontStyle = new FontStyle();
-    private String emtpyTip = "暂无数据";
+    private String emtpyTip = "No Data";
 
     public void drawEmpty(Canvas canvas, Rect rect, Paint paint){
         fontStyle.fillPaint(paint);

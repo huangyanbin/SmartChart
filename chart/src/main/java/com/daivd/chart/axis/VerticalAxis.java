@@ -121,7 +121,7 @@ public class VerticalAxis extends BaseAxis<Double> {
     public void setAxisDirection(AxisDirection axisDirection) {
         if (axisDirection == AxisDirection.LEFT || axisDirection == AxisDirection.RIGHT) {
             this.direction = axisDirection;
-        } else throw new ChartException("只能设置LEFT,RIGHT方向");
+        } else throw new ChartException("Can only set LEFT, RIGHT direction");
     }
 
     private String formatVerticalAxisData(double value) {

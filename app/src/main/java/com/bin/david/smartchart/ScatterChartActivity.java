@@ -137,6 +137,7 @@ public class ScatterChartActivity extends AppCompatActivity {
         lineChartView.getLegend().getLegendStyle().setShape(PointStyle.RECT);
         lineChartView.getLegend().setLegendPercent(0.2f);
         lineChartView.getHorizontalAxis().setRotateAngle(45);
+        lineChartView.getHorizontalAxis().setAxisDirection(AxisDirection.TOP);
         lineChartView.getProvider().setDrawLine(false);
         lineChartView.getHorizontalAxis().setFormat(new IFormat<String>() {
             @Override
@@ -216,11 +217,15 @@ public class ScatterChartActivity extends AppCompatActivity {
                         case SHOW_AREA:
                             showArea(item);
                             break;
+                        case ROATE_ANGLE:
+                            rotateAngle(item);
+                            break;
                     }
                 }
             });
         }
         ArrayList<ChartStyle> items = new ArrayList<>();
+        items.add(ChartStyle.ROATE_ANGLE);
         items.add(ChartStyle.SHOW_TITLE);
         items.add(ChartStyle.ZOOM);
         items.add(ChartStyle.TITLE_POSITON);
@@ -238,6 +243,7 @@ public class ScatterChartActivity extends AppCompatActivity {
         items.add(ChartStyle.V_GRID);
         items.add(ChartStyle.SHOW_LINE);
         items.add(ChartStyle.SHOW_AREA);
+
         chartDialog.show(this,true,items);
     }
 
@@ -502,6 +508,18 @@ public class ScatterChartActivity extends AppCompatActivity {
                 }else{
                     lineChartView.setLineModel(LineChart.LINE_MODEL);
                 }
+                lineChartView.startChartAnim(400);
+            }
+        });
+    }
+
+    private void rotateAngle(ChartStyle c) {
+
+        quickChartDialog.showDialog(this,c,new String[]{"30","60","90","180","-30","-45","-60","-90","-180"},new QuickChartDialog.OnCheckChangeAdapter(){
+
+            @Override
+            public void onItemClick(String s, int position) {
+                lineChartView.getHorizontalAxis().setRotateAngle(Integer.valueOf(s));
                 lineChartView.startChartAnim(400);
             }
         });

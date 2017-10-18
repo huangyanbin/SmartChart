@@ -45,11 +45,11 @@ public abstract class BarLineProvider extends BaseProvider<LineData> {
             }
             List<Double> chartYDataList = columnData.getChartYDataList();
             if(chartYDataList == null || chartYDataList.size() == 0){
-                throw new ChartException("请设置Column数据");
+                throw new ChartException("Please set up Column data");
             }
 
             if(chartYDataList.size() != scaleData.rowSize){
-                throw new ChartException("Column rows数据数量不一致");
+                throw new ChartException("Column rows data inconsistency");
             }
             double[] scale = getColumnScale(chartYDataList);
             scale = setMaxMinValue(scale[0],scale[1]);

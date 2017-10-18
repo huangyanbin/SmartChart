@@ -113,6 +113,7 @@ public class LineChartActivity extends AppCompatActivity {
         lineChartView.getLegend().setLegendDirection(ILegend.BOTTOM);
         lineChartView.getLegend().getLegendStyle().setShape(PointStyle.RECT);
         lineChartView.getLegend().setLegendPercent(0.2f);
+        lineChartView.getHorizontalAxis().setRotateAngle(-45);
         lineChartView.setFirstAnim(false);
         lineChartView.setChartData(chartData2);
         lineChartView.startChartAnim(1000);
@@ -193,11 +194,15 @@ public class LineChartActivity extends AppCompatActivity {
                         case SHOW_AREA:
                             showArea(item);
                             break;
+                        case ROATE_ANGLE:
+                            rotateAngle(item);
+                            break;
                     }
                 }
             });
         }
         ArrayList<ChartStyle> items = new ArrayList<>();
+        items.add(ChartStyle.ROATE_ANGLE);
         items.add(ChartStyle.SHOW_TITLE);
         items.add(ChartStyle.ZOOM);
         items.add(ChartStyle.TITLE_POSITON);
@@ -501,4 +506,16 @@ public class LineChartActivity extends AppCompatActivity {
             }
         });
     }
+    private void rotateAngle(ChartStyle c) {
+
+        quickChartDialog.showDialog(this,c,new String[]{"30","60","90","180","-30","-45","-60","-90","-180"},new QuickChartDialog.OnCheckChangeAdapter(){
+
+            @Override
+            public void onItemClick(String s, int position) {
+                lineChartView.getHorizontalAxis().setRotateAngle(Integer.valueOf(s));
+                lineChartView.startChartAnim(400);
+            }
+        });
+    }
+
 }

@@ -224,15 +224,15 @@ public class RoseProvider extends BaseProvider<RoseData> {
                 }
                 List<Double> datas = columnData.getChartYDataList();
                 if (datas == null || datas.size() == 0) {
-                    throw new ChartException("请设置Column数据");
+                    throw new ChartException("Please set up Column data");
                 }
                 scaleData.rowSize = datas.size();
                 if (datas.size() != scaleData.rowSize) {
-                    throw new ChartException("Column rows数据数量不一致");
+                    throw new ChartException("Column rows data inconsistency");
                 }
                 double value = datas.get(j);
                 if (value < 0) {
-                    throw new ChartException("值不能为<0");
+                    throw new ChartException("The value cannot be <0");
                 }
                 maxValue += value;
             }

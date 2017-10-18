@@ -22,7 +22,8 @@ public enum  ChartStyle {
     H_GRID("是否显示横向网格"),
     SHOW_LINE("是否显示线"),
     SHOW_AREA("是否显示面积图"),
-    V_GRID("是否显示纵向网格");
+    V_GRID("是否显示纵向网格"),
+    ROATE_ANGLE("横轴旋转角度");
 
 
 

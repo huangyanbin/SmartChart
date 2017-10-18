@@ -52,7 +52,7 @@ public class LineChart extends BarLineChart<LineProvider> {
         }else if( model == CURVE_MODEL){
             provider.setLineModel(new CurveLineModel());
         }else {
-            throw new ChartException("请设置正确的Line model");
+            throw new ChartException("Please set the correct Line model");
         }
     }
 

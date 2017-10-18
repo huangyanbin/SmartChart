@@ -28,13 +28,13 @@ public class HorizontalAxis extends BaseAxis<String> {
     private boolean isRotateAngle;
     private int textWidth;
     private int textHeight;
+    private int rotateTextHeight;
     @Override
     public void computeScale(ChartData<LineData> chartData, Rect rect, Paint paint) {
         ScaleData scaleData = chartData.getScaleData();
         scaleStyle.fillPaint(paint);
         Paint.FontMetrics fontMetrics = paint.getFontMetrics();
         textHeight = (int) (fontMetrics.descent - fontMetrics.ascent);
-
            int maxLength = 0;
            String maxLengthXData = null;
            for (String xData : chartData.getCharXDataList()) {
@@ -45,15 +45,17 @@ public class HorizontalAxis extends BaseAxis<String> {
            }
           textWidth = (int) paint.measureText(maxLengthXData);
         //计算旋转的高宽
+        int dis = textHeight;
         if(isRotateAngle) {
-            int tempHeight = (int) (textWidth *Math.sin(rotateAngle*Math.PI/180)
+            int tempHeight = (int) Math.abs(textWidth *Math.sin(rotateAngle*Math.PI/180)
                     + textHeight*Math.cos(rotateAngle*Math.PI/180));
-            int tempWidth = (int) (textWidth *Math.cos(rotateAngle*Math.PI/180)
+            int tempWidth = (int) Math.abs(textWidth *Math.cos(rotateAngle*Math.PI/180)
                     +textHeight*Math.sin(rotateAngle*Math.PI/180));
-            textHeight = tempHeight;
+            rotateTextHeight = tempHeight;
+            dis += rotateTextHeight;
             textWidth = tempWidth;
        }
-        int dis = (int) (textHeight+scaleStyle.getPadding()*2  + lineStyle.getWidth());
+        dis += (int) (scaleStyle.getPadding()*2  + lineStyle.getWidth());
         if (direction == AxisDirection.BOTTOM) {
             scaleData.scaleRect.bottom = dis;
         } else {
@@ -68,13 +70,13 @@ public class HorizontalAxis extends BaseAxis<String> {
         int rowSize = scaleData.rowSize;
         int groupSize = groupDataList.size();
         if (groupSize != rowSize) {
-            throw new ChartException("横竖轴数据不一致");
+            throw new ChartException("Horizontal Vertical axis data inconsistency");
         }
         float startY;
         if (direction == AxisDirection.BOTTOM) {
-            startY = zoomRect.bottom -textHeight- scaleStyle.getPadding();
+            startY = zoomRect.bottom -scaleData.scaleRect.bottom/2;
         } else {
-            startY = zoomRect.top + scaleData.scaleRect.top - scaleStyle.getPadding();
+            startY = zoomRect.top + scaleData.scaleRect.top/2;
         }
         int left = zoomRect.left ;
         int width = zoomRect.right - left;
@@ -85,7 +87,7 @@ public class HorizontalAxis extends BaseAxis<String> {
             int startX = getGravityStartX(left, i, perWidth);
             if (rect.contains(startX+1,rect.centerY())) {
                 if( i % filterMultiple == 0) {
-                    drawText(canvas, content,startX- textWidth / 2, startY, paint);
+                    drawText(canvas, content,startX, startY, paint);
                     drawGrid(canvas, startX, rect, scaleData.scaleRect, paint);
                 }
             }
@@ -108,15 +110,14 @@ public class HorizontalAxis extends BaseAxis<String> {
     private void drawText(Canvas canvas, String contentStr,int startX,float startY, Paint paint) {
         String content = formatData(contentStr);
         scaleStyle.fillPaint(paint);
+        int width = (int) paint.measureText(content);
         if(isRotateAngle){
             canvas.save();
-           // canvas.drawCircle(startX,startY,10,paint);
             canvas.rotate(rotateAngle,startX,startY);
-            canvas.drawText(content, startX , startY, paint);
+            canvas.drawText(content,startX-width/2,startY+textHeight/2,paint);
             canvas.restore();
         }else {
-            //canvas.drawCircle(startX,startY,10,paint);
-            canvas.drawText(content, startX, startY+textHeight, paint);
+            canvas.drawText(content, startX-width/2,startY+textHeight/2, paint);
         }
     }
 
@@ -129,13 +130,11 @@ public class HorizontalAxis extends BaseAxis<String> {
      */
     public void drawGrid(Canvas canvas, float startX, Rect rect, Rect scaleRect, Paint paint) {
         if (gridStyle != null && isDrawGrid) {
-           // if(rect.contains(startX,rect.centerY())) {
                 gridStyle.fillPaint(paint);
                 Path path = new Path();
                 path.moveTo(startX, rect.top + scaleRect.top);
                 path.lineTo(startX, rect.bottom - scaleRect.bottom);
                 canvas.drawPath(path, paint);
-            //}
         }
     }
 
@@ -168,7 +167,7 @@ public class HorizontalAxis extends BaseAxis<String> {
     public void setAxisDirection(AxisDirection axisDirection) {
         if (axisDirection == AxisDirection.BOTTOM || axisDirection == AxisDirection.TOP) {
             this.direction = axisDirection;
-        } else throw new ChartException("只能设置BOTTOM,TOP方向");
+        } else throw new ChartException("Can only set BOTTOM, TOP direction");
     }
 
 

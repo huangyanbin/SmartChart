@@ -239,11 +239,11 @@ public class RadarProvider extends BaseProvider<RadarData> {
             }
             List<Double> datas = columnData.getChartYDataList();
             if(datas == null || datas.size() == 0){
-                throw new ChartException("请设置Column数据");
+                throw new ChartException("Please set up Column data");
             }
             scaleData.rowSize = datas.size();
             if(datas.size() != scaleData.rowSize){
-                throw new ChartException("Column rows数据数量不一致");
+                throw new ChartException("Column rows data inconsistency");
             }
             double[] scale = getColumnScale(datas);
             scale = setMaxMinValue(scale[0],scale[1]);
