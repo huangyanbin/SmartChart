@@ -1,8 +1,6 @@
 package com.daivd.chart.data;
 
-import com.daivd.chart.axis.AxisDirection;
-
-import java.util.List;
+import com.daivd.chart.axis.IAxis;
 
 /**
  * Created by huang on 2017/9/26.
@@ -15,7 +13,7 @@ public class ColumnData<T> {
     private String unit;
     private int color;
     private boolean isDraw = true;
-    private AxisDirection  direction = AxisDirection.LEFT;
+    private int direction = IAxis.AxisDirection.LEFT;
     private T chartYDataList;
 
 
@@ -25,22 +23,22 @@ public class ColumnData<T> {
         this.color = color;
         this.chartYDataList = chartYDataList;
     }
-    public ColumnData(String name, String unit, AxisDirection direction, int color, T datas) {
+    public ColumnData(String name, String unit, int direction, int color, T datas) {
 
         this.name = name;
         this.unit = unit;
         this.color = color;
         this.chartYDataList = datas;
-        if(direction == AxisDirection.LEFT || direction == AxisDirection.RIGHT){
+        if(direction == IAxis.AxisDirection.LEFT || direction == IAxis.AxisDirection.RIGHT){
            this.direction = direction;
         }
     }
 
-    public AxisDirection getDirection() {
+    public int getDirection() {
         return direction;
     }
 
-    public void setDirection(AxisDirection direction) {
+    public void setDirection(int direction) {
         this.direction = direction;
     }
 

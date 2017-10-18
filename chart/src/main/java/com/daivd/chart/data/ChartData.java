@@ -4,6 +4,7 @@ import java.util.List;
 
 /**
  * Created by huang on 2017/9/26.
+ * chart data
  */
 
 public class ChartData<T extends ColumnData> {

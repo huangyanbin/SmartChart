@@ -85,7 +85,8 @@ public class HorizontalAxis extends BaseAxis<String> {
         for (int i = 0; i < groupSize; i++) {
             String content = groupDataList.get(i);
             int startX = getGravityStartX(left, i, perWidth);
-            if (rect.contains(startX+1,rect.centerY())) {
+            //留1px缓冲
+            if (startX >= rect.left-1 && startX<= rect.right+1) {
                 if( i % filterMultiple == 0) {
                     drawText(canvas, content,startX, startY, paint);
                     drawGrid(canvas, startX, rect, scaleData.scaleRect, paint);
@@ -164,7 +165,7 @@ public class HorizontalAxis extends BaseAxis<String> {
 
 
     @Override
-    public void setAxisDirection(AxisDirection axisDirection) {
+    public void setAxisDirection(int axisDirection) {
         if (axisDirection == AxisDirection.BOTTOM || axisDirection == AxisDirection.TOP) {
             this.direction = axisDirection;
         } else throw new ChartException("Can only set BOTTOM, TOP direction");

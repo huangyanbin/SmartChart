@@ -5,12 +5,11 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
 
-import com.daivd.chart.axis.AxisDirection;
+import com.daivd.chart.axis.IAxis;
 import com.daivd.chart.data.LineData;
 import com.daivd.chart.data.ScaleData;
 import com.daivd.chart.data.style.LineStyle;
 import com.daivd.chart.data.style.PointStyle;
-import com.daivd.chart.provider.barLine.BarLineProvider;
 import com.daivd.chart.provider.barLine.model.BrokenLineModel;
 import com.daivd.chart.provider.barLine.model.ILineModel;
 import com.daivd.chart.utils.ColorUtils;
@@ -125,7 +124,7 @@ public   class LineProvider extends BarLineProvider {
         drawClickCross(canvas,rect,pointXList,pointYList,paint);
     }
 
-    private float getStartY(Rect zoomRect, ScaleData scaleData, float height, double value, AxisDirection direction) {
+    private float getStartY(Rect zoomRect, ScaleData scaleData, float height, double value, int direction) {
         double y = (value - scaleData.getMinScaleValue(direction))*height/scaleData.getTotalScaleLength(direction);
         return zoomRect.bottom -getAnimValue((float) y) ;
     }

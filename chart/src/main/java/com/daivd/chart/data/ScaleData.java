@@ -2,7 +2,7 @@ package com.daivd.chart.data;
 
 import android.graphics.Rect;
 
-import com.daivd.chart.axis.AxisDirection;
+import com.daivd.chart.axis.IAxis;
 import com.daivd.chart.matrix.MatrixHelper;
 
 import java.util.ArrayList;
@@ -10,6 +10,7 @@ import java.util.List;
 
 /**
  * Created by huang on 2017/9/26.
+ * Scale data
  */
 
 public class ScaleData {
@@ -34,7 +35,7 @@ public class ScaleData {
     public float zoom = MatrixHelper.MIN_ZOOM; //放大比例
 
 
-    public List<Double> getScaleList(AxisDirection direction){
+    public List<Double> getScaleList(int direction){
 
         List<Double> scaleList = new ArrayList<>();
         int total = (int) (totalScale *zoom);
@@ -51,8 +52,8 @@ public class ScaleData {
      * @param direction
      * @return
      */
-    public double getMaxScaleValue(AxisDirection direction){
-        if(direction == AxisDirection.LEFT){
+    public double getMaxScaleValue(int direction){
+        if(direction == IAxis.AxisDirection.LEFT){
             return  maxLeftValue;
         }
         return  maxRightValue;
@@ -63,8 +64,8 @@ public class ScaleData {
      * @param direction
      * @return
      */
-    public double getMinScaleValue(AxisDirection direction){
-        if(direction == AxisDirection.LEFT){
+    public double getMinScaleValue(int direction){
+        if(direction == IAxis.AxisDirection.LEFT){
             return  minLeftValue;
         }
         return  minRightValue;
@@ -75,8 +76,8 @@ public class ScaleData {
      * @param direction 方向
      * @return 总刻度
      */
-    public double getTotalScaleLength(AxisDirection direction){
-        if(direction == AxisDirection.LEFT){
+    public double getTotalScaleLength(int direction){
+        if(direction == IAxis.AxisDirection.LEFT){
             return maxLeftValue - minLeftValue;
         }
         return  maxRightValue - minRightValue;
@@ -92,5 +93,29 @@ public class ScaleData {
 
     }
 
-
+    public void resetScale(ScaleSetData scaleSetData,int direction){
+        if(direction == IAxis.AxisDirection.LEFT){
+            if(scaleSetData.isStartZoom()){
+                minLeftValue = 0;
+            }else {
+               if(scaleSetData.isHasMinValue()){
+                   minLeftValue = scaleSetData.getMinValue();
+               }
+            }
+            if(scaleSetData.isHasMaxValue()){
+                maxLeftValue = scaleSetData.getMaxValue();
+            }
+        }else{
+            if(scaleSetData.isStartZoom()){
+                minRightValue = 0;
+            }else {
+                if(scaleSetData.isHasMinValue()){
+                    minRightValue = scaleSetData.getMinValue();
+                }
+            }
+            if(scaleSetData.isHasMaxValue()){
+                maxRightValue = scaleSetData.getMaxValue();
+            }
+        }
+    }
 }

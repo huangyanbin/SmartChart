@@ -1,7 +1,5 @@
 package com.daivd.chart.data;
 
-import com.daivd.chart.axis.AxisDirection;
-
 import java.util.List;
 
 /**

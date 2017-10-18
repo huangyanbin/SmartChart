@@ -5,7 +5,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
 
-import com.daivd.chart.axis.AxisDirection;
+import com.daivd.chart.axis.IAxis;
 import com.daivd.chart.data.ChartData;
 import com.daivd.chart.data.LevelLine;
 import com.daivd.chart.data.LineData;
@@ -53,7 +53,7 @@ public abstract class BarLineProvider extends BaseProvider<LineData> {
             }
             double[] scale = getColumnScale(chartYDataList);
             scale = setMaxMinValue(scale[0],scale[1]);
-            if(columnData.getDirection() == AxisDirection.LEFT){
+            if(columnData.getDirection() == IAxis.AxisDirection.LEFT){
                 if(!scaleData.isLeftHasValue){
                     scaleData.maxLeftValue = scale[0];
                     scaleData.minLeftValue = scale[1];

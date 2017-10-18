@@ -1,6 +1,6 @@
 package com.daivd.chart.data;
 
-import com.daivd.chart.axis.AxisDirection;
+import com.daivd.chart.axis.IAxis;
 import com.daivd.chart.data.style.FontStyle;
 import com.daivd.chart.data.style.LineStyle;
 
@@ -16,7 +16,7 @@ public class LevelLine {
     private boolean isDraw;
     private int textDirection = right;
     private FontStyle textStyle = new FontStyle();
-    private AxisDirection direction = AxisDirection.LEFT;
+    private int direction = IAxis.AxisDirection.LEFT;
 
     public LevelLine(boolean isDraw,double value) {
         this.value = value;
@@ -29,7 +29,7 @@ public class LevelLine {
         this.isDraw = isDraw;
     }
 
-    public LevelLine( boolean isDraw,double value, LineStyle lineStyle, AxisDirection direction) {
+    public LevelLine( boolean isDraw,double value, LineStyle lineStyle, int direction) {
         this.lineStyle = lineStyle;
         this.value = value;
         this.isDraw = isDraw;
@@ -71,11 +71,11 @@ public class LevelLine {
         return textStyle;
     }
 
-    public AxisDirection getDirection() {
+    public int getDirection() {
         return direction;
     }
 
-    public void setDirection(AxisDirection direction) {
+    public void setDirection(int direction) {
         this.direction = direction;
     }
 

@@ -11,8 +11,8 @@ import android.widget.Toast;
 import com.bin.david.smartchart.bean.ChartStyle;
 import com.bin.david.smartchart.view.BaseCheckDialog;
 import com.bin.david.smartchart.view.QuickChartDialog;
-import com.daivd.chart.axis.AxisDirection;
 import com.daivd.chart.axis.BaseAxis;
+import com.daivd.chart.axis.IAxis;
 import com.daivd.chart.core.LineChart;
 import com.daivd.chart.data.ChartData;
 import com.daivd.chart.data.LevelLine;
@@ -69,7 +69,7 @@ public class AreaChartActivity extends AppCompatActivity {
         tempList1.add(-35d);
         tempList1.add(40d);
         tempList1.add(10d);
-        LineData columnData1 = new LineData("温度","℃",AxisDirection.RIGHT,getResources().getColor(R.color.arc3),tempList1);
+        LineData columnData1 = new LineData("温度","℃", IAxis.AxisDirection.RIGHT,getResources().getColor(R.color.arc3),tempList1);
         ArrayList<Double> humidityList = new ArrayList<>();
         humidityList.add(60d);
         humidityList.add(50d);
@@ -92,11 +92,11 @@ public class AreaChartActivity extends AppCompatActivity {
         BaseAxis verticalAxis =  lineChartView.getLeftVerticalAxis();
         BaseAxis horizontalAxis=  lineChartView.getHorizontalAxis();
         //设置竖轴方向
-        verticalAxis.setAxisDirection(AxisDirection.LEFT);
+        verticalAxis.setAxisDirection(IAxis.AxisDirection.LEFT);
         //设置网格
         verticalAxis.setDrawGrid(true);
         //设置横轴方向
-        horizontalAxis.setAxisDirection(AxisDirection.BOTTOM);
+        horizontalAxis.setAxisDirection(IAxis.AxisDirection.BOTTOM);
         horizontalAxis.setDrawGrid(true);
         //设置线条样式
         verticalAxis.getLineStyle().setWidth(this,1);

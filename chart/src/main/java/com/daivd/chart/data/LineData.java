@@ -1,6 +1,6 @@
 package com.daivd.chart.data;
 
-import com.daivd.chart.axis.AxisDirection;
+import com.daivd.chart.axis.IAxis;
 
 import java.util.List;
 
@@ -11,25 +11,25 @@ import java.util.List;
 public class LineData extends ColumnData<List<Double>> {
 
 
-    private AxisDirection  direction = AxisDirection.LEFT;
+    private int direction = IAxis.AxisDirection.LEFT;
 
 
     public LineData(String name, String unit, int color, List<Double> chartYDataList) {
 
         super(name,unit,color,chartYDataList);
     }
-    public LineData(String name, String unit, AxisDirection direction, int color, List<Double> datas) {
+    public LineData(String name, String unit, int direction, int color, List<Double> datas) {
         super(name,unit,color,datas);
-        if(direction == AxisDirection.LEFT || direction == AxisDirection.RIGHT){
+        if(direction == IAxis.AxisDirection.LEFT || direction == IAxis.AxisDirection.RIGHT){
            this.direction = direction;
         }
     }
 
-    public AxisDirection getDirection() {
+    public int getDirection() {
         return direction;
     }
 
-    public void setDirection(AxisDirection direction) {
+    public void setDirection(int direction) {
         this.direction = direction;
     }
 

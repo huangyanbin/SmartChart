@@ -3,10 +3,9 @@ package com.daivd.chart.provider.radar;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.graphics.PointF;
 import android.graphics.Rect;
 
-import com.daivd.chart.axis.AxisDirection;
+import com.daivd.chart.axis.IAxis;
 import com.daivd.chart.data.ChartData;
 import com.daivd.chart.data.IFormat;
 import com.daivd.chart.data.LineData;
@@ -70,7 +69,7 @@ public class RadarProvider extends BaseProvider<RadarData> {
         int count = charXDataList.size();
         ScaleData scaleData = chartData.getScaleData();
         List<RadarData>  columnDataList = chartData.getColumnDataList();
-        double scaleLength = scaleData.getTotalScaleLength(AxisDirection.LEFT);
+        double scaleLength = scaleData.getTotalScaleLength(IAxis.AxisDirection.LEFT);
         float angle = (float) (Math.PI*2/count);
         Path path = new Path();
         lineStyle.fillPaint(paint);
@@ -102,8 +101,8 @@ public class RadarProvider extends BaseProvider<RadarData> {
         int count = charXDataList.size();
         float angle = (float) (Math.PI*2/count);
         ScaleData scaleData = chartData.getScaleData();
-        List<Double> scaleList= scaleData.getScaleList(AxisDirection.LEFT);
-        double maxScale = scaleData.getMaxScaleValue(AxisDirection.LEFT);
+        List<Double> scaleList= scaleData.getScaleList(IAxis.AxisDirection.LEFT);
+        double maxScale = scaleData.getMaxScaleValue(IAxis.AxisDirection.LEFT);
         Path path = new Path();
         for(int i = 0;i < scaleList.size();i++){
             path.reset();
@@ -247,7 +246,7 @@ public class RadarProvider extends BaseProvider<RadarData> {
             }
             double[] scale = getColumnScale(datas);
             scale = setMaxMinValue(scale[0],scale[1]);
-            if(columnData.getDirection() == AxisDirection.LEFT){
+            if(columnData.getDirection() == IAxis.AxisDirection.LEFT){
                 if(!scaleData.isLeftHasValue){
                     scaleData.maxLeftValue = scale[0];
                     scaleData.minLeftValue = scale[1];

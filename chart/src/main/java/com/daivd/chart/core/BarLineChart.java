@@ -9,11 +9,9 @@ import android.util.AttributeSet;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 
-import com.daivd.chart.axis.AxisDirection;
-import com.daivd.chart.axis.BaseAxis;
 import com.daivd.chart.axis.HorizontalAxis;
+import com.daivd.chart.axis.IAxis;
 import com.daivd.chart.axis.VerticalAxis;
-import com.daivd.chart.data.ColumnData;
 import com.daivd.chart.data.LineData;
 import com.daivd.chart.legend.IChartTitle;
 import com.daivd.chart.legend.IEmpty;
@@ -57,8 +55,8 @@ public abstract class BarLineChart<P extends IProvider<LineData>> extends BaseCh
 
     protected  void init(){
        horizontalAxis = new HorizontalAxis();
-       leftVerticalAxis = new VerticalAxis(AxisDirection.LEFT);
-       rightVerticalAxis = new VerticalAxis(AxisDirection.RIGHT);
+       leftVerticalAxis = new VerticalAxis(IAxis.AxisDirection.LEFT);
+       rightVerticalAxis = new VerticalAxis(IAxis.AxisDirection.RIGHT);
        super.init();
 
     }

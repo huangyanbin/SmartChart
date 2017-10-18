@@ -18,8 +18,19 @@ public interface IAxis<V> {
 
      void draw(Canvas canvas, Rect rect, MatrixHelper helper, Paint paint, ChartData<LineData> chartData);
      void computeScale(ChartData<LineData> chartData, Rect rect, Paint paint);
-     void  setAxisDirection(AxisDirection axisDirection);
+     void  setAxisDirection(int axisDirection);
      void setFormat(IFormat<V> format);
      IFormat<V> getFormat();
 
+     /**
+      * Created by huangYanBin on 2017/9/26.
+      * 轴方向
+      */
+
+     interface AxisDirection {
+         int TOP = 1;
+         int BOTTOM=2;
+         int LEFT = 3;
+         int RIGHT = 4;
+     }
 }

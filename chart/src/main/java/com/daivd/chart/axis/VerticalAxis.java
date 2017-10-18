@@ -5,11 +5,11 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
-import android.util.Log;
 
 import com.daivd.chart.data.ChartData;
 import com.daivd.chart.data.LineData;
 import com.daivd.chart.data.ScaleData;
+import com.daivd.chart.data.ScaleSetData;
 import com.daivd.chart.exception.ChartException;
 
 import java.util.List;
@@ -21,9 +21,9 @@ import java.util.List;
 
 public class VerticalAxis extends BaseAxis<Double> {
 
+    private ScaleSetData scaleSetData = new ScaleSetData();
 
-
-    public VerticalAxis(AxisDirection direction) {
+    public VerticalAxis(int direction) {
         this.direction = direction;
     }
 
@@ -32,6 +32,7 @@ public class VerticalAxis extends BaseAxis<Double> {
     @Override
     public void computeScale(ChartData<LineData> chartData, Rect rect, Paint paint) {
         ScaleData scaleData = chartData.getScaleData();
+        scaleData.resetScale(scaleSetData,direction);
         scaleStyle.fillPaint(paint);
         int length = Math.max(formatVerticalAxisData(scaleData.getMaxScaleValue(direction)).length(),
                 formatVerticalAxisData(scaleData.getMinScaleValue(direction)).length());
@@ -118,7 +119,7 @@ public class VerticalAxis extends BaseAxis<Double> {
     }
 
     @Override
-    public void setAxisDirection(AxisDirection axisDirection) {
+    public void setAxisDirection(int axisDirection) {
         if (axisDirection == AxisDirection.LEFT || axisDirection == AxisDirection.RIGHT) {
             this.direction = axisDirection;
         } else throw new ChartException("Can only set LEFT, RIGHT direction");
@@ -131,4 +132,15 @@ public class VerticalAxis extends BaseAxis<Double> {
         return df.format(value);
     }
 
+    public void setStartZero(boolean isStartZero){
+        this.scaleSetData.setStartZoom(isStartZero);
+    }
+
+    public void setMaxValue(double maxValue) {
+        this.scaleSetData.setMaxValue(maxValue);
+    }
+
+    public void setMinValue(double minValue) {
+        this.scaleSetData.setMinValue(minValue);
+    }
 }

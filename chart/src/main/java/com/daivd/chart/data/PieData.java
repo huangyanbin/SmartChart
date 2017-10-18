@@ -1,8 +1,6 @@
 package com.daivd.chart.data;
 
-import com.daivd.chart.axis.AxisDirection;
-
-import java.util.List;
+import com.daivd.chart.axis.IAxis;
 
 /**
  * Created by huang on 2017/9/26.
@@ -16,7 +14,7 @@ public class PieData extends ColumnData<Double> {
         super(name, unit, color, chartYDataList);
     }
 
-    public PieData(String name, String unit, AxisDirection direction, int color, Double datas) {
+    public PieData(String name, String unit, IAxis.AxisDirection direction, int color, Double datas) {
         super(name, unit, color, datas);
 
     }

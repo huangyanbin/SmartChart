@@ -26,7 +26,7 @@ public abstract class BaseAxis<V> implements IAxis<V> {
     protected LineStyle gridStyle = new LineStyle(); //网格样式
     protected boolean isDrawGrid; //是否绘制网格
     protected int gravity = Gravity.CENTER;
-    protected AxisDirection direction;
+    protected int direction;
     protected boolean isLine;
     private IFormat<V> format;
 

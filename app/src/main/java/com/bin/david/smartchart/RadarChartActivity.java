@@ -1,20 +1,13 @@
 package com.bin.david.smartchart;
 
 import android.content.res.Resources;
-import android.graphics.DashPathEffect;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import com.daivd.chart.axis.AxisDirection;
-import com.daivd.chart.axis.BaseAxis;
-import com.daivd.chart.core.LineChart;
 import com.daivd.chart.core.RadarChart;
 import com.daivd.chart.data.ChartData;
-import com.daivd.chart.data.LevelLine;
-import com.daivd.chart.data.LineData;
 import com.daivd.chart.data.RadarData;
 import com.daivd.chart.data.style.FontStyle;
-import com.daivd.chart.data.style.LineStyle;
 import com.daivd.chart.data.style.PointStyle;
 import com.daivd.chart.legend.IChartTitle;
 import com.daivd.chart.legend.ILegend;

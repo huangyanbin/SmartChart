@@ -5,7 +5,7 @@ import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.Rect;
 
-import com.daivd.chart.axis.AxisDirection;
+import com.daivd.chart.axis.IAxis;
 import com.daivd.chart.data.ChartData;
 import com.daivd.chart.data.LineData;
 import com.daivd.chart.data.ScaleData;
@@ -80,7 +80,7 @@ public class BarProvider extends BarLineProvider {
         drawPointText((right + left) / 2, top, canvas, paint, value);
     }
 
-    private float getStartY(Rect rect, ScaleData scaleData, float height, double d, AxisDirection direction) {
+    private float getStartY(Rect rect, ScaleData scaleData, float height, double d, int direction) {
         return (float) (rect.bottom -(d - scaleData.getMinScaleValue(direction)) * height / scaleData.getTotalScaleLength(direction));
     }
 

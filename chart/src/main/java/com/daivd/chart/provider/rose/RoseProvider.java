@@ -6,7 +6,7 @@ import android.graphics.Path;
 import android.graphics.Rect;
 import android.graphics.RectF;
 
-import com.daivd.chart.axis.AxisDirection;
+import com.daivd.chart.axis.IAxis;
 import com.daivd.chart.data.ChartData;
 import com.daivd.chart.data.IFormat;
 import com.daivd.chart.data.LineData;
@@ -72,7 +72,7 @@ public class RoseProvider extends BaseProvider<RoseData> {
         int count = charXDataList.size();
         ScaleData scaleData = chartData.getScaleData();
         List<RoseData> columnDataList = chartData.getColumnDataList();
-        double maxScale = scaleData.getMaxScaleValue(AxisDirection.LEFT);
+        double maxScale = scaleData.getMaxScaleValue(IAxis.AxisDirection.LEFT);
         float angle = 360f / count;
         startAngle = angle/2;
         paint.setStyle(Paint.Style.FILL);
@@ -104,7 +104,7 @@ public class RoseProvider extends BaseProvider<RoseData> {
     }
 
     private void drawScale(Canvas canvas, Rect zoomRect, Paint paint){
-        double maxScale = chartData.getScaleData().getMaxScaleValue(AxisDirection.LEFT);
+        double maxScale = chartData.getScaleData().getMaxScaleValue(IAxis.AxisDirection.LEFT);
         if(isShowScale) {
             scaleStyle.fillPaint(paint);
             Paint.FontMetrics fontMetrics = paint.getFontMetrics();
