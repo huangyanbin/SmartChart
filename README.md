@@ -9,6 +9,13 @@
 
 ## 功能展示
 
+### 1.1版本功能
+
+#### 1.解决ViewPager以及列表手势冲突
+![手势冲突](/img/gif/viewpager.gif)
+#### 2.横轴文字旋转
+![旋转](/img/gif/rotate_axis_value.gif)
+
 ####  1.折线图
 ![折线图](/img/line1.png)
 ####  2.曲线图
