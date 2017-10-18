@@ -8,6 +8,7 @@ import com.bin.david.smartchart.R;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.daivd.chart.axis.BaseAxis;
+import com.daivd.chart.axis.HorizontalAxis;
 import com.daivd.chart.axis.IAxis;
 import com.daivd.chart.axis.VerticalAxis;
 import com.daivd.chart.core.LineChart;
@@ -65,8 +66,8 @@ public class ZoomChartListAdapter extends BaseQuickAdapter<String,BaseViewHolder
         ChartData<LineData> chartData2 = new ChartData<>("线型图",chartYDataList,ColumnDatas);
 
         lineChartView.setLineModel(LineChart.CURVE_MODEL);
-        BaseAxis verticalAxis =  lineChartView.getLeftVerticalAxis();
-        BaseAxis horizontalAxis=  lineChartView.getHorizontalAxis();
+        VerticalAxis verticalAxis =  lineChartView.getLeftVerticalAxis();
+        HorizontalAxis horizontalAxis=  lineChartView.getHorizontalAxis();
         VerticalAxis rightAxis = lineChartView.getRightVerticalAxis();
         rightAxis.setStartZero(false);
         rightAxis.setMaxValue(200);

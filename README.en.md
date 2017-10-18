@@ -50,6 +50,11 @@ there is a need for reference.
 
 * Support shaft direction, biaxial, graphic, horizontal line, cross shaft, MarkView custom, blank, the title, grid, such as support rich style, including the font style, font size, color, graphic style (square, rectangle, round), line (size, color, DashPathEffect), increase the movement and zoom function diagram and animation.
 
+### 1.1 version update log
+* 1. Support rotation Angle of horizontal axis;
+* 2. Resolve diagrams in lists and view pager gestures;
+* 3. Vertical axis support setting StartZero and maximum, minimum;
+
 ### 1.0 version update log
 * 1. Increased wind rose chart;
 * 2. Fixed the Legend location display problem;
@@ -93,7 +98,7 @@ allprojects {
 > *Step 2. Add the dependency
 ```gradle
 dependencies {
-	        compile 'com.github.huangyanbin:SmartChart:0.7'
+	        compile 'com.github.huangyanbin:SmartChart:1.1'
 	}
 ```
     
@@ -124,14 +129,14 @@ dependencies {
     ```java
       BaseAxis verticalAxis =  lineChartView.getLeftVerticalAxis();
         BaseAxis horizontalAxis=  lineChartView.getHorizontalAxis();
-        //设置竖轴方向
+        //set verticalAxis
         verticalAxis.setAxisDirection(AxisDirection.LEFT);
-        //设置网格
+        //set vertical grid
         verticalAxis.setDrawGrid(true);
-        //设置横轴方向
+        //set horizontal direction
         horizontalAxis.setAxisDirection(AxisDirection.BOTTOM);
         horizontalAxis.setDrawGrid(true);
-        //设置线条样式
+        //set line style
         verticalAxis.getLineStyle().setWidth(this,1);
     ```
 
@@ -143,51 +148,51 @@ dependencies {
 #### 5. Chart content styles and functions
 
       ```java
-       //开启十字架
+       //open cross
         lineChartView.getProvider().setOpenCross(true);
-        //开启MarkView
+        //open mark view
         lineChartView.getProvider().setOpenMark(true);
-        //设置MarkView
+        //set mark view
         lineChartView.getProvider().setMarkView(new MsgMarkView(this));
-        //设置显示点
+        //set show point
         lineChartView.getProvider().setShowPoint(true);
-        //设置显示点的样式
+        //set point style
         lineChartView.getProvider().getPointStyle().setShape(PointStyle.CIRCLE);
        
     ```
 #### 6. Legend
 
       ```java
-        //设置图示方向
+        //set legend diection
        lineChartView.getLegend().setLegendDirection(ILegend.BOTTOM);    //设置图示样式
         lineChartView.getLegend().getLegendStyle().setShape(PointStyle.RECT);
-        //设置图示比例
+        //set legend percent
          lineChartView.getLegend().setLegendPercent(0.2f);
        
     ```
 ### 7.Chart Title  
 
      ```java
-      //设置显示标题
+      //set chart title
         lineChartView.setShowChartName(true);
-        //设置标题方向
+        //set title direction
         lineChartView.getChartTitle().setTitleDirection(IChartTitle.BOTTOM);
-        //设置标题比例
+        //set title percent
         lineChartView.getChartTitle().setTitlePercent(0.2f);
-        //设置标题样式
+        //set title style
         lineChartView.getChartTitle().getTextStyle().setTextColor(res.getColor(R.color.arc21));
        
     ```
 ### 8.Chart Data Set
 
      ```java
-     //Y轴数据
+     //Y data
     List<String> chartYDataList = new ArrayList<>();
         chartYDataList.add("华北");
         chartYDataList.add("华中");
         chartYDataList.add("华东");
         chartYDataList.add("华西");
-        //X轴数据
+        // X data
         List<ColumnData> ColumnDatas = new ArrayList<>();
         ArrayList<Double> tempList1 = new ArrayList<>();
         tempList1.add(26d);
@@ -204,7 +209,7 @@ dependencies {
         ColumnDatas.add(columnData1);
         ColumnDatas.add(columnData2);
         ChartData chartData = new ChartData("线型图",chartYDataList,ColumnDatas);
-        //设置数据
+        // set data
         lineChartView.setChartData(chartData);
     ```
 
@@ -212,7 +217,7 @@ dependencies {
 ###  9.Anim
 
      ```java
-     //你可以使用默认动画 也可以设置Interpolator
+     //You can also set up the Interpolator using the default animation
      //startChartAnim(int duration, Interpolator interpolator)
       lineChartView.startChartAnim(1000);
     ```

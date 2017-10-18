@@ -55,9 +55,11 @@
 
 * 支持轴方向，双轴，图示，水平线，十字轴，MarkView自定义，空白，标题，网格等，支持丰富的样式，包括字体样式（字体大小，颜色），图形样式（正方形，长方形，圆形），线（大小，颜色，DashPathEffect）,增加了图表移动和缩放功能以及动画。
 
-### 1.1版本更新日志(进行中)
+### 1.1版本更新日志
 
 * 1.支持横轴文字旋转角度；
+* 2.解决图表在列表以及ViewPager手势冲突；
+* 3.竖轴支持设置StartZero以及最大,最小值；
 
 
 ### 1.0版本更新日志
@@ -101,7 +103,7 @@ allprojects {
 > *Step 2. Add the dependency
 ```gradle
 dependencies {
-	        compile 'com.github.huangyanbin:SmartChart:0.7'
+	        compile 'com.github.huangyanbin:SmartChart:1.1'
 	}
 ```
     
@@ -127,20 +129,32 @@ dependencies {
 
  lineChartView.setLineModel(LineChartView.CURVE_MODEL);
     
-#### 3. 设置轴方向 
+#### 3. 设置轴样式
 
     ```java
-      BaseAxis verticalAxis =  lineChartView.getLeftVerticalAxis();
-        BaseAxis horizontalAxis=  lineChartView.getHorizontalAxis();
-        //设置竖轴方向
-        verticalAxis.setAxisDirection(AxisDirection.LEFT);
-        //设置网格
-        verticalAxis.setDrawGrid(true);
-        //设置横轴方向
-        horizontalAxis.setAxisDirection(AxisDirection.BOTTOM);
-        horizontalAxis.setDrawGrid(true);
-        //设置线条样式
-        verticalAxis.getLineStyle().setWidth(this,1);
+        VerticalAxis verticalAxis =  lineChartView.getLeftVerticalAxis();
+             HorizontalAxis horizontalAxis=  lineChartView.getHorizontalAxis();
+             VerticalAxis rightAxis = lineChartView.getRightVerticalAxis();
+             //是否从0开始
+             rightAxis.setStartZero(false);
+             //设置最大值
+             rightAxis.setMaxValue(200);
+             //设置最小值
+             rightAxis.setMinValue(-50);
+             //设置竖轴方向
+             verticalAxis.setAxisDirection(IAxis.AxisDirection.LEFT);
+             //设置网格
+             verticalAxis.setDrawGrid(true);
+             //设置横轴方向
+             horizontalAxis.setAxisDirection(IAxis.AxisDirection.BOTTOM);
+              //设置是否绘制网格
+             horizontalAxis.setDrawGrid(true);
+             //设置线条样式
+             verticalAxis.getLineStyle().setWidth(mContext,1);
+             DashPathEffect effects = new DashPathEffect(new float[] { 1, 2, 4, 8}, 1);
+             //设置网格样式
+             verticalAxis.getGridStyle().setWidth(mContext,1).setColor(res.getColor(R.color.arc_text)).setEffect(effects);
+             horizontalAxis.getGridStyle().setWidth(mContext,1).setColor(res.getColor(R.color.arc_text)).setEffect(effects);
     ```
 
 #### 4. 开启缩放
@@ -151,17 +165,21 @@ dependencies {
 #### 5. 图表内容样式和功能
 
       ```java
-       //开启十字架
-        lineChartView.getProvider().setOpenCross(true);
-        //开启MarkView
-        lineChartView.getProvider().setOpenMark(true);
-        //设置MarkView
-        lineChartView.getProvider().setMarkView(new MsgMarkView(this));
-        //设置显示点
-        lineChartView.getProvider().setShowPoint(true);
-        //设置显示点的样式
-        lineChartView.getProvider().getPointStyle().setShape(PointStyle.CIRCLE);
-       
+            LineStyle crossStyle = lineChartView.getProvider().getCrossStyle();
+              crossStyle.setWidth(mContext,1);
+              crossStyle.setColor(res.getColor(R.color.arc21));
+              lineChartView.setZoom(true);
+              //开启十字架
+              lineChartView.getProvider().setOpenCross(true);
+              //开启MarkView
+              lineChartView.getProvider().setOpenMark(true);
+              //设置MarkView
+              lineChartView.getProvider().setMarkView(new MsgMarkView(mContext));
+              //设置显示点
+              lineChartView.getProvider().setShowPoint(true);
+              //设置显示点的样式
+              lineChartView.getProvider().getPointStyle().setShape(PointStyle.CIRCLE);
+
     ```
 #### 6. 图示
 
@@ -190,28 +208,27 @@ dependencies {
 
      ```java
      //Y轴数据
-    List<String> chartYDataList = new ArrayList<>();
-        chartYDataList.add("华北");
-        chartYDataList.add("华中");
-        chartYDataList.add("华东");
-        chartYDataList.add("华西");
-        //X轴数据
-        List<ColumnData> ColumnDatas = new ArrayList<>();
-        ArrayList<Double> tempList1 = new ArrayList<>();
-        tempList1.add(26d);
-        tempList1.add(35d);
-        tempList1.add(40d);
-        tempList1.add(10d);
-        ColumnData columnData1 = new ColumnData("温度","℃",AxisDirection.RIGHT,getResources().getColor(R.color.arc3),tempList1);
-        ArrayList<Double> humidityList = new ArrayList<>();
-        humidityList.add(60d);
-        humidityList.add(50d);
-        humidityList.add(30d);
-        humidityList.add(65d);
-        ColumnData columnData2 = new ColumnData("湿度","RH%",getResources().getColor(R.color.arc2),humidityList);
-        ColumnDatas.add(columnData1);
-        ColumnDatas.add(columnData2);
-        ChartData chartData = new ChartData("线型图",chartYDataList,ColumnDatas);
+     List<String> chartYDataList = new ArrayList<>();
+           chartYDataList.add("华北");
+           chartYDataList.add("华中");
+           chartYDataList.add("华东");
+           chartYDataList.add("华西");
+           List<LineData> ColumnDatas = new ArrayList<>();
+           ArrayList<Double> tempList1 = new ArrayList<>();
+           tempList1.add(26d);
+           tempList1.add(-35d);
+           tempList1.add(-40d);
+           tempList1.add(10d);
+           LineData columnData1 = new LineData("温度","℃", IAxis.AxisDirection.RIGHT,res.getColor(R.color.arc3),tempList1);
+           ArrayList<Double> humidityList = new ArrayList<>();
+           humidityList.add(60d);
+           humidityList.add(50d);
+           humidityList.add(30d);
+           humidityList.add(65d);
+           LineData columnData2 = new LineData("湿度","RH%",res.getColor(R.color.arc2),humidityList);
+           ColumnDatas.add(columnData1);
+           ColumnDatas.add(columnData2);
+           ChartData<LineData> chartData2 = new ChartData<>("线型图",chartYDataList,ColumnDatas);
         //设置数据
         lineChartView.setChartData(chartData);
     ```
@@ -222,14 +239,13 @@ dependencies {
      ```java
      //你可以使用默认动画 也可以设置Interpolator
      //startChartAnim(int duration, Interpolator interpolator)
-      lineChartView.startChartAnim(1000);
+      lineChartView.startChartAnim(400);
     ```
  
-### 10.下版本1.1
+### 10.下版本1.2
     
-* 1.修复ViewPager和列表滑动引起手势冲突；
-* 2.持续优化图表展示效果；
-* 3.支持线和柱状图组合图。
+* 1.持续优化图表展示效果；
+* 2.支持线和柱状图组合图。
         
     
 ### 11.结尾
