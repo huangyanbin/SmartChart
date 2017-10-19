@@ -209,7 +209,7 @@ public class MatrixHelper extends Observable<ChartGestureObserver> implements IT
     public boolean onScale(ScaleGestureDetector detector) {
         float oldZoom = zoom;
         float scale = detector.getScaleFactor();
-        this.zoom = (float) (tempScale * Math.pow(scale, 3));
+        this.zoom = (float) (tempScale * Math.pow(scale, 2));
         float factor = zoom / oldZoom;
         resetTranslate(factor);
         notifyObservers(observables);

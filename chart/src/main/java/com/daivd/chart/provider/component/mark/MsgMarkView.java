@@ -1,4 +1,4 @@
-package com.daivd.chart.mark;
+package com.daivd.chart.provider.component.mark;
 
 
 import android.content.Context;
@@ -44,13 +44,6 @@ public  class MsgMarkView  extends MarkView{
         int h = textHeight + padding*2;
         Canvas canvas = getCanvas();
         int drawableID = R.drawable.msg;
-     /*   if(getRect().left > markRect.left-w/2){
-            markRect.left = getRect().left;
-            drawableID = R.drawable.msg_left;
-        }else if(getRect().right < getRect().right-w/2){
-            markRect.right = getRect().right;
-            drawableID = R.drawable.msg_right;
-        }*/
         markRect.left = (int)x - w;
         markRect.right =(int)x + w;
         markRect.top = (int)y - h*3;

@@ -1,4 +1,10 @@
-package com.daivd.chart.data;
+package com.daivd.chart.provider.component.level;
+
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Path;
+import android.graphics.PointF;
+import android.graphics.Rect;
 
 import com.daivd.chart.axis.IAxis;
 import com.daivd.chart.data.style.FontStyle;
@@ -6,35 +12,23 @@ import com.daivd.chart.data.style.LineStyle;
 
 /**
  * Created by huang on 2017/9/30.
+ * LevelLine
  */
 
-public class LevelLine {
+public class LevelLine implements ILevel{
     public static int left = 0;
     public static int right = 1;
     private LineStyle lineStyle = new LineStyle();
     private double value;
-    private boolean isDraw;
     private int textDirection = right;
     private FontStyle textStyle = new FontStyle();
     private int direction = IAxis.AxisDirection.LEFT;
 
-    public LevelLine(boolean isDraw,double value) {
+    public LevelLine(double value) {
         this.value = value;
-        this.isDraw = isDraw;
     }
 
-    public LevelLine( boolean isDraw,double value, LineStyle lineStyle) {
-        this.lineStyle = lineStyle;
-        this.value = value;
-        this.isDraw = isDraw;
-    }
 
-    public LevelLine( boolean isDraw,double value, LineStyle lineStyle, int direction) {
-        this.lineStyle = lineStyle;
-        this.value = value;
-        this.isDraw = isDraw;
-        this.direction = direction;
-    }
     public LineStyle getLineStyle() {
         return lineStyle;
     }
@@ -51,13 +45,6 @@ public class LevelLine {
         this.value = value;
     }
 
-    public boolean isDraw() {
-        return isDraw;
-    }
-
-    public void setDraw(boolean draw) {
-        isDraw = draw;
-    }
 
     public int getTextDirection() {
         return textDirection;
@@ -71,7 +58,7 @@ public class LevelLine {
         return textStyle;
     }
 
-    public int getDirection() {
+    public int getAxisDirection() {
         return direction;
     }
 
@@ -81,5 +68,27 @@ public class LevelLine {
 
     public void setTextStyle(FontStyle textStyle) {
         this.textStyle = textStyle;
+    }
+
+
+
+    @Override
+    public void drawLevel(Canvas canvas, Rect rect, float y, Paint paint) {
+        getLineStyle().fillPaint(paint);
+        Path path = new Path();
+        path.moveTo(rect.left, y);
+        path.lineTo(rect.right, y);
+        canvas.drawPath(path, paint);
+        getTextStyle().fillPaint(paint);
+        float textHeight = paint.measureText("1", 0, 1);
+        float startX;
+        float startY = y - textHeight + getLineStyle().getWidth();
+        String levelLineValue = String.valueOf(getValue());
+        if (getTextDirection() == LevelLine.left) {
+            startX = rect.left;
+        } else {
+            startX = rect.right - textHeight * levelLineValue.length();
+        }
+        canvas.drawText(levelLineValue, startX, startY, paint);
     }
 }

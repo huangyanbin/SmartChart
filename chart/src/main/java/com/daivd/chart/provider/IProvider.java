@@ -10,7 +10,7 @@ import com.daivd.chart.core.BaseChart;
 import com.daivd.chart.data.ChartData;
 import com.daivd.chart.data.ColumnData;
 import com.daivd.chart.listener.OnClickColumnListener;
-import com.daivd.chart.mark.MarkView;
+import com.daivd.chart.provider.component.mark.MarkView;
 import com.daivd.chart.matrix.MatrixHelper;
 
 

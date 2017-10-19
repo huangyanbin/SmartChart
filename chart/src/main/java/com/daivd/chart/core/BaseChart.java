@@ -90,7 +90,6 @@ public abstract class BaseChart<P extends IProvider<C>,C extends ColumnData> ext
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        Log.e("huang","onTouchEvent"+event.getAction());
         return matrixHelper.handlerTouchEvent(event);
     }
 

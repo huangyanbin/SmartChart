@@ -14,7 +14,7 @@ import com.daivd.chart.data.ChartData;
 import com.daivd.chart.data.ColumnData;
 import com.daivd.chart.data.style.FontStyle;
 import com.daivd.chart.listener.OnClickColumnListener;
-import com.daivd.chart.mark.MarkView;
+import com.daivd.chart.provider.component.mark.MarkView;
 import com.daivd.chart.matrix.MatrixHelper;
 
 /**
@@ -48,24 +48,20 @@ public abstract class BaseProvider<C extends ColumnData> implements IProvider<C>
         if(markView != null){
             markView.init(canvas,rect);
         }
-        canvas.save();
-        matrixRect(canvas,rect);
+        matrixRectStart(canvas,rect);
         Rect zoomRect = helper.getZoomProviderRect(rect);
         drawProvider(canvas,zoomRect,rect,paint);
-        canvas.restore();
-        drawPeripheral(canvas,zoomRect,rect,paint);
-
+        matrixRectEnd(canvas,rect);
     }
 
-    /**
-     * 外围绘制
-     */
-    protected void drawPeripheral(Canvas canvas, Rect zoomRect,Rect rect, Paint paint){
 
-    }
-
-    protected void matrixRect(Canvas canvas, Rect rect){
+    protected void matrixRectStart(Canvas canvas, Rect rect){
+        canvas.save();
         canvas.clipRect(rect);
+    }
+
+    protected void matrixRectEnd(Canvas canvas, Rect rect){
+        canvas.restore();
     }
 
     protected   abstract void drawProvider(Canvas canvas, Rect zoomRect,Rect rect, Paint paint);
@@ -104,7 +100,7 @@ public abstract class BaseProvider<C extends ColumnData> implements IProvider<C>
         animator.start();
     }
 
-    public void drawPointText(float x,float y,Canvas canvas,Paint paint,double value){
+    public void drawPointText(Canvas canvas,double value,float x,float y,Paint paint){
        if(isShowText) {
            int oldColor = paint.getColor();
            textStyle.fillPaint(paint);
@@ -113,8 +109,16 @@ public abstract class BaseProvider<C extends ColumnData> implements IProvider<C>
            if(pointTextHeight == 0){
                pointTextHeight = (int) paint.measureText(val,0,1);
            }
-           canvas.drawText(val, x-pointTextHeight*val.length()/2, y-pointTextHeight, paint);
+           if (containsRect(x,y) && containsRect(x,y-pointTextHeight)) {
+               canvas.drawText(val, x-pointTextHeight*val.length()/2, y-pointTextHeight, paint);
+           }
        }
+    }
+
+    public boolean containsRect( float x,float y){
+        Rect rect = providerRect;
+        return y>= rect.top -1 && y<= rect.bottom+1
+                && x>= rect.left-1 && x<= rect.right+1;
     }
 
     public boolean isOpenMark() {

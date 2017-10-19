@@ -7,13 +7,12 @@ import android.support.v7.app.AppCompatActivity;
 import com.daivd.chart.core.RoseChart;
 import com.daivd.chart.data.ChartData;
 import com.daivd.chart.data.IFormat;
-import com.daivd.chart.data.LineData;
 import com.daivd.chart.data.RoseData;
 import com.daivd.chart.data.style.FontStyle;
 import com.daivd.chart.data.style.PointStyle;
 import com.daivd.chart.legend.IChartTitle;
 import com.daivd.chart.legend.ILegend;
-import com.daivd.chart.mark.MsgMarkView;
+import com.daivd.chart.provider.component.mark.MsgMarkView;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -5,7 +5,6 @@ import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.Rect;
 
-import com.daivd.chart.axis.IAxis;
 import com.daivd.chart.data.ChartData;
 import com.daivd.chart.data.LineData;
 import com.daivd.chart.data.ScaleData;
@@ -27,12 +26,11 @@ public class BarProvider extends BarLineProvider {
     @Override
     public void drawProvider(Canvas canvas, Rect zoomRect,Rect rect, Paint paint) {
         paint.setStyle(Paint.Style.FILL);
-        ScaleData scaleData= chartData.getScaleData();
+
         List<LineData> columnDataList = chartData.getColumnDataList();
         int columnSize = columnDataList.size();
         int rowSize = chartData.getCharXDataList().size();
         double width = zoomRect.width()/(columnSize*rowSize)-groupPadding/2;
-        float height =zoomRect.height();
         PointF clickPoint = null;
         int clickPosition = 0;
         int clickColumnPosition = 0;
@@ -45,10 +43,11 @@ public class BarProvider extends BarLineProvider {
                     if (!columnData.isDraw()) {
                         continue;
                     }
-                    double d = columnData.getChartYDataList().get(j);
-                    float left = (float) ((j * columnSize + i) * width) + j * groupPadding + zoomRect.left + 0.5f;
+                    double value = columnData.getChartYDataList().get(j);
+                    float left = (float) ((j * columnSize + i) * width)
+                            + j * groupPadding + zoomRect.left + 0.5f;
                     float right = (float) (left + width);
-                    float top = getStartY(zoomRect, scaleData, height, d, columnData.getDirection());
+                    float top = getStartY(zoomRect, value, columnData.getDirection());
                     float bottom = zoomRect.bottom + 0.5f;
                     paint.setColor(columnData.getColor());
                     if (isClickRect1 && isClickRect(left, right, top, bottom)) {
@@ -61,36 +60,46 @@ public class BarProvider extends BarLineProvider {
                             onClickColumnListener.onClickColumn(columnData,j);
                         }
                     }
-                    drawBar(canvas, paint, left, right, top + (bottom - top) - getAnimValue(bottom - top), bottom,d);
+                    drawBar(canvas, paint, left, right, top + (bottom - top) - getAnimValue(bottom - top), bottom,value);
                 }
             }
 
-        if(levelLine != null && levelLine.isDraw()) {
-            float startY = getStartY(zoomRect,scaleData,height,levelLine.getValue(),levelLine.getDirection());
-            drawLevelLine(canvas, zoomRect,startY,paint);
+        if(levelLine != null) {
+            drawLevelLine(canvas, zoomRect,paint);
         }
-        if(isClickRect) {
+        if(isClickRect && containsRect(clickPoint.x,clickPoint.y)) {
             drawCross(canvas,clickPoint.x,clickPoint.y,zoomRect,paint);
+            super.matrixRectEnd(canvas, rect);
             drawMark(clickPoint.x,clickPoint.y,clickPosition,clickColumnPosition,chartData);
         }
     }
 
-    protected void drawBar(Canvas canvas, Paint paint, float left, float right, float top, float bottom,double value) {
-        canvas.drawRect(left, top, right, bottom, paint);
-        drawPointText((right + left) / 2, top, canvas, paint, value);
+    @Override
+    protected void matrixRectEnd(Canvas canvas, Rect rect) {
+
     }
 
-    private float getStartY(Rect rect, ScaleData scaleData, float height, double d, int direction) {
-        return (float) (rect.bottom -(d - scaleData.getMinScaleValue(direction)) * height / scaleData.getTotalScaleLength(direction));
+    @Override
+    protected float getStartY(Rect zoomRect, double value, int direction){
+        ScaleData scaleData = chartData.getScaleData();
+        double minValue = scaleData.getMinScaleValue(direction);
+        double totalScaleLength = scaleData.getTotalScaleLength(direction);
+        return (float) (zoomRect.bottom -(value - minValue) * zoomRect.height() / totalScaleLength);
     }
+
+    protected void drawBar(Canvas canvas, Paint paint, float left, float right, float top, float bottom,double value) {
+        canvas.drawRect(left, top, right, bottom, paint);
+        drawPointText(canvas,value,(right + left) / 2, top,  paint);
+    }
+
+
 
 
     private void drawCross(Canvas canvas,float x,float y, Rect rect,Paint paint){
 
-        if(isOpenCross()) {
-            crossStyle.fillPaint(paint);
-            canvas.drawLine(x, rect.top, x, rect.bottom, paint);
-            canvas.drawLine(rect.left, y, rect.right, y, paint);
+        if(isOpenCross() && getCross() != null) {
+            PointF pointF = new PointF(x,y);
+            getCross().drawCross(canvas,pointF,rect,paint);
         }
     }
     private void drawMark(float x, float y, int position,int columnPosition,  ChartData<LineData> chartData){

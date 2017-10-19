@@ -33,7 +33,7 @@ public class Bar3DProvider extends BarProvider {
         path.lineTo(right+offsetX,top-offsetY);
         path.close();
         canvas.drawPath(path,paint);
-        drawPointText((right + left) / 2, top-offsetY, canvas, paint, value);
+        drawPointText(canvas,value,(right + left) / 2, top-offsetY, paint );
 
     }
 

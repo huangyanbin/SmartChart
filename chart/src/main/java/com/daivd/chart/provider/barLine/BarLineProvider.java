@@ -2,18 +2,19 @@ package com.daivd.chart.provider.barLine;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.Path;
 import android.graphics.Rect;
 
 import com.daivd.chart.axis.IAxis;
 import com.daivd.chart.data.ChartData;
-import com.daivd.chart.data.LevelLine;
+import com.daivd.chart.provider.component.cross.ICross;
+import com.daivd.chart.provider.component.level.ILevel;
+import com.daivd.chart.provider.component.level.LevelLine;
 import com.daivd.chart.data.LineData;
-import com.daivd.chart.data.style.LineStyle;
 import com.daivd.chart.data.ScaleData;
 import com.daivd.chart.exception.ChartException;
 import com.daivd.chart.provider.BaseProvider;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**线和柱状内容绘制
@@ -22,10 +23,9 @@ import java.util.List;
 
 public abstract class BarLineProvider extends BaseProvider<LineData> {
 
-
-    LineStyle crossStyle = new LineStyle();
+    private ICross cross;
     private boolean isOpenCross;
-    LevelLine levelLine;
+    protected List<ILevel> levelLine = new ArrayList<>();
 
 
     @Override
@@ -101,27 +101,17 @@ public abstract class BarLineProvider extends BaseProvider<LineData> {
     /**
      * 绘制水平线
      */
-    void drawLevelLine(Canvas canvas, Rect rect, float centerY, Paint paint){
+    void drawLevelLine(Canvas canvas, Rect zoomRect, Paint paint){
 
-        levelLine.getLineStyle().fillPaint(paint);
-        Path path = new Path();
-        path.moveTo(rect.left,centerY);
-        path.lineTo( rect.right,centerY);
-        canvas.drawPath(path, paint);
-        levelLine.getTextStyle().fillPaint(paint);
-        float textHeight = paint.measureText("1",0,1);
-        float startX;
-        float startY = centerY-textHeight+levelLine.getLineStyle().getWidth();
-        String levelLineValue = String.valueOf(levelLine.getValue());
-        if(levelLine.getTextDirection() == LevelLine.left){
-            startX = rect.left;
-        }else {
-            startX = rect.right - textHeight*levelLineValue.length();
+        if(levelLine.size() > 0) {
+            for(ILevel level:levelLine){
+                float levelY = getStartY(zoomRect,level.getValue(),level.getAxisDirection());
+                level.drawLevel(canvas,getProviderRect(),levelY,paint);
+            }
         }
-        canvas.drawText(levelLineValue,startX,startY,paint);
     }
 
-
+    protected abstract float getStartY(Rect zoomRect, double value, int direction);
 
 
 
@@ -130,10 +120,11 @@ public abstract class BarLineProvider extends BaseProvider<LineData> {
 
 
 
-
-    public void setLevelLine(LevelLine levelLine) {
-        this.levelLine = levelLine;
+    public void addLevelLine(LevelLine levelLine) {
+        this.levelLine.add(levelLine);
     }
+
+
 
     public boolean isOpenCross() {
         return isOpenCross;
@@ -142,9 +133,17 @@ public abstract class BarLineProvider extends BaseProvider<LineData> {
     public void setOpenCross(boolean openCross) {
         isOpenCross = openCross;
     }
-    public LineStyle getCrossStyle() {
-        return crossStyle;
+
+    public ICross getCross() {
+        return cross;
     }
 
+    public void setCross(ICross cross) {
+        this.cross = cross;
+    }
+
+    public List<ILevel> getLevelLine() {
+        return levelLine;
+    }
 
 }

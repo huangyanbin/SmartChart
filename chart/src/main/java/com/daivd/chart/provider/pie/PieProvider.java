@@ -45,8 +45,8 @@ public class PieProvider extends BaseProvider<PieData> {
 
 
     @Override
-    protected void matrixRect(Canvas canvas, Rect rect) {
-        super.matrixRect(canvas, rect);
+    protected void matrixRectStart(Canvas canvas, Rect rect) {
+        super.matrixRectStart(canvas, rect);
         if(rotateHelper != null && rotateHelper.isRotate()){
             canvas.rotate((float) rotateHelper.getStartAngle(),rect.centerX(),rect.centerY());
         }

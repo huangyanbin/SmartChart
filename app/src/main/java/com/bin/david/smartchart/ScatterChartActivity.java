@@ -15,14 +15,15 @@ import com.daivd.chart.axis.IAxis;
 import com.daivd.chart.core.LineChart;
 import com.daivd.chart.data.ChartData;
 import com.daivd.chart.data.IFormat;
-import com.daivd.chart.data.LevelLine;
+import com.daivd.chart.provider.component.cross.Cross;
+import com.daivd.chart.provider.component.level.LevelLine;
 import com.daivd.chart.data.LineData;
 import com.daivd.chart.data.style.FontStyle;
 import com.daivd.chart.data.style.LineStyle;
 import com.daivd.chart.data.style.PointStyle;
 import com.daivd.chart.legend.IChartTitle;
 import com.daivd.chart.legend.ILegend;
-import com.daivd.chart.mark.MsgMarkView;
+import com.daivd.chart.provider.component.mark.MsgMarkView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -102,9 +103,11 @@ public class ScatterChartActivity extends AppCompatActivity {
         DashPathEffect effects = new DashPathEffect(new float[] { 1, 2, 4, 8}, 1);
         verticalAxis.getGridStyle().setWidth(this,1).setColor(res.getColor(R.color.arc_text)).setEffect(effects);
         horizontalAxis.getGridStyle().setWidth(this,1).setColor(res.getColor(R.color.arc_text)).setEffect(effects);
-        LineStyle crossStyle = lineChartView.getProvider().getCrossStyle();
+        Cross cross = new Cross();
+        LineStyle crossStyle = cross.getCrossStyle();
         crossStyle.setWidth(this,1);
         crossStyle.setColor(res.getColor(R.color.arc21));
+        lineChartView.getProvider().setCross(cross);
         lineChartView.setZoom(true);
         //开启十字架
         lineChartView.getProvider().setOpenCross(true);
@@ -128,11 +131,11 @@ public class ScatterChartActivity extends AppCompatActivity {
         FontStyle fontStyle = lineChartView.getChartTitle().getTextStyle();
         fontStyle.setTextColor(res.getColor(R.color.arc_temp));
         fontStyle.setTextSpSize(this,15);
-        LevelLine levelLine = new LevelLine(true,20);
+        LevelLine levelLine = new LevelLine(20);
         DashPathEffect effects2 = new DashPathEffect(new float[] { 1, 2,2,4}, 1);
         levelLine.getLineStyle().setWidth(this,1).setColor(res.getColor(R.color.arc23)).setEffect(effects);
         levelLine.getLineStyle().setEffect(effects2);
-        lineChartView.getProvider().setLevelLine(levelLine);
+        lineChartView.getProvider().addLevelLine(levelLine);
         lineChartView.getLegend().setLegendDirection(ILegend.BOTTOM);
         lineChartView.getLegend().getLegendStyle().setShape(PointStyle.RECT);
         lineChartView.getLegend().setLegendPercent(0.2f);

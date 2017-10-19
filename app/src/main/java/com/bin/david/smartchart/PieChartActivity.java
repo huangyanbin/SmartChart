@@ -6,17 +6,15 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
-import com.daivd.chart.axis.BaseAxis;
 import com.daivd.chart.core.PieChart;
 import com.daivd.chart.data.ChartData;
-import com.daivd.chart.data.LevelLine;
-import com.daivd.chart.data.LineData;
+import com.daivd.chart.provider.component.level.LevelLine;
 import com.daivd.chart.data.PieData;
 import com.daivd.chart.data.style.FontStyle;
 import com.daivd.chart.data.style.PointStyle;
 import com.daivd.chart.legend.ILegend;
 import com.daivd.chart.listener.OnClickColumnListener;
-import com.daivd.chart.mark.MsgMarkView;
+import com.daivd.chart.provider.component.mark.MsgMarkView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,9 +54,6 @@ public class PieChartActivity extends AppCompatActivity {
         fontStyle.setTextColor(res.getColor(R.color.arc3));
         fontStyle.setTextSpSize(this,15);
         pieChart.getProvider().setOpenMark(true);
-        LevelLine levelLine = new LevelLine(true,20);
-        DashPathEffect effects = new DashPathEffect(new float[] { 1, 2, 2, 1}, 1);
-        levelLine.getLineStyle().setWidth(this,2).setColor(res.getColor(R.color.arc23)).setEffect(effects);
         pieChart.getProvider().setMarkView(new MsgMarkView(this));
         pieChart.getLegend().getLegendStyle().setShape(PointStyle.CIRCLE);
         pieChart.getLegend().setLegendDirection(ILegend.TOP);

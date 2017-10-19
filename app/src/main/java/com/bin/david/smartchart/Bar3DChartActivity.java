@@ -9,13 +9,13 @@ import android.widget.Toast;
 import com.daivd.chart.axis.BaseAxis;
 import com.daivd.chart.core.Bar3DChart;
 import com.daivd.chart.data.ChartData;
-import com.daivd.chart.data.LevelLine;
+import com.daivd.chart.provider.component.level.LevelLine;
 import com.daivd.chart.data.LineData;
 import com.daivd.chart.data.style.FontStyle;
 import com.daivd.chart.data.style.PointStyle;
 import com.daivd.chart.legend.ILegend;
 import com.daivd.chart.listener.OnClickColumnListener;
-import com.daivd.chart.mark.MsgMarkView;
+import com.daivd.chart.provider.component.mark.MsgMarkView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,10 +66,10 @@ public class Bar3DChartActivity extends AppCompatActivity {
         fontStyle.setTextSpSize(this,15);
         columnChartView.getProvider().setOpenMark(true);
         columnChartView.getProvider().setOpenCross(true);
-        LevelLine levelLine = new LevelLine(true,20);
+        LevelLine levelLine = new LevelLine(20);
         DashPathEffect effects = new DashPathEffect(new float[] { 1, 2, 4, 8}, 1);
         levelLine.getLineStyle().setWidth(this,1).setColor(res.getColor(R.color.arc23)).setEffect(effects);
-        columnChartView.getProvider().setLevelLine(levelLine);
+        columnChartView.getProvider().addLevelLine(levelLine);
         columnChartView.getProvider().setMarkView(new MsgMarkView(this));
         columnChartView.getLegend().getLegendStyle().setShape(PointStyle.CIRCLE);
         BaseAxis vaxis = columnChartView.getLeftVerticalAxis();

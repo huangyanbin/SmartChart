@@ -1,4 +1,4 @@
-package com.daivd.chart.mark;
+package com.daivd.chart.provider.component.mark;
 
 import android.graphics.Canvas;
 import android.graphics.Rect;
