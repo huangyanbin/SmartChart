@@ -70,7 +70,7 @@ public class BarProvider<C extends LineData> extends BaseBarLineProvider<C> {
         if (isClickRect && containsRect(clickPoint.x, clickPoint.y)) {
             drawCross(canvas, clickPoint.x, clickPoint.y, zoomRect, paint);
             super.matrixRectEnd(canvas, rect);
-            drawMark(clickPoint.x, clickPoint.y, clickPosition, clickColumnPosition, chartData);
+            drawMark(canvas,clickPoint.x, clickPoint.y, clickPosition, clickColumnPosition, chartData);
         }
     }
 
@@ -96,10 +96,10 @@ public class BarProvider<C extends LineData> extends BaseBarLineProvider<C> {
         }
     }
 
-    private void drawMark(float x, float y, int position, int columnPosition, ChartData<C> chartData) {
+    private void drawMark(Canvas canvas,float x, float y, int position, int columnPosition, ChartData<C> chartData) {
 
         if (markView != null && isOpenMark()) {
-            markView.drawMark(x, y, chartData.getCharXDataList().get(position),
+            markView.drawMark(canvas,x, y, chartData.getCharXDataList().get(position),
                     chartData.getColumnDataList().get(columnPosition), position);
         }
     }

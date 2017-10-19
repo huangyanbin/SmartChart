@@ -114,7 +114,9 @@ public abstract class BaseBarLineProvider<C extends LineData> extends BaseProvid
         if(levelLine.size() > 0) {
             for(ILevel level:levelLine){
                 float levelY = getStartY(zoomRect,level.getValue(),level.getAxisDirection());
-                level.drawLevel(canvas,getProviderRect(),levelY,paint);
+                if(containsRect(getProviderRect().centerX(),levelY)) {
+                    level.drawLevel(canvas, getProviderRect(), levelY, paint);
+                }
             }
         }
     }

@@ -11,27 +11,18 @@ import com.daivd.chart.data.LineData;
 
 public abstract class MarkView {
 
-    private Canvas canvas;
     private Rect rect;
 
 
 
-    public void init(Canvas canvas, Rect rect){
-        this.canvas = canvas;
+    public void initMarkRect( Rect rect){
         this.rect = rect;
     }
 
-    public abstract void drawMark(float x, float y, String content, LineData data, int position);
+    public abstract void drawMark(Canvas canvas,float x, float y, String content, LineData data, int position);
 
 
 
-    public Canvas getCanvas() {
-        return canvas;
-    }
-
-    public void setCanvas(Canvas canvas) {
-        this.canvas = canvas;
-    }
 
     public Rect getRect() {
         return rect;

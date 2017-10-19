@@ -111,7 +111,7 @@ public   class LineProvider extends BaseBarLineProvider<LineData> {
            int minPositionX = 0,minPositionY = 0;
            float centerX = 0,centerY =0;
            LineData clickLineData = null;
-           float minDisX = rect.width();
+           float minDisX = zoomRect.width();
            for(int i = 0;i < rowSize;i++){
                float startX =  getStartX(zoomRect,i);
                float disX = Math.abs(pointF.x - startX);
@@ -124,7 +124,7 @@ public   class LineProvider extends BaseBarLineProvider<LineData> {
                }
            }
            List<LineData> lineDates = chartData.getColumnDataList();
-            float minDisY = rect.height();
+            float minDisY = zoomRect.height();
            boolean isHasLine= false;
            for(int j = 0;j < lineDates.size();j++){
                LineData lineData = lineDates.get(j);
@@ -152,7 +152,7 @@ public   class LineProvider extends BaseBarLineProvider<LineData> {
               getCross().drawCross(canvas,new PointF(centerX,centerY),rect,paint);
            }
            if(markView != null && isOpenMark()){
-               markView.drawMark(centerX,centerY,chartData.getCharXDataList().get(minPositionY),
+               markView.drawMark(canvas,centerX,centerY,chartData.getCharXDataList().get(minPositionY),
                        clickLineData,minPositionX);
            }
        }

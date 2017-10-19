@@ -109,6 +109,7 @@ public abstract class BaseChart<P extends IProvider<C>,C extends ColumnData> ext
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         if (chartData != null) {
+
             resetScaleData();
             computePaddingRect();
             if (isShowChartName) {

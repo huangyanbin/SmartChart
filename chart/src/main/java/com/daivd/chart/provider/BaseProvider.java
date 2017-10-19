@@ -34,6 +34,7 @@ public abstract class BaseProvider<C extends ColumnData> implements IProvider<C>
     private FontStyle textStyle = new FontStyle();
     protected OnClickColumnListener<C> onClickColumnListener;
 
+
     @Override
     public boolean calculation(ChartData<C> chartData) {
         this.chartData = chartData;
@@ -46,7 +47,7 @@ public abstract class BaseProvider<C extends ColumnData> implements IProvider<C>
     public void drawProvider(Canvas canvas, Rect rect, MatrixHelper helper, Paint paint) {
         providerRect = rect;
         if(markView != null){
-            markView.init(canvas,rect);
+            markView.initMarkRect(providerRect);
         }
         matrixRectStart(canvas,rect);
         Rect zoomRect = helper.getZoomProviderRect(rect);
@@ -158,6 +159,7 @@ public abstract class BaseProvider<C extends ColumnData> implements IProvider<C>
     public void setOnClickColumnListener(OnClickColumnListener<C> onClickColumnListener) {
         this.onClickColumnListener = onClickColumnListener;
     }
+
 
 
 }
