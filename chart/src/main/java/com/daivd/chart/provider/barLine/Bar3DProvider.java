@@ -3,37 +3,38 @@ package com.daivd.chart.provider.barLine;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.Rect;
 
+import com.daivd.chart.data.LineData;
 
 
 /**柱状内容绘制
  * Created by huang on 2017/9/26.
  */
 
-public class Bar3DProvider extends BarProvider {
+public class Bar3DProvider extends BarProvider<LineData> {
 
     @Override
-    protected void drawBar(Canvas canvas, Paint paint, float left, float right, float top, float bottom,double value) {
-        canvas.drawRect(left, top, right, bottom, paint);
-
-        float w = right - left;
+    protected void drawBar(Canvas canvas,Rect rect,double value,Paint paint){
+        canvas.drawRect(rect, paint);
+        float w = rect.right - rect.left;
         float  offsetY= w/2;
         float offsetX = w/3f;
         Path path = new Path();
-        path.moveTo(left,top);
-        path.lineTo(left+offsetX,top-offsetY);
-        path.lineTo(right+offsetX,top-offsetY);
-        path.lineTo(right,top);
+        path.moveTo(rect.left,rect.top);
+        path.lineTo(rect.left+offsetX,rect.top-offsetY);
+        path.lineTo(rect.right+offsetX,rect.top-offsetY);
+        path.lineTo(rect.right,rect.top);
         path.close();
         canvas.drawPath(path,paint);
         path.reset();
-        path.moveTo(right,top);
-        path.lineTo(right,bottom);
-        path.lineTo(right+offsetX,bottom-offsetY);
-        path.lineTo(right+offsetX,top-offsetY);
+        path.moveTo(rect.right,rect.top);
+        path.lineTo(rect.right,rect.bottom);
+        path.lineTo(rect.right+offsetX,rect.bottom-offsetY);
+        path.lineTo(rect.right+offsetX,rect.top-offsetY);
         path.close();
         canvas.drawPath(path,paint);
-        drawPointText(canvas,value,(right + left) / 2, top-offsetY, paint );
+        drawPointText(canvas,value,(rect.right + rect.left) / 2, rect.top-offsetY, paint );
 
     }
 

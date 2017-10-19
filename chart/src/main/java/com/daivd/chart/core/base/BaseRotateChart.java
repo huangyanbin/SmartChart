@@ -1,4 +1,4 @@
-package com.daivd.chart.core;
+package com.daivd.chart.core.base;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -7,6 +7,7 @@ import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
+import com.daivd.chart.core.base.BaseChart;
 import com.daivd.chart.data.ColumnData;
 import com.daivd.chart.matrix.RotateHelper;
 import com.daivd.chart.provider.IProvider;
@@ -16,7 +17,7 @@ import com.daivd.chart.provider.IProvider;
  * 饼图
  */
 
-public abstract  class BaseRotateChart<P extends IProvider<C>,C extends ColumnData>  extends BaseChart<P,C>  implements RotateHelper.OnRotateListener{
+public abstract  class BaseRotateChart<P extends IProvider<C>,C extends ColumnData>  extends BaseChart<P,C> implements RotateHelper.OnRotateListener{
     private RotateHelper rotateHelper;
     private boolean isOnRotate;
 

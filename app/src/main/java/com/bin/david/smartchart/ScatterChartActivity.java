@@ -99,7 +99,7 @@ public class ScatterChartActivity extends AppCompatActivity {
         horizontalAxis.setAxisDirection(IAxis.AxisDirection.BOTTOM);
         horizontalAxis.setDrawGrid(true);
         //设置线条样式
-        verticalAxis.getLineStyle().setWidth(this,1);
+        verticalAxis.getAxisStyle().setWidth(this,1);
         DashPathEffect effects = new DashPathEffect(new float[] { 1, 2, 4, 8}, 1);
         verticalAxis.getGridStyle().setWidth(this,1).setColor(res.getColor(R.color.arc_text)).setEffect(effects);
         horizontalAxis.getGridStyle().setWidth(this,1).setColor(res.getColor(R.color.arc_text)).setEffect(effects);

@@ -9,7 +9,7 @@ import android.graphics.PointF;
 import android.graphics.Rect;
 import android.view.animation.Interpolator;
 
-import com.daivd.chart.core.BaseChart;
+import com.daivd.chart.core.base.BaseChart;
 import com.daivd.chart.data.ChartData;
 import com.daivd.chart.data.ColumnData;
 import com.daivd.chart.data.style.FontStyle;

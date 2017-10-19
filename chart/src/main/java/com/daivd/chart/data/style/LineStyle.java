@@ -17,7 +17,7 @@ public class LineStyle implements IStyle {
     private float width;
     private int color;
     private PathEffect effect = new PathEffect();
-    private static  float defaultLineSize = 1.5f;
+    private static  float defaultLineSize = 2f;
     private static  int  defaultLineColor = Color.parseColor("#888888");
 
     public LineStyle() {

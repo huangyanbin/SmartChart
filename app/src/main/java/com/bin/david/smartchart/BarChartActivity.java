@@ -29,7 +29,6 @@ public class BarChartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bar);
         columnChartView = (BarChart) findViewById(R.id.columnChart);
-        columnChartView.setGroupPadding(DensityUtils.dp2px(this,3));
         Resources res = getResources();
         FontStyle.setDefaultTextSpSize(this,12);
         List<String> groupData = new ArrayList<>();

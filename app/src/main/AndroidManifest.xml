@@ -27,6 +27,7 @@
         <activity android:name=".RoseChartActivity"/>
         <activity android:name=".ZoomChartListActivity"/>
         <activity android:name=".RotateChartListActivity"/>
+        <activity android:name=".BarLineChartActivity"/>
 
     </application>
 

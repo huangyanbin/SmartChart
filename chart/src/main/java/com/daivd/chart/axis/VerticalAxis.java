@@ -30,14 +30,14 @@ public class VerticalAxis extends BaseAxis<Double> {
     private java.text.DecimalFormat df = new java.text.DecimalFormat("0.00");
 
     @Override
-    public void computeScale(ChartData<LineData> chartData, Rect rect, Paint paint) {
+    public void computeScale(ChartData<? extends LineData> chartData, Rect rect, Paint paint) {
         ScaleData scaleData = chartData.getScaleData();
         scaleData.resetScale(scaleSetData,direction);
         scaleStyle.fillPaint(paint);
         int length = Math.max(formatVerticalAxisData(scaleData.getMaxScaleValue(direction)).length(),
                 formatVerticalAxisData(scaleData.getMinScaleValue(direction)).length());
         int textHeight = (int) (paint.measureText("1", 0, 1) * length);
-        int dis = (int) (textHeight + scaleStyle.getPadding()  + lineStyle.getWidth());
+        int dis = (int) (textHeight + scaleStyle.getPadding()  + axisStyle.getWidth());
         if (direction == AxisDirection.LEFT) {
             scaleData.scaleRect.left = dis;
         } else {
@@ -46,7 +46,7 @@ public class VerticalAxis extends BaseAxis<Double> {
     }
 
     @Override
-    protected void drawScale(Canvas canvas, Rect zoomRect, Rect clipRect, Paint paint,  ChartData<LineData> chartData) {
+    protected void drawScale(Canvas canvas, Rect zoomRect, Rect clipRect, Paint paint,  ChartData<? extends LineData> chartData) {
         ScaleData scaleData = chartData.getScaleData();
         List<Double> scaleList = scaleData.getScaleList(direction);
         float startX;
@@ -92,19 +92,8 @@ public class VerticalAxis extends BaseAxis<Double> {
         }
     }
 
-    /**
-     * 绘制轴
-     */
-    @Override
-    protected void drawAxis(Canvas canvas, Rect rect, Paint paint,  ChartData<LineData> chartData) {
 
-        Rect scaleRect = chartData.getScaleData().scaleRect;
-        lineStyle.fillPaint(paint);
-        int[] r = calculation(rect, scaleRect);
-        canvas.drawLine(r[0], r[1], r[2], r[3], paint);
-    }
-
-    private int[] calculation(Rect rect, Rect scaleRect) {
+    protected int[] calculation(Rect rect, Rect scaleRect) {
 
         int startY = rect.top + scaleRect.top;
         int endY = rect.bottom - scaleRect.bottom;

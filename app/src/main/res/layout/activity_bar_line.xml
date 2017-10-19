@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    tools:context="com.bin.david.smartchart.MainActivity">
+
+   <com.daivd.chart.core.BarLineChart
+
+       android:id="@+id/barLineChart"
+       android:layout_width="match_parent"
+       android:background="#f4f4f4"
+       android:layout_height="400dp"/>
+
+    <Button
+        android:id="@+id/btn"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="12dp"
+        android:paddingLeft="23dp"
+        android:paddingRight="23dp"
+        android:background="@drawable/dialog_btn_bg"
+        android:text="chart配置"
+        android:onClick="onClick"
+        android:clickable="true"
+        android:textColor="#fff"
+        android:layout_height="45dp" />
+
+
+
+</LinearLayout>

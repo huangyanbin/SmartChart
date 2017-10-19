@@ -16,8 +16,8 @@ import com.daivd.chart.matrix.MatrixHelper;
 
 public interface IAxis<V> {
 
-     void draw(Canvas canvas, Rect rect, MatrixHelper helper, Paint paint, ChartData<LineData> chartData);
-     void computeScale(ChartData<LineData> chartData, Rect rect, Paint paint);
+     void draw(Canvas canvas, Rect rect, MatrixHelper helper, Paint paint, ChartData<? extends LineData> chartData);
+     void computeScale(ChartData<? extends LineData> chartData, Rect rect, Paint paint);
      void  setAxisDirection(int axisDirection);
      void setFormat(IFormat<V> format);
      IFormat<V> getFormat();

@@ -6,6 +6,8 @@ import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.view.Gravity;
 
+import com.daivd.chart.core.base.BaseBarLineChart;
+import com.daivd.chart.data.LineData;
 import com.daivd.chart.exception.ChartException;
 import com.daivd.chart.provider.barLine.LineProvider;
 import com.daivd.chart.provider.barLine.model.CurveLineModel;
@@ -16,7 +18,7 @@ import com.daivd.chart.provider.barLine.model.BrokenLineModel;
  * 线性图
  */
 
-public class LineChart extends BarLineChart<LineProvider> {
+public class LineChart extends BaseBarLineChart<LineProvider,LineData> {
 
     public static final int LINE_MODEL = 0;
     public static final  int CURVE_MODEL = 1;

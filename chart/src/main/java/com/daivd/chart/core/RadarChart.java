@@ -1,15 +1,13 @@
 package com.daivd.chart.core;
 
 import android.content.Context;
-import android.graphics.Canvas;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
 
+import com.daivd.chart.core.base.BaseRotateChart;
 import com.daivd.chart.data.RadarData;
 import com.daivd.chart.matrix.RotateHelper;
-import com.daivd.chart.provider.pie.PieProvider;
 import com.daivd.chart.provider.radar.RadarProvider;
 
 /**

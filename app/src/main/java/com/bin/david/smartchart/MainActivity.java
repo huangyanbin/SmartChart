@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         items.add(new MainItem(PieChartActivity.class,"饼图"));
         items.add(new MainItem(RadarChartActivity.class,"雷达图"));
         items.add(new MainItem(RoseChartActivity.class,"玫瑰图"));
+        items.add(new MainItem(BarLineChartActivity.class,"组合图"));
         items.add(new MainItem(ZoomChartListActivity.class,"缩放图表List(解决手势冲突)"));
         items.add(new MainItem(RotateChartListActivity.class,"旋转图表List(解决手势冲突)"));
         itemAdapter = new ItemAdapter(items);

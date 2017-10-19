@@ -2,7 +2,7 @@ package com.daivd.chart.matrix;
 
 import android.view.MotionEvent;
 
-import com.daivd.chart.core.BaseChart;
+import com.daivd.chart.core.base.BaseChart;
 
 /**
  * Created by huang on 2017/10/18.

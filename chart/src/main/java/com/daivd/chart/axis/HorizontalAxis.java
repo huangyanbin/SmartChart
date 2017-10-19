@@ -30,7 +30,7 @@ public class HorizontalAxis extends BaseAxis<String> {
     private int textHeight;
     private int rotateTextHeight;
     @Override
-    public void computeScale(ChartData<LineData> chartData, Rect rect, Paint paint) {
+    public void computeScale(ChartData<? extends LineData> chartData, Rect rect, Paint paint) {
         ScaleData scaleData = chartData.getScaleData();
         scaleStyle.fillPaint(paint);
         Paint.FontMetrics fontMetrics = paint.getFontMetrics();
@@ -55,7 +55,7 @@ public class HorizontalAxis extends BaseAxis<String> {
             dis += rotateTextHeight;
             textWidth = tempWidth;
        }
-        dis += (int) (scaleStyle.getPadding()*2  + lineStyle.getWidth());
+        dis += (int) (scaleStyle.getPadding()*2  + axisStyle.getWidth());
         if (direction == AxisDirection.BOTTOM) {
             scaleData.scaleRect.bottom = dis;
         } else {
@@ -63,7 +63,7 @@ public class HorizontalAxis extends BaseAxis<String> {
         }
     }
 
-    protected void drawScale(Canvas canvas, Rect zoomRect, Rect rect, Paint paint,  ChartData<LineData> chartData) {
+    protected void drawScale(Canvas canvas, Rect zoomRect, Rect rect, Paint paint,  ChartData<? extends LineData> chartData) {
 
         ScaleData scaleData = chartData.getScaleData();
         List<String> groupDataList = chartData.getCharXDataList();
@@ -139,18 +139,10 @@ public class HorizontalAxis extends BaseAxis<String> {
         }
     }
 
-    @Override
-    protected void drawAxis(Canvas canvas, Rect rect, Paint paint,  ChartData<LineData> chartData) {
-        Rect scaleRect = chartData.getScaleData().scaleRect;
-        lineStyle.fillPaint(paint);
-        paint.setStyle(Paint.Style.STROKE);
-        int[] r = calculation(rect, scaleRect);
-        canvas.drawLine(r[0], r[1], r[2], r[3], paint);
-
-    }
 
 
-    private int[] calculation(Rect rect, Rect scaleRect) {
+
+    protected int[] calculation(Rect rect, Rect scaleRect) {
         int startX = rect.left + scaleRect.left;
         int endX = rect.right - scaleRect.right;
         int startY, endY;

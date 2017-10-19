@@ -5,12 +5,8 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PointF;
 import android.graphics.Rect;
-import android.util.Log;
 
-import com.daivd.chart.axis.IAxis;
-import com.daivd.chart.data.ColumnData;
 import com.daivd.chart.data.LineData;
-import com.daivd.chart.data.ScaleData;
 import com.daivd.chart.data.style.LineStyle;
 import com.daivd.chart.data.style.PointStyle;
 import com.daivd.chart.provider.barLine.model.BrokenLineModel;
@@ -25,7 +21,7 @@ import java.util.List;
  * Created by huang on 2017/9/26.
  */
 
-public   class LineProvider extends BarLineProvider {
+public   class LineProvider extends BaseBarLineProvider<LineData> {
 
     private LineStyle lineStyle = new LineStyle();
 
@@ -105,14 +101,7 @@ public   class LineProvider extends BarLineProvider {
         return (float) (position*width + zoomRect.left);
     }
 
-    @Override
-    protected float getStartY(Rect zoomRect, double value, int direction) {
-        ScaleData scaleData = chartData.getScaleData();
-        double minValue = scaleData.getMinScaleValue(direction);
-        double totalScaleLength = scaleData.getTotalScaleLength(direction);
-        double y = (value - minValue)*zoomRect.height()/totalScaleLength;
-        return zoomRect.bottom -getAnimValue((float) y);
-    }
+
 
 
 

@@ -5,13 +5,16 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 
+import com.daivd.chart.core.base.BaseBarLineChart;
+import com.daivd.chart.data.BarLineData;
+import com.daivd.chart.data.LineData;
 import com.daivd.chart.provider.barLine.Bar3DProvider;
 
 /**
  * Created by huang on 2017/9/26.
  */
 
-public class Bar3DChart extends BarLineChart<Bar3DProvider> {
+public class Bar3DChart extends BaseBarLineChart<Bar3DProvider,LineData> {
 
     public Bar3DChart(Context context) {
         super(context);
@@ -38,12 +41,5 @@ public class Bar3DChart extends BarLineChart<Bar3DProvider> {
     }
 
 
-    public int getGroupPadding() {
-        return provider.getGroupPadding();
-    }
-
-    public void setGroupPadding(int groupPadding) {
-        provider.setGroupPadding(groupPadding);
-    }
 
 }

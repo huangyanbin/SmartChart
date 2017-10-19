@@ -31,7 +31,7 @@ import java.util.List;
 
 public class LineChartActivity extends AppCompatActivity {
 
-    private LineChart lineChartView;
+    private LineChart lineChart;
     private BaseCheckDialog<ChartStyle> chartDialog;
     private QuickChartDialog quickChartDialog;
     @Override
@@ -39,8 +39,7 @@ public class LineChartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_line);
         quickChartDialog = new QuickChartDialog();
-        lineChartView = (LineChart) findViewById(R.id.lineChart);
-        lineChartView.setLineModel(LineChart.CURVE_MODEL);
+        lineChart = (LineChart) findViewById(R.id.lineChart);
         Resources res = getResources();
         FontStyle.setDefaultTextSpSize(this,12);
         List<String> chartYDataList = new ArrayList<>();
@@ -65,10 +64,10 @@ public class LineChartActivity extends AppCompatActivity {
         ColumnDatas.add(columnData2);
         ChartData<LineData> chartData2 = new ChartData<>("线型图",chartYDataList,ColumnDatas);
 
-        lineChartView.setLineModel(LineChart.CURVE_MODEL);
-        BaseAxis verticalAxis =  lineChartView.getLeftVerticalAxis();
-        BaseAxis horizontalAxis=  lineChartView.getHorizontalAxis();
-        VerticalAxis rightAxis = lineChartView.getRightVerticalAxis();
+        lineChart.setLineModel(LineChart.CURVE_MODEL);
+        BaseAxis verticalAxis =  lineChart.getLeftVerticalAxis();
+        BaseAxis horizontalAxis=  lineChart.getHorizontalAxis();
+        VerticalAxis rightAxis = lineChart.getRightVerticalAxis();
         rightAxis.setStartZero(false);
         rightAxis.setMaxValue(200);
         rightAxis.setMinValue(-50);
@@ -80,7 +79,7 @@ public class LineChartActivity extends AppCompatActivity {
         horizontalAxis.setAxisDirection(IAxis.AxisDirection.BOTTOM);
         horizontalAxis.setDrawGrid(true);
         //设置线条样式
-        verticalAxis.getLineStyle().setWidth(this,1);
+        verticalAxis.getAxisStyle().setWidth(this,1);
         DashPathEffect effects = new DashPathEffect(new float[] { 1, 2, 4, 8}, 1);
         verticalAxis.getGridStyle().setWidth(this,1).setColor(res.getColor(R.color.arc_text)).setEffect(effects);
         horizontalAxis.getGridStyle().setWidth(this,1).setColor(res.getColor(R.color.arc_text)).setEffect(effects);
@@ -88,27 +87,27 @@ public class LineChartActivity extends AppCompatActivity {
         LineStyle crossStyle = cross.getCrossStyle();
         crossStyle.setWidth(this,1);
         crossStyle.setColor(res.getColor(R.color.arc21));
-        lineChartView.getProvider().setCross(cross);
-        lineChartView.setZoom(true);
+        lineChart.getProvider().setCross(cross);
+        lineChart.setZoom(true);
         //开启十字架
-        lineChartView.getProvider().setOpenCross(true);
+        lineChart.getProvider().setOpenCross(true);
         //开启MarkView
-        lineChartView.getProvider().setOpenMark(true);
+        lineChart.getProvider().setOpenMark(true);
         //设置MarkView
-        lineChartView.getProvider().setMarkView(new MsgMarkView(this));
+        lineChart.getProvider().setMarkView(new MsgMarkView(this));
         //设置显示点
-        lineChartView.getProvider().setShowPoint(true);
+        lineChart.getProvider().setShowPoint(true);
         //设置显示点的样式
-        lineChartView.getProvider().getPointStyle().setShape(PointStyle.CIRCLE);
+        lineChart.getProvider().getPointStyle().setShape(PointStyle.CIRCLE);
 
         //设置显示标题
-        lineChartView.setShowChartName(true);
+        lineChart.setShowChartName(true);
         //设置标题方向
-        lineChartView.getChartTitle().setTitleDirection(IChartTitle.TOP);
+        lineChart.getChartTitle().setTitleDirection(IChartTitle.TOP);
         //设置标题比例
-        lineChartView.getChartTitle().setTitlePercent(0.2f);
+        lineChart.getChartTitle().setTitlePercent(0.2f);
         //设置标题样式
-        FontStyle fontStyle = lineChartView.getChartTitle().getTextStyle();
+        FontStyle fontStyle = lineChart.getChartTitle().getTextStyle();
         fontStyle.setTextColor(res.getColor(R.color.arc_temp));
         fontStyle.setTextSpSize(this,15);
 
@@ -116,15 +115,15 @@ public class LineChartActivity extends AppCompatActivity {
         DashPathEffect effects2 = new DashPathEffect(new float[] { 1, 2,2,4}, 1);
         levelLine.getLineStyle().setWidth(this,1).setColor(res.getColor(R.color.arc23)).setEffect(effects);
         levelLine.getLineStyle().setEffect(effects2);
-        lineChartView.getProvider().addLevelLine(levelLine);
-        lineChartView.getLegend().setLegendDirection(ILegend.BOTTOM);
-        lineChartView.getLegend().getLegendStyle().setShape(PointStyle.RECT);
-        lineChartView.getLegend().setLegendPercent(0.2f);
-        lineChartView.getHorizontalAxis().setRotateAngle(-45);
-        lineChartView.setFirstAnim(false);
-        lineChartView.setChartData(chartData2);
-        lineChartView.startChartAnim(1000);
-        lineChartView.setOnClickColumnListener(new OnClickColumnListener<LineData>() {
+        lineChart.getProvider().addLevelLine(levelLine);
+        lineChart.getLegend().setLegendDirection(ILegend.BOTTOM);
+        lineChart.getLegend().getLegendStyle().setShape(PointStyle.RECT);
+        lineChart.getLegend().setLegendPercent(0.2f);
+        lineChart.getHorizontalAxis().setRotateAngle(-45);
+        lineChart.setFirstAnim(false);
+        lineChart.setChartData(chartData2);
+        lineChart.startChartAnim(1000);
+        lineChart.setOnClickColumnListener(new OnClickColumnListener<LineData>() {
             @Override
             public void onClickColumn(LineData lineData, int position) {
               //  Toast.makeText(LineChartActivity.this,lineData.getChartYDataList().get(position)+lineData.getUnit(),Toast.LENGTH_SHORT).show();
@@ -237,11 +236,11 @@ public class LineChartActivity extends AppCompatActivity {
             @Override
             public void onItemClick(String s, int position) {
                 if(position == 0){
-                    lineChartView.getProvider().setDrawLine(true);
+                    lineChart.getProvider().setDrawLine(true);
                 }else if(position ==1){
-                    lineChartView.getProvider().setDrawLine(false);
+                    lineChart.getProvider().setDrawLine(false);
                 }
-                lineChartView.startChartAnim(400);
+                lineChart.startChartAnim(400);
             }
         });
     }
@@ -253,11 +252,11 @@ public class LineChartActivity extends AppCompatActivity {
             @Override
             public void onItemClick(String s, int position) {
                 if(position == 0){
-                    lineChartView.getProvider().setArea(true);
+                    lineChart.getProvider().setArea(true);
                 }else if(position ==1){
-                    lineChartView.getProvider().setArea(false);
+                    lineChart.getProvider().setArea(false);
                 }
-                lineChartView.startChartAnim(400);
+                lineChart.startChartAnim(400);
             }
         });
     }
@@ -268,11 +267,11 @@ public class LineChartActivity extends AppCompatActivity {
             @Override
             public void onItemClick(String s, int position) {
                 if(position == 0){
-                    lineChartView.getLegend().setSelectColumn(true);
+                    lineChart.getLegend().setSelectColumn(true);
                 }else if(position ==1){
-                    lineChartView.getLegend().setSelectColumn(false);
+                    lineChart.getLegend().setSelectColumn(false);
                 }
-                lineChartView.startChartAnim(400);
+                lineChart.startChartAnim(400);
             }
         });
     }
@@ -283,11 +282,11 @@ public class LineChartActivity extends AppCompatActivity {
             @Override
             public void onItemClick(String s, int position) {
                 if(position == 0){
-                    lineChartView.getLeftVerticalAxis().setDrawGrid(true);
+                    lineChart.getLeftVerticalAxis().setDrawGrid(true);
                 }else if(position ==1){
-                    lineChartView.getLeftVerticalAxis().setDrawGrid(false);
+                    lineChart.getLeftVerticalAxis().setDrawGrid(false);
                 }
-                lineChartView.startChartAnim(400);
+                lineChart.startChartAnim(400);
             }
         });
     }
@@ -300,11 +299,11 @@ public class LineChartActivity extends AppCompatActivity {
             @Override
             public void onItemClick(String s, int position) {
                 if(position == 0){
-                    lineChartView.getHorizontalAxis().setDrawGrid(true);
+                    lineChart.getHorizontalAxis().setDrawGrid(true);
                 }else if(position ==1){
-                    lineChartView.getHorizontalAxis().setDrawGrid(false);
+                    lineChart.getHorizontalAxis().setDrawGrid(false);
                 }
-                lineChartView.startChartAnim(400);
+                lineChart.startChartAnim(400);
             }
         });
     }
@@ -316,11 +315,11 @@ public class LineChartActivity extends AppCompatActivity {
             @Override
             public void onItemClick(String s, int position) {
                 if(position == 0){
-                    lineChartView.getProvider().setOpenCross(true);
+                    lineChart.getProvider().setOpenCross(true);
                 }else if(position ==1){
-                     lineChartView.getProvider().setOpenCross(false);
+                     lineChart.getProvider().setOpenCross(false);
                 }
-                lineChartView.startChartAnim(400);
+                lineChart.startChartAnim(400);
             }
         });
     }
@@ -332,11 +331,11 @@ public class LineChartActivity extends AppCompatActivity {
             @Override
             public void onItemClick(String s, int position) {
                 if(position == 0){
-                    lineChartView.getProvider().setOpenMark(true);
+                    lineChart.getProvider().setOpenMark(true);
                 }else if(position ==1){
-                    lineChartView.getProvider().setOpenMark(false);
+                    lineChart.getProvider().setOpenMark(false);
                 }
-                lineChartView.startChartAnim(400);
+                lineChart.startChartAnim(400);
             }
         });
     }
@@ -347,11 +346,11 @@ public class LineChartActivity extends AppCompatActivity {
             @Override
             public void onItemClick(String s, int position) {
                 if(position == 0){
-                    lineChartView.setZoom(true);
+                    lineChart.setZoom(true);
                 }else if(position ==1){
-                    lineChartView.setZoom(false);
+                    lineChart.setZoom(false);
                 }
-                lineChartView.startChartAnim(400);
+                lineChart.startChartAnim(400);
             }
         });
     }
@@ -363,11 +362,11 @@ public class LineChartActivity extends AppCompatActivity {
             @Override
             public void onItemClick(String s, int position) {
                 if(position == 0){
-                    lineChartView.getProvider().setShowText(true);
+                    lineChart.getProvider().setShowText(true);
                 }else if(position ==1){
-                    lineChartView.getProvider().setShowText(false);
+                    lineChart.getProvider().setShowText(false);
                 }
-                lineChartView.startChartAnim(400);
+                lineChart.startChartAnim(400);
             }
         });
     }
@@ -378,11 +377,11 @@ public class LineChartActivity extends AppCompatActivity {
             @Override
             public void onItemClick(String s, int position) {
                 if(position == 0){
-                    lineChartView.setShowChartName(true);
+                    lineChart.setShowChartName(true);
                 }else if(position ==1){
-                    lineChartView.setShowChartName(false);
+                    lineChart.setShowChartName(false);
                 }
-                lineChartView.startChartAnim(400);
+                lineChart.startChartAnim(400);
             }
         });
     }
@@ -393,11 +392,11 @@ public class LineChartActivity extends AppCompatActivity {
             @Override
             public void onItemClick(String s, int position) {
                 if(position == 0){
-                    lineChartView.getProvider().setShowPoint(true);
+                    lineChart.getProvider().setShowPoint(true);
                 }else if(position ==1){
-                    lineChartView.getProvider().setShowPoint(false);
+                    lineChart.getProvider().setShowPoint(false);
                 }
-                lineChartView.startChartAnim(400);
+                lineChart.startChartAnim(400);
             }
         });
     }
@@ -407,7 +406,7 @@ public class LineChartActivity extends AppCompatActivity {
 
             @Override
             public void onItemClick(String s, int position) {
-                PointStyle style = lineChartView.getProvider().getPointStyle();
+                PointStyle style = lineChart.getProvider().getPointStyle();
                 if(position == 0){
                     style.setShape(PointStyle.SQUARE);
                 }else if(position ==1){
@@ -415,7 +414,7 @@ public class LineChartActivity extends AppCompatActivity {
                 } else if(position ==2){
                     style.setShape(PointStyle.RECT);
                 }
-                lineChartView.startChartAnim(400);
+                lineChart.startChartAnim(400);
             }
         });
     }
@@ -425,7 +424,7 @@ public class LineChartActivity extends AppCompatActivity {
 
             @Override
             public void onItemClick(String s, int position) {
-                PointStyle style = lineChartView.getLegend().getLegendStyle();
+                PointStyle style = lineChart.getLegend().getLegendStyle();
                 if(position == 0){
                     style.setShape(PointStyle.SQUARE);
                 }else if(position ==1){
@@ -433,7 +432,7 @@ public class LineChartActivity extends AppCompatActivity {
                 } else if(position ==2){
                     style.setShape(PointStyle.RECT);
                 }
-                lineChartView.startChartAnim(400);
+                lineChart.startChartAnim(400);
             }
         });
     }
@@ -445,16 +444,16 @@ public class LineChartActivity extends AppCompatActivity {
             @Override
             public void onItemClick(String s, int position) {
                 if(position == 0){
-                    lineChartView.getChartTitle().setTitleDirection(IChartTitle.TOP);
+                    lineChart.getChartTitle().setTitleDirection(IChartTitle.TOP);
                 }else if(position ==1){
-                    lineChartView.getChartTitle().setTitleDirection(IChartTitle.BOTTOM);
+                    lineChart.getChartTitle().setTitleDirection(IChartTitle.BOTTOM);
                 } else if(position ==2){
-                    lineChartView.getChartTitle().setTitleDirection(IChartTitle.LEFT);
+                    lineChart.getChartTitle().setTitleDirection(IChartTitle.LEFT);
                 }
                 else {
-                    lineChartView.getChartTitle().setTitleDirection(IChartTitle.RIGHT);
+                    lineChart.getChartTitle().setTitleDirection(IChartTitle.RIGHT);
                 }
-                lineChartView.startChartAnim(400);
+                lineChart.startChartAnim(400);
             }
         });
     }
@@ -466,16 +465,16 @@ public class LineChartActivity extends AppCompatActivity {
             @Override
             public void onItemClick(String s, int position) {
                 if(position == 0){
-                    lineChartView.getLegend().setLegendDirection(ILegend.TOP);
+                    lineChart.getLegend().setLegendDirection(ILegend.TOP);
                 }else if(position ==1){
-                    lineChartView.getLegend().setLegendDirection(ILegend.BOTTOM);
+                    lineChart.getLegend().setLegendDirection(ILegend.BOTTOM);
                 } else if(position ==2){
-                    lineChartView.getLegend().setLegendDirection(ILegend.LEFT);
+                    lineChart.getLegend().setLegendDirection(ILegend.LEFT);
                 }
                 else {
-                    lineChartView.getLegend().setLegendDirection(ILegend.RIGHT);
+                    lineChart.getLegend().setLegendDirection(ILegend.RIGHT);
                 }
-                lineChartView.startChartAnim(400);
+                lineChart.startChartAnim(400);
             }
         });
     }
@@ -487,11 +486,11 @@ public class LineChartActivity extends AppCompatActivity {
             @Override
             public void onItemClick(String s, int position) {
                 if(position == 0){
-                    lineChartView.setLineModel(LineChart.CURVE_MODEL);
+                    lineChart.setLineModel(LineChart.CURVE_MODEL);
                 }else{
-                    lineChartView.setLineModel(LineChart.LINE_MODEL);
+                    lineChart.setLineModel(LineChart.LINE_MODEL);
                 }
-                lineChartView.startChartAnim(400);
+                lineChart.startChartAnim(400);
             }
         });
     }
@@ -502,14 +501,14 @@ public class LineChartActivity extends AppCompatActivity {
 
             @Override
             public void onItemClick(String s, int position) {
-                LineStyle l  = lineChartView.getProvider().getLineStyle();
+                LineStyle l  = lineChart.getProvider().getLineStyle();
                 if(position == 0){
                    l.setEffect(new PathEffect());
                 }else{
                     DashPathEffect effects = new DashPathEffect(new float[] { 1, 2, 4, 8}, 1);
                     l.setEffect(effects);
                 }
-                lineChartView.startChartAnim(400);
+                lineChart.startChartAnim(400);
             }
         });
     }
@@ -519,8 +518,8 @@ public class LineChartActivity extends AppCompatActivity {
 
             @Override
             public void onItemClick(String s, int position) {
-                lineChartView.getHorizontalAxis().setRotateAngle(Integer.valueOf(s));
-                lineChartView.startChartAnim(400);
+                lineChart.getHorizontalAxis().setRotateAngle(Integer.valueOf(s));
+                lineChart.startChartAnim(400);
             }
         });
     }

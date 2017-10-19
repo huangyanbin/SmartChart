@@ -5,6 +5,8 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 
+import com.daivd.chart.core.base.BaseBarLineChart;
+import com.daivd.chart.data.LineData;
 import com.daivd.chart.provider.barLine.BarProvider;
 
 /**
@@ -12,7 +14,7 @@ import com.daivd.chart.provider.barLine.BarProvider;
  * 柱状图
  */
 
-public class BarChart extends BarLineChart<BarProvider> {
+public class BarChart extends BaseBarLineChart<BarProvider<LineData>,LineData> {
 
     public BarChart(Context context) {
         super(context);
@@ -32,18 +34,10 @@ public class BarChart extends BarLineChart<BarProvider> {
     }
 
 
-
     @Override
     protected BarProvider initProvider() {
         return new BarProvider();
     }
 
-    public int getGroupPadding() {
-        return provider.getGroupPadding();
-    }
-
-    public void setGroupPadding(int groupPadding) {
-        provider.setGroupPadding(groupPadding);
-    }
 
 }

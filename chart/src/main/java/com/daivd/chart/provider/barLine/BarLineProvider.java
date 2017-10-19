@@ -1,149 +1,119 @@
 package com.daivd.chart.provider.barLine;
 
+
+
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.Rect;
 
-import com.daivd.chart.axis.IAxis;
-import com.daivd.chart.data.ChartData;
-import com.daivd.chart.provider.component.cross.ICross;
-import com.daivd.chart.provider.component.level.ILevel;
-import com.daivd.chart.provider.component.level.LevelLine;
-import com.daivd.chart.data.LineData;
-import com.daivd.chart.data.ScaleData;
+import com.daivd.chart.data.BarLineData;
+import com.daivd.chart.data.style.LineStyle;
 import com.daivd.chart.exception.ChartException;
-import com.daivd.chart.provider.BaseProvider;
+import com.daivd.chart.provider.barLine.model.BrokenLineModel;
+import com.daivd.chart.provider.barLine.model.CurveLineModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**线和柱状内容绘制
+
+/**状状图和线性图结合
  * Created by huang on 2017/9/26.
  */
 
-public abstract class BarLineProvider extends BaseProvider<LineData> {
+public  class BarLineProvider extends BarProvider<BarLineData> {
 
-    private ICross cross;
-    private boolean isOpenCross;
-    protected List<ILevel> levelLine = new ArrayList<>();
+    private List<Float> pointX = new ArrayList<>();
+    private List<Float> pointY = new ArrayList<>();
+    private LineStyle lineStyle = new LineStyle();
 
 
     @Override
-    public boolean calculationChild( ChartData<LineData> chartData) {
-        this.chartData = chartData;
-        ScaleData scaleData =this.chartData.getScaleData();
-        List<LineData> columnDataList  =  chartData.getColumnDataList();
-        if(columnDataList == null || columnDataList.size() == 0){
-            return  false;
-        }
-        scaleData.rowSize = chartData.getCharXDataList().size();
+    public void drawProvider(Canvas canvas, Rect zoomRect, Rect rect, Paint paint) {
+        paint.setStyle(Paint.Style.FILL);
+        List<BarLineData> columnDataList = chartData.getColumnDataList();
+        int barColumnSize = getBarColumnSize();
+        int rowSize = chartData.getCharXDataList().size();
+        double perWidth = zoomRect.width()/(barColumnSize*rowSize);
+        double perBarWidth =perWidth - getCategoryPadding() / 2;
         int columnSize = columnDataList.size();
-        for(int i = 0 ; i <columnSize; i++){
-            LineData columnData = columnDataList.get(i);
-            if(!columnData.isDraw()){
+        int barPosition =-1;
+        for (int i = 0; i < columnSize; i++) {
+            BarLineData columnData = columnDataList.get(i);
+            if (!columnData.isDraw()) {
                 continue;
             }
-            List<Double> chartYDataList = columnData.getChartYDataList();
-            if(chartYDataList == null || chartYDataList.size() == 0){
-                throw new ChartException("Please set up Column data");
+            if(columnData.getModel() == BarLineData.BAR) {
+                barPosition++;
             }
-
-            if(chartYDataList.size() != scaleData.rowSize){
-                throw new ChartException("Column rows data inconsistency");
-            }
-            double[] scale = getColumnScale(chartYDataList);
-            scale = setMaxMinValue(scale[0],scale[1]);
-            if(columnData.getDirection() == IAxis.AxisDirection.LEFT){
-                if(!scaleData.isLeftHasValue){
-                    scaleData.maxLeftValue = scale[0];
-                    scaleData.minLeftValue = scale[1];
-                    scaleData.isLeftHasValue = true;
+            for (int j = 0; j < rowSize; j++) {
+                double value = columnData.getChartYDataList().get(j);
+                int top = (int) getStartY(zoomRect, value, columnData.getDirection());
+                if(columnData.getModel() == BarLineData.BAR) {
+                    int left = (int) (((j * barColumnSize + barPosition) * perBarWidth)
+                            + j * getCategoryPadding() + zoomRect.left);
+                    int right = (int) (left + perBarWidth) - getSeriesPadding();
+                    int bottom = zoomRect.bottom;
+                    paint.setColor(columnData.getColor());
+                    Rect barRect = new Rect(left, top, right, bottom);
+                    drawBar(canvas, barRect, value, paint);
                 }else{
-                    scaleData.maxLeftValue = Math.max( scaleData.maxLeftValue,scale[0]);
-                    scaleData.minLeftValue =  Math.min( scaleData.minLeftValue,scale[1]);
-                }
-
-            }else{
-                if(!scaleData.isRightHasValue){
-                    scaleData.maxRightValue = scale[0];
-                    scaleData.minRightValue= scale[1];
-                    scaleData.isRightHasValue = true;
-                }else{
-                    scaleData.maxRightValue = Math.max(scaleData.maxRightValue,scale[0]);
-                    scaleData.minRightValue =  Math.min(scaleData.minRightValue,scale[1]);
+                    float x = (float)(zoomRect.left+perWidth*(j+0.5));
+                    drawLine(canvas,j== 0,j == rowSize-1,columnData,x,top,value,paint);
                 }
             }
         }
-        return chartData.getScaleData().rowSize != 0;
-
-
-    }
-
-    private double[] getColumnScale(List<Double> values) {
-        double maxValue = 0;
-        double minValue =0;
-        int size = values.size();
-        for(int j= 0;j < size;j++) {
-            double d = values.get(j) ;
-            if(j == 0){
-                maxValue = d;
-                minValue = d;
-            }
-            if (maxValue < d){
-                maxValue = d;
-            }else if(minValue >d){
-                minValue = d;
-            }
+        if (levelLine != null) {
+            drawLevelLine(canvas, zoomRect, paint);
         }
-        return new double[] {maxValue,minValue};
+
     }
 
-    /**
-     * 绘制水平线
-     */
-    void drawLevelLine(Canvas canvas, Rect zoomRect, Paint paint){
 
-        if(levelLine.size() > 0) {
-            for(ILevel level:levelLine){
-                float levelY = getStartY(zoomRect,level.getValue(),level.getAxisDirection());
-                level.drawLevel(canvas,getProviderRect(),levelY,paint);
+    protected void drawLine(Canvas canvas, boolean isNewBar,boolean isLast, BarLineData columnData, float x,float y, double value, Paint paint) {
+
+        if(columnData.getModel() ==BarLineData.CURVE
+                || columnData.getModel() ==BarLineData.BROKEN){
+            if(isNewBar){
+                pointX.clear();
+                pointY.clear();
+            }
+            pointX.add(x);
+            pointY.add(y);
+            drawPointText(canvas,value,x, y,paint);
+            if(isLast){
+                Path path;
+                if(columnData.getModel() ==BarLineData.CURVE){
+                    path = new CurveLineModel().getLinePath(pointX,pointY);
+                }else{
+                    path = new BrokenLineModel().getLinePath(pointX,pointY);
+                }
+                lineStyle.setColor(paint.getColor());
+                lineStyle.fillPaint(paint);
+                canvas.drawPath(path,paint);
             }
         }
     }
 
-    protected abstract float getStartY(Rect zoomRect, double value, int direction);
-
-
-
-
-    public  abstract double[] setMaxMinValue(double maxMinValue, double minValue);
-
-
-
-    public void addLevelLine(LevelLine levelLine) {
-        this.levelLine.add(levelLine);
+    protected int getBarColumnSize() {
+        List<BarLineData> lineDates =  chartData.getColumnDataList();
+        int barSize = 0;
+        for(int i =0;i < lineDates.size();i++){
+            if(lineDates.get(i).getModel() == BarLineData.BAR){
+                barSize++;
+            }
+        }
+        if(barSize == 0){
+            throw new ChartException("There must be a set of bar data!");
+        }
+        return barSize;
     }
 
-
-
-    public boolean isOpenCross() {
-        return isOpenCross;
+    public LineStyle getLineStyle() {
+        return lineStyle;
     }
 
-    public void setOpenCross(boolean openCross) {
-        isOpenCross = openCross;
+    public void setLineStyle(LineStyle lineStyle) {
+        this.lineStyle = lineStyle;
     }
-
-    public ICross getCross() {
-        return cross;
-    }
-
-    public void setCross(ICross cross) {
-        this.cross = cross;
-    }
-
-    public List<ILevel> getLevelLine() {
-        return levelLine;
-    }
-
 }

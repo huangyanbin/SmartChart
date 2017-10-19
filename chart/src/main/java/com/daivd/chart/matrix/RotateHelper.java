@@ -5,7 +5,7 @@ import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.ViewParent;
 
-import com.daivd.chart.core.BaseChart;
+import com.daivd.chart.core.base.BaseChart;
 
 /**
  * Created by huang on 2017/10/10.

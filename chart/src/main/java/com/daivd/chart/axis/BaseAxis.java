@@ -2,6 +2,7 @@ package com.daivd.chart.axis;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.Rect;
 import android.view.Gravity;
 
@@ -21,10 +22,11 @@ import com.daivd.chart.matrix.MatrixHelper;
 
 public abstract class BaseAxis<V> implements IAxis<V> {
 
-    protected LineStyle lineStyle = new LineStyle();
+    protected LineStyle axisStyle = new LineStyle();
     protected FontStyle scaleStyle = new FontStyle();
     protected LineStyle gridStyle = new LineStyle(); //网格样式
     protected boolean isDrawGrid; //是否绘制网格
+    protected boolean isShowAxisLine = true;
     protected int gravity = Gravity.CENTER;
     protected int direction;
     protected boolean isLine;
@@ -34,12 +36,12 @@ public abstract class BaseAxis<V> implements IAxis<V> {
         isDrawGrid = drawGrid;
     }
 
-    public LineStyle getLineStyle() {
-        return lineStyle;
+    public LineStyle getAxisStyle() {
+        return axisStyle;
     }
 
-    public void setLineStyle(LineStyle lineStyle) {
-        this.lineStyle = lineStyle;
+    public void setAxisStyle(LineStyle axisStyle) {
+        this.axisStyle = axisStyle;
     }
 
     public FontStyle getScaleStyle() {
@@ -67,13 +69,13 @@ public abstract class BaseAxis<V> implements IAxis<V> {
     }
 
     @Override
-    public void draw(Canvas canvas, Rect rect, MatrixHelper helper, Paint paint, ChartData<LineData> chartData) {
+    public void draw(Canvas canvas, Rect rect, MatrixHelper helper, Paint paint, ChartData<? extends LineData> chartData) {
         drawScale(canvas, rect, helper, paint, chartData);
         drawAxis(canvas, rect, paint, chartData);
     }
 
 
-    protected void drawScale(Canvas canvas, Rect rect, MatrixHelper helper, Paint paint, ChartData<LineData> chartData) {
+    protected void drawScale(Canvas canvas, Rect rect, MatrixHelper helper, Paint paint, ChartData<? extends LineData> chartData) {
         ScaleData scaleData = chartData.getScaleData();
         Rect clipRect = new Rect(rect);
         Rect scaleRect = scaleData.scaleRect;
@@ -93,14 +95,26 @@ public abstract class BaseAxis<V> implements IAxis<V> {
             clipRect.bottom = rect.bottom - scaleRect.bottom;
         }
         drawScale(canvas, zoomRect, clipRect, paint, chartData);
+    }
 
+    protected void drawAxis(Canvas canvas, Rect rect, Paint paint,  ChartData<? extends LineData> chartData) {
+        if(isShowAxisLine) {
+            Rect scaleRect = chartData.getScaleData().scaleRect;
+            axisStyle.fillPaint(paint);
+            int[] r = calculation(rect, scaleRect);
+            Path path = new Path();
+            path.moveTo(r[0],r[1]);
+            path.lineTo(r[2],r[3]);
+            canvas.drawPath(path, paint);
+        }
 
     }
 
+    protected abstract int[] calculation(Rect rect, Rect scaleRect);
 
-    protected abstract void drawAxis(Canvas canvas, Rect rect, Paint paint, ChartData<LineData> chartData);
 
-    protected abstract void drawScale(Canvas canvas, Rect rect, Rect clipRect, Paint paint, ChartData<LineData> chartData);
+
+    protected abstract void drawScale(Canvas canvas, Rect rect, Rect clipRect, Paint paint,ChartData<? extends LineData> chartData);
 
     public IFormat<V> getFormat() {
         return format;
@@ -109,5 +123,13 @@ public abstract class BaseAxis<V> implements IAxis<V> {
     @Override
     public void setFormat(IFormat<V> format) {
         this.format = format;
+    }
+
+    public boolean isShowAxisLine() {
+        return isShowAxisLine;
+    }
+
+    public void setShowAxisLine(boolean showAxisLine) {
+        isShowAxisLine = showAxisLine;
     }
 }

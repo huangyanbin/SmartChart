@@ -80,7 +80,7 @@ public class ZoomChartListAdapter extends BaseQuickAdapter<String,BaseViewHolder
         horizontalAxis.setAxisDirection(IAxis.AxisDirection.BOTTOM);
         horizontalAxis.setDrawGrid(true);
         //设置线条样式
-        verticalAxis.getLineStyle().setWidth(mContext,1);
+        verticalAxis.getAxisStyle().setWidth(mContext,1);
         DashPathEffect effects = new DashPathEffect(new float[] { 1, 2, 4, 8}, 1);
         verticalAxis.getGridStyle().setWidth(mContext,1).setColor(res.getColor(R.color.arc_text)).setEffect(effects);
         horizontalAxis.getGridStyle().setWidth(mContext,1).setColor(res.getColor(R.color.arc_text)).setEffect(effects);
