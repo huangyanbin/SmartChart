@@ -14,7 +14,7 @@ import com.daivd.chart.data.ChartData;
 import com.daivd.chart.data.ColumnData;
 import com.daivd.chart.data.style.FontStyle;
 import com.daivd.chart.listener.OnClickColumnListener;
-import com.daivd.chart.provider.component.mark.MarkView;
+import com.daivd.chart.provider.component.mark.IMark;
 import com.daivd.chart.matrix.MatrixHelper;
 
 /**
@@ -25,7 +25,7 @@ public abstract class BaseProvider<C extends ColumnData> implements IProvider<C>
 
     private float progress = 1;
     protected  PointF pointF;
-    protected  MarkView markView;
+    protected IMark<C> markView;
     private boolean isOpenMark;
     private boolean isShowText =true;
     private int pointTextHeight;
@@ -46,9 +46,6 @@ public abstract class BaseProvider<C extends ColumnData> implements IProvider<C>
     @Override
     public void drawProvider(Canvas canvas, Rect rect, MatrixHelper helper, Paint paint) {
         providerRect = rect;
-        if(markView != null){
-            markView.initMarkRect(providerRect);
-        }
         matrixRectStart(canvas,rect);
         Rect zoomRect = helper.getZoomProviderRect(rect);
         drawProvider(canvas,zoomRect,rect,paint);
@@ -133,7 +130,7 @@ public abstract class BaseProvider<C extends ColumnData> implements IProvider<C>
     public  abstract double[] setMaxMinValue(double maxMinValue, double minValue);
 
     @Override
-    public void setMarkView(MarkView markView) {
+    public void setMarkView(IMark markView) {
         this.markView = markView;
     }
 

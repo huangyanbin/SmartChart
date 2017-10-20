@@ -1,7 +1,6 @@
 package com.bin.david.smartchart.adapter;
 
 import android.content.res.Resources;
-import android.graphics.DashPathEffect;
 import android.support.annotation.Nullable;
 
 import com.bin.david.smartchart.R;
@@ -9,12 +8,12 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.daivd.chart.core.PieChart;
 import com.daivd.chart.data.ChartData;
-import com.daivd.chart.provider.component.level.LevelLine;
 import com.daivd.chart.data.PieData;
 import com.daivd.chart.data.style.FontStyle;
 import com.daivd.chart.data.style.PointStyle;
 import com.daivd.chart.legend.ILegend;
-import com.daivd.chart.provider.component.mark.MsgMarkView;
+import com.daivd.chart.provider.component.mark.BubbleMarkView;
+import com.daivd.chart.provider.component.point.Point;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,8 +60,10 @@ public class RotateChartListAdapter extends BaseQuickAdapter<String,BaseViewHold
       fontStyle.setTextColor(res.getColor(R.color.arc3));
       fontStyle.setTextSpSize(mContext,15);
       pieChart.getProvider().setOpenMark(true);
-      pieChart.getProvider().setMarkView(new MsgMarkView(mContext));
-      pieChart.getLegend().getLegendStyle().setShape(PointStyle.CIRCLE);
+      pieChart.getProvider().setMarkView(new BubbleMarkView(mContext));
+      Point legendPoint = (Point) pieChart.getLegend().getPoint();
+      PointStyle style = legendPoint.getPointStyle();
+      style.setShape(PointStyle.CIRCLE);
       pieChart.getLegend().setLegendDirection(ILegend.TOP);
       pieChart.setRotate(true);
       pieChart.setChartData(chartData);

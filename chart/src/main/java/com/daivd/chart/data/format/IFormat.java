@@ -1,4 +1,4 @@
-package com.daivd.chart.data;
+package com.daivd.chart.data.format;
 
 /**
  * Created by huang on 2017/10/17.

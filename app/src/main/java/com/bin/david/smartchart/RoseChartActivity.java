@@ -6,13 +6,14 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.daivd.chart.core.RoseChart;
 import com.daivd.chart.data.ChartData;
-import com.daivd.chart.data.IFormat;
+import com.daivd.chart.data.format.IFormat;
 import com.daivd.chart.data.RoseData;
 import com.daivd.chart.data.style.FontStyle;
 import com.daivd.chart.data.style.PointStyle;
 import com.daivd.chart.legend.IChartTitle;
 import com.daivd.chart.legend.ILegend;
-import com.daivd.chart.provider.component.mark.MsgMarkView;
+import com.daivd.chart.provider.component.mark.BubbleMarkView;
+import com.daivd.chart.provider.component.point.Point;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,7 +65,7 @@ public class RoseChartActivity extends AppCompatActivity {
         //开启MarkView
         roseChart.getProvider().setOpenMark(true);
         //设置MarkView
-        roseChart.getProvider().setMarkView(new MsgMarkView(this));
+        roseChart.getProvider().setMarkView(new BubbleMarkView(this));
         roseChart.setRotate(true);
         roseChart.getProvider().setShowScale(true);
         //设置显示标题
@@ -78,7 +79,9 @@ public class RoseChartActivity extends AppCompatActivity {
         fontStyle.setTextColor(res.getColor(R.color.arc23));
         fontStyle.setTextSpSize(this,16);
         roseChart.getLegend().setLegendDirection(ILegend.BOTTOM);
-        roseChart.getLegend().getLegendStyle().setShape(PointStyle.SQUARE);
+        Point legendPoint = (Point)roseChart.getLegend().getPoint();
+        PointStyle style = legendPoint.getPointStyle();
+        style.setShape(PointStyle.SQUARE);
         roseChart.getLegend().setLegendPercent(0.2f);
         roseChart.getProvider().setScaleFormat(new IFormat<Double>() {
             @Override

@@ -5,7 +5,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 
 import com.daivd.chart.data.ChartData;
-import com.daivd.chart.data.IFormat;
+import com.daivd.chart.data.format.IFormat;
 import com.daivd.chart.data.LineData;
 import com.daivd.chart.matrix.MatrixHelper;
 

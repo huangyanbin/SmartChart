@@ -24,14 +24,15 @@ import com.daivd.chart.data.style.PointStyle;
 import com.daivd.chart.legend.IChartTitle;
 import com.daivd.chart.legend.ILegend;
 import com.daivd.chart.listener.OnClickColumnListener;
-import com.daivd.chart.provider.component.mark.MsgMarkView;
+import com.daivd.chart.provider.component.mark.BubbleMarkView;
+import com.daivd.chart.provider.component.point.Point;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class AreaChartActivity extends AppCompatActivity {
 
-    private LineChart lineChartView;
+    private LineChart lineChart;
     private BaseCheckDialog<ChartStyle> chartDialog;
     private QuickChartDialog quickChartDialog;
     @Override
@@ -39,8 +40,8 @@ public class AreaChartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_line);
         quickChartDialog = new QuickChartDialog();
-        lineChartView = (LineChart) findViewById(R.id.lineChart);
-        lineChartView.setLineModel(LineChart.CURVE_MODEL);
+        lineChart = (LineChart) findViewById(R.id.lineChart);
+        lineChart.setLineModel(LineChart.CURVE_MODEL);
         Resources res = getResources();
         FontStyle.setDefaultTextSpSize(this,12);
         List<String> chartYDataList = new ArrayList<>();
@@ -89,9 +90,9 @@ public class AreaChartActivity extends AppCompatActivity {
         ColumnDatas.add(columnData2);
         ChartData<LineData> chartData2 = new ChartData<>("面积图",chartYDataList,ColumnDatas);
 
-        lineChartView.setLineModel(LineChart.CURVE_MODEL);
-        BaseAxis verticalAxis =  lineChartView.getLeftVerticalAxis();
-        BaseAxis horizontalAxis=  lineChartView.getHorizontalAxis();
+        lineChart.setLineModel(LineChart.CURVE_MODEL);
+        BaseAxis verticalAxis =  lineChart.getLeftVerticalAxis();
+        BaseAxis horizontalAxis=  lineChart.getHorizontalAxis();
         //设置竖轴方向
         verticalAxis.setAxisDirection(IAxis.AxisDirection.LEFT);
         //设置网格
@@ -108,41 +109,39 @@ public class AreaChartActivity extends AppCompatActivity {
         LineStyle crossStyle = cross.getCrossStyle();
         crossStyle.setWidth(this,1);
         crossStyle.setColor(res.getColor(R.color.arc21));
-        lineChartView.getProvider().setCross(cross);
-        lineChartView.setZoom(true);
+        lineChart.getProvider().setCross(cross);
+        lineChart.setZoom(true);
         //开启十字架
-        lineChartView.getProvider().setOpenCross(false);
+        lineChart.getProvider().setOpenCross(false);
         //开启MarkView
-        lineChartView.getProvider().setOpenMark(true);
+        lineChart.getProvider().setOpenMark(true);
         //设置MarkView
-        lineChartView.getProvider().setMarkView(new MsgMarkView(this));
-        //设置显示点
-        lineChartView.getProvider().setShowPoint(false);
-        //设置显示点的样式
-        lineChartView.getProvider().getPointStyle().setShape(PointStyle.CIRCLE);
+        lineChart.getProvider().setMarkView(new BubbleMarkView(this));
 
         //设置显示标题
-        lineChartView.setShowChartName(true);
+        lineChart.setShowChartName(true);
         //设置标题方向
-        lineChartView.getChartTitle().setTitleDirection(IChartTitle.TOP);
+        lineChart.getChartTitle().setTitleDirection(IChartTitle.TOP);
         //设置标题比例
-        lineChartView.getChartTitle().setTitlePercent(0.2f);
+        lineChart.getChartTitle().setTitlePercent(0.2f);
         //设置标题样式
         //设置标题样式
-        FontStyle fontStyle = lineChartView.getChartTitle().getTextStyle();
+        FontStyle fontStyle = lineChart.getChartTitle().getTextStyle();
         fontStyle.setTextColor(res.getColor(R.color.arc_temp));
         fontStyle.setTextSpSize(this,15);
         LevelLine levelLine = new LevelLine(30);
         DashPathEffect effects2 = new DashPathEffect(new float[] { 1, 2,2,4}, 1);
         levelLine.getLineStyle().setWidth(this,1).setColor(res.getColor(R.color.arc23)).setEffect(effects);
         levelLine.getLineStyle().setEffect(effects2);
-        lineChartView.getProvider().addLevelLine(levelLine);
-        lineChartView.getLegend().setLegendDirection(ILegend.BOTTOM);
-        lineChartView.getLegend().getLegendStyle().setShape(PointStyle.RECT);
-        lineChartView.getLegend().setLegendPercent(0.2f);
-        lineChartView.getProvider().setArea(true);
-        lineChartView.setChartData(chartData2);
-        lineChartView.setOnClickColumnListener(new OnClickColumnListener<LineData>() {
+        lineChart.getProvider().addLevelLine(levelLine);
+        lineChart.getLegend().setLegendDirection(ILegend.BOTTOM);
+        Point legendPoint = (Point) lineChart.getLegend().getPoint();
+        PointStyle style = legendPoint.getPointStyle();
+        style.setShape(PointStyle.CIRCLE);
+        lineChart.getLegend().setLegendPercent(0.2f);
+        lineChart.getProvider().setArea(true);
+        lineChart.setChartData(chartData2);
+        lineChart.setOnClickColumnListener(new OnClickColumnListener<LineData>() {
             @Override
             public void onClickColumn(LineData lineData, int position) {
                 Toast.makeText(AreaChartActivity.this,lineData.getChartYDataList().get(position)+lineData.getUnit(),Toast.LENGTH_SHORT).show();
@@ -250,11 +249,11 @@ public class AreaChartActivity extends AppCompatActivity {
             @Override
             public void onItemClick(String s, int position) {
                 if(position == 0){
-                    lineChartView.getProvider().setDrawLine(true);
+                    lineChart.getProvider().setDrawLine(true);
                 }else if(position ==1){
-                    lineChartView.getProvider().setDrawLine(false);
+                    lineChart.getProvider().setDrawLine(false);
                 }
-                lineChartView.startChartAnim(400);
+                lineChart.startChartAnim(400);
             }
         });
     }
@@ -266,11 +265,11 @@ public class AreaChartActivity extends AppCompatActivity {
             @Override
             public void onItemClick(String s, int position) {
                 if(position == 0){
-                    lineChartView.getProvider().setArea(true);
+                    lineChart.getProvider().setArea(true);
                 }else if(position ==1){
-                    lineChartView.getProvider().setArea(false);
+                    lineChart.getProvider().setArea(false);
                 }
-                lineChartView.startChartAnim(400);
+                lineChart.startChartAnim(400);
             }
         });
     }
@@ -281,11 +280,11 @@ public class AreaChartActivity extends AppCompatActivity {
             @Override
             public void onItemClick(String s, int position) {
                 if(position == 0){
-                    lineChartView.getLegend().setSelectColumn(true);
+                    lineChart.getLegend().setSelectColumn(true);
                 }else if(position ==1){
-                    lineChartView.getLegend().setSelectColumn(false);
+                    lineChart.getLegend().setSelectColumn(false);
                 }
-                lineChartView.startChartAnim(400);
+                lineChart.startChartAnim(400);
             }
         });
     }
@@ -296,11 +295,11 @@ public class AreaChartActivity extends AppCompatActivity {
             @Override
             public void onItemClick(String s, int position) {
                 if(position == 0){
-                    lineChartView.getLeftVerticalAxis().setDrawGrid(true);
+                    lineChart.getLeftVerticalAxis().setDrawGrid(true);
                 }else if(position ==1){
-                    lineChartView.getLeftVerticalAxis().setDrawGrid(false);
+                    lineChart.getLeftVerticalAxis().setDrawGrid(false);
                 }
-                lineChartView.startChartAnim(400);
+                lineChart.startChartAnim(400);
             }
         });
     }
@@ -313,11 +312,11 @@ public class AreaChartActivity extends AppCompatActivity {
             @Override
             public void onItemClick(String s, int position) {
                 if(position == 0){
-                    lineChartView.getHorizontalAxis().setDrawGrid(true);
+                    lineChart.getHorizontalAxis().setDrawGrid(true);
                 }else if(position ==1){
-                    lineChartView.getHorizontalAxis().setDrawGrid(false);
+                    lineChart.getHorizontalAxis().setDrawGrid(false);
                 }
-                lineChartView.startChartAnim(400);
+                lineChart.startChartAnim(400);
             }
         });
     }
@@ -329,11 +328,11 @@ public class AreaChartActivity extends AppCompatActivity {
             @Override
             public void onItemClick(String s, int position) {
                 if(position == 0){
-                    lineChartView.getProvider().setOpenCross(true);
+                    lineChart.getProvider().setOpenCross(true);
                 }else if(position ==1){
-                    lineChartView.getProvider().setOpenCross(false);
+                    lineChart.getProvider().setOpenCross(false);
                 }
-                lineChartView.startChartAnim(400);
+                lineChart.startChartAnim(400);
             }
         });
     }
@@ -345,11 +344,11 @@ public class AreaChartActivity extends AppCompatActivity {
             @Override
             public void onItemClick(String s, int position) {
                 if(position == 0){
-                    lineChartView.getProvider().setOpenMark(true);
+                    lineChart.getProvider().setOpenMark(true);
                 }else if(position ==1){
-                    lineChartView.getProvider().setOpenMark(false);
+                    lineChart.getProvider().setOpenMark(false);
                 }
-                lineChartView.startChartAnim(400);
+                lineChart.startChartAnim(400);
             }
         });
     }
@@ -360,11 +359,11 @@ public class AreaChartActivity extends AppCompatActivity {
             @Override
             public void onItemClick(String s, int position) {
                 if(position == 0){
-                    lineChartView.setZoom(true);
+                    lineChart.setZoom(true);
                 }else if(position ==1){
-                    lineChartView.setZoom(false);
+                    lineChart.setZoom(false);
                 }
-                lineChartView.startChartAnim(400);
+                lineChart.startChartAnim(400);
             }
         });
     }
@@ -376,11 +375,11 @@ public class AreaChartActivity extends AppCompatActivity {
             @Override
             public void onItemClick(String s, int position) {
                 if(position == 0){
-                    lineChartView.getProvider().setShowText(true);
+                    lineChart.getProvider().setShowText(true);
                 }else if(position ==1){
-                    lineChartView.getProvider().setShowText(false);
+                    lineChart.getProvider().setShowText(false);
                 }
-                lineChartView.startChartAnim(400);
+                lineChart.startChartAnim(400);
             }
         });
     }
@@ -391,11 +390,11 @@ public class AreaChartActivity extends AppCompatActivity {
             @Override
             public void onItemClick(String s, int position) {
                 if(position == 0){
-                    lineChartView.setShowChartName(true);
+                    lineChart.setShowChartName(true);
                 }else if(position ==1){
-                    lineChartView.setShowChartName(false);
+                    lineChart.setShowChartName(false);
                 }
-                lineChartView.startChartAnim(400);
+                lineChart.startChartAnim(400);
             }
         });
     }
@@ -406,11 +405,14 @@ public class AreaChartActivity extends AppCompatActivity {
             @Override
             public void onItemClick(String s, int position) {
                 if(position == 0){
-                    lineChartView.getProvider().setShowPoint(true);
+                    Point point = new Point();
+                    point.getPointStyle().setShape(PointStyle.CIRCLE);
+                    //设置显示点的样式
+                    lineChart.getProvider().setPoint(point);
                 }else if(position ==1){
-                    lineChartView.getProvider().setShowPoint(false);
+                    lineChart.getProvider().setPoint(null);
                 }
-                lineChartView.startChartAnim(400);
+                lineChart.startChartAnim(400);
             }
         });
     }
@@ -420,7 +422,9 @@ public class AreaChartActivity extends AppCompatActivity {
 
             @Override
             public void onItemClick(String s, int position) {
-                PointStyle style = lineChartView.getProvider().getPointStyle();
+
+                Point point = new Point();
+                PointStyle style =point.getPointStyle();
                 if(position == 0){
                     style.setShape(PointStyle.SQUARE);
                 }else if(position ==1){
@@ -428,7 +432,8 @@ public class AreaChartActivity extends AppCompatActivity {
                 } else if(position ==2){
                     style.setShape(PointStyle.RECT);
                 }
-                lineChartView.startChartAnim(400);
+                lineChart.getProvider().setPoint(point);
+                lineChart.startChartAnim(400);
             }
         });
     }
@@ -438,7 +443,8 @@ public class AreaChartActivity extends AppCompatActivity {
 
             @Override
             public void onItemClick(String s, int position) {
-                PointStyle style = lineChartView.getLegend().getLegendStyle();
+                Point legendPoint = (Point) lineChart.getLegend().getPoint();
+                PointStyle style = legendPoint.getPointStyle();
                 if(position == 0){
                     style.setShape(PointStyle.SQUARE);
                 }else if(position ==1){
@@ -446,7 +452,7 @@ public class AreaChartActivity extends AppCompatActivity {
                 } else if(position ==2){
                     style.setShape(PointStyle.RECT);
                 }
-                lineChartView.startChartAnim(400);
+                lineChart.startChartAnim(400);
             }
         });
     }
@@ -458,16 +464,16 @@ public class AreaChartActivity extends AppCompatActivity {
             @Override
             public void onItemClick(String s, int position) {
                 if(position == 0){
-                    lineChartView.getChartTitle().setTitleDirection(IChartTitle.TOP);
+                    lineChart.getChartTitle().setTitleDirection(IChartTitle.TOP);
                 }else if(position ==1){
-                    lineChartView.getChartTitle().setTitleDirection(IChartTitle.BOTTOM);
+                    lineChart.getChartTitle().setTitleDirection(IChartTitle.BOTTOM);
                 } else if(position ==2){
-                    lineChartView.getChartTitle().setTitleDirection(IChartTitle.LEFT);
+                    lineChart.getChartTitle().setTitleDirection(IChartTitle.LEFT);
                 }
                 else {
-                    lineChartView.getChartTitle().setTitleDirection(IChartTitle.RIGHT);
+                    lineChart.getChartTitle().setTitleDirection(IChartTitle.RIGHT);
                 }
-                lineChartView.startChartAnim(400);
+                lineChart.startChartAnim(400);
             }
         });
     }
@@ -479,16 +485,16 @@ public class AreaChartActivity extends AppCompatActivity {
             @Override
             public void onItemClick(String s, int position) {
                 if(position == 0){
-                    lineChartView.getLegend().setLegendDirection(ILegend.TOP);
+                    lineChart.getLegend().setLegendDirection(ILegend.TOP);
                 }else if(position ==1){
-                    lineChartView.getLegend().setLegendDirection(ILegend.BOTTOM);
+                    lineChart.getLegend().setLegendDirection(ILegend.BOTTOM);
                 } else if(position ==2){
-                    lineChartView.getLegend().setLegendDirection(ILegend.LEFT);
+                    lineChart.getLegend().setLegendDirection(ILegend.LEFT);
                 }
                 else {
-                    lineChartView.getLegend().setLegendDirection(ILegend.RIGHT);
+                    lineChart.getLegend().setLegendDirection(ILegend.RIGHT);
                 }
-                lineChartView.startChartAnim(400);
+                lineChart.startChartAnim(400);
             }
         });
     }
@@ -500,11 +506,11 @@ public class AreaChartActivity extends AppCompatActivity {
             @Override
             public void onItemClick(String s, int position) {
                 if(position == 0){
-                    lineChartView.setLineModel(LineChart.CURVE_MODEL);
+                    lineChart.setLineModel(LineChart.CURVE_MODEL);
                 }else{
-                    lineChartView.setLineModel(LineChart.LINE_MODEL);
+                    lineChart.setLineModel(LineChart.LINE_MODEL);
                 }
-                lineChartView.startChartAnim(400);
+                lineChart.startChartAnim(400);
             }
         });
     }
@@ -515,14 +521,14 @@ public class AreaChartActivity extends AppCompatActivity {
 
             @Override
             public void onItemClick(String s, int position) {
-                LineStyle l  = lineChartView.getProvider().getLineStyle();
+                LineStyle l  = lineChart.getProvider().getLineStyle();
                 if(position == 0){
                     l.setEffect(new PathEffect());
                 }else{
                     DashPathEffect effects = new DashPathEffect(new float[] { 1, 2, 4, 8}, 1);
                     l.setEffect(effects);
                 }
-                lineChartView.startChartAnim(400);
+                lineChart.startChartAnim(400);
             }
         });
     }

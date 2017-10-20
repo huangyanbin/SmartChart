@@ -10,6 +10,8 @@ import com.daivd.chart.data.ColumnData;
 import com.daivd.chart.data.style.FontStyle;
 import com.daivd.chart.data.style.PointStyle;
 import com.daivd.chart.listener.OnClickLegendListener;
+import com.daivd.chart.provider.component.point.IPoint;
+import com.daivd.chart.provider.component.point.Point;
 
 /**
  * Created by huang on 2017/9/29.
@@ -37,7 +39,9 @@ public interface ILegend<C extends ColumnData> {
 
     FontStyle getTextStyle();
 
-    PointStyle getLegendStyle();
+     IPoint getPoint();
+
+     void setPoint(IPoint point) ;
 
     void setLegendDirection(int legendDirection);
 

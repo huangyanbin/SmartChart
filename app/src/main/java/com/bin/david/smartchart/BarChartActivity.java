@@ -15,20 +15,20 @@ import com.daivd.chart.data.style.FontStyle;
 import com.daivd.chart.data.style.PointStyle;
 import com.daivd.chart.legend.ILegend;
 import com.daivd.chart.listener.OnClickColumnListener;
-import com.daivd.chart.provider.component.mark.MsgMarkView;
-import com.daivd.chart.utils.DensityUtils;
+import com.daivd.chart.provider.component.mark.BubbleMarkView;
+import com.daivd.chart.provider.component.point.Point;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class BarChartActivity extends AppCompatActivity {
 
-    private BarChart columnChartView;
+    private BarChart barChart;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bar);
-        columnChartView = (BarChart) findViewById(R.id.columnChart);
+        barChart = (BarChart) findViewById(R.id.columnChart);
         Resources res = getResources();
         FontStyle.setDefaultTextSpSize(this,12);
         List<String> groupData = new ArrayList<>();
@@ -57,28 +57,30 @@ public class BarChartActivity extends AppCompatActivity {
         ColumnDatas.add(columnData1);
         ColumnDatas.add(columnData2);
         ChartData<LineData> chartData = new ChartData<>("柱状图",groupData,ColumnDatas);
-        columnChartView.setChartData(chartData);
-        columnChartView.startChartAnim(1000);
-        columnChartView.setZoom(true);
-        columnChartView.setShowChartName(true);
+        barChart.setChartData(chartData);
+        barChart.startChartAnim(1000);
+        barChart.setZoom(true);
+        barChart.setShowChartName(true);
         //设置标题样式
-        FontStyle fontStyle = columnChartView.getChartTitle().getTextStyle();
+        FontStyle fontStyle = barChart.getChartTitle().getTextStyle();
         fontStyle.setTextColor(res.getColor(R.color.arc23));
         fontStyle.setTextSpSize(this,15);
-        columnChartView.getProvider().setOpenMark(true);
-        columnChartView.getProvider().setOpenCross(true);
+        barChart.getProvider().setOpenMark(true);
+        barChart.getProvider().setOpenCross(true);
         LevelLine levelLine = new LevelLine(20);
         DashPathEffect effects = new DashPathEffect(new float[] { 1, 2, 2, 1}, 1);
         levelLine.getLineStyle().setWidth(this,2).setColor(res.getColor(R.color.arc23)).setEffect(effects);
-        columnChartView.getProvider().addLevelLine(levelLine);
-        columnChartView.getLeftVerticalAxis().getGridStyle().setEffect(effects);
-        columnChartView.getProvider().setMarkView(new MsgMarkView(this));
-        columnChartView.getLegend().getLegendStyle().setShape(PointStyle.CIRCLE);
-        BaseAxis vaxis = columnChartView.getLeftVerticalAxis();
+        barChart.getProvider().addLevelLine(levelLine);
+        barChart.getLeftVerticalAxis().getGridStyle().setEffect(effects);
+        barChart.getProvider().setMarkView(new BubbleMarkView(this));
+        Point legendPoint = (Point) barChart.getLegend().getPoint();
+        PointStyle style = legendPoint.getPointStyle();
+        style.setShape(PointStyle.CIRCLE);
+        BaseAxis vaxis = barChart.getLeftVerticalAxis();
         vaxis.setDrawGrid(true);
         vaxis.getGridStyle().setColor(R.color.arc_inteval);
-        columnChartView.getLegend().setLegendDirection(ILegend.TOP);
-        columnChartView.setOnClickColumnListener(new OnClickColumnListener<LineData>() {
+        barChart.getLegend().setLegendDirection(ILegend.TOP);
+        barChart.setOnClickColumnListener(new OnClickColumnListener<LineData>() {
             @Override
             public void onClickColumn(LineData lineData, int position) {
                 Toast.makeText(BarChartActivity.this,lineData.getChartYDataList().get(position)+lineData.getUnit(),Toast.LENGTH_SHORT).show();

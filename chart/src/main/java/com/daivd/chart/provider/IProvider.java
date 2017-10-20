@@ -10,7 +10,7 @@ import com.daivd.chart.core.base.BaseChart;
 import com.daivd.chart.data.ChartData;
 import com.daivd.chart.data.ColumnData;
 import com.daivd.chart.listener.OnClickColumnListener;
-import com.daivd.chart.provider.component.mark.MarkView;
+import com.daivd.chart.provider.component.mark.IMark;
 import com.daivd.chart.matrix.MatrixHelper;
 
 
@@ -27,7 +27,7 @@ public interface IProvider<C extends ColumnData> {
      void clickPoint(PointF point);
      void startAnim(BaseChart chartView, int duration, Interpolator interpolator);
 
-     void setMarkView(MarkView markView);
+     void setMarkView(IMark markView);
 
      void setOnClickColumnListener(OnClickColumnListener<C> onClickColumnListener);
 

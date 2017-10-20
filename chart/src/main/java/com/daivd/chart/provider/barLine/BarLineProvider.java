@@ -10,8 +10,8 @@ import android.graphics.Rect;
 import com.daivd.chart.data.BarLineData;
 import com.daivd.chart.data.style.LineStyle;
 import com.daivd.chart.exception.ChartException;
-import com.daivd.chart.provider.barLine.model.BrokenLineModel;
-import com.daivd.chart.provider.barLine.model.CurveLineModel;
+import com.daivd.chart.provider.component.line.BrokenLineModel;
+import com.daivd.chart.provider.component.line.CurveLineModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,10 +63,7 @@ public  class BarLineProvider extends BarProvider<BarLineData> {
                 }
             }
         }
-        if (levelLine != null) {
-            drawLevelLine(canvas, zoomRect, paint);
-        }
-
+        drawLevelLine(canvas, zoomRect, paint);
     }
 
 

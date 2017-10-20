@@ -10,6 +10,8 @@ import com.daivd.chart.data.ColumnData;
 import com.daivd.chart.data.style.FontStyle;
 import com.daivd.chart.data.style.PointStyle;
 import com.daivd.chart.listener.OnClickLegendListener;
+import com.daivd.chart.provider.component.point.IPoint;
+import com.daivd.chart.provider.component.point.Point;
 
 import java.util.List;
 
@@ -23,7 +25,7 @@ public class BaseLegend<C extends ColumnData> implements ILegend<C> {
 
     private static final float DEFAULT_PERCENT = 0.2f;
     private FontStyle fontStyle;
-    private PointStyle legendStyle ;
+    private IPoint point;
     private float percent = DEFAULT_PERCENT;
     private int legendDirection = BOTTOM;
     private ChartData<C> chartData;
@@ -32,10 +34,9 @@ public class BaseLegend<C extends ColumnData> implements ILegend<C> {
     private boolean isSelectColumn = true;
     private OnClickLegendListener<C> onClickLegendListener;
 
+
     public BaseLegend(){
-        legendStyle = new PointStyle();
-        legendStyle.setShape(PointStyle.SQUARE);
-        legendStyle.setWidth(25);
+        point = new Point();
         fontStyle = new FontStyle();
     }
 
@@ -98,7 +99,7 @@ public class BaseLegend<C extends ColumnData> implements ILegend<C> {
         int textWidth = (int) paint.measureText(maxLengthColumnName);//文本长度
         Paint.FontMetrics fontMetrics = paint.getFontMetrics();
         float textHeight = fontMetrics.descent - fontMetrics.ascent;
-        int maxLegendLength = (int) (legendStyle.getWidth()+padding*3+textWidth);
+        int maxLegendLength = (int) (point.getWidth()+padding*3+textWidth);
         int columnSize = legendRect.width()/maxLegendLength; //列
         columnSize = columnSize >0?columnSize:1;
         int rowSize = columnDataSize/columnSize;
@@ -115,8 +116,8 @@ public class BaseLegend<C extends ColumnData> implements ILegend<C> {
             int startY = legendRect.top +offsetY+ row * perHeight;
             C columnData = columnDataList.get(i);
             String name = columnData.getName();
-
-            if (pointF != null && isClickRect(startX-legendStyle.getWidth()/2, startX +perWidth-legendStyle.getWidth()/2, startY-padding/2, startY + perHeight+padding/2)) {
+            float pointWidth = point.getWidth();
+            if (pointF != null && isClickRect(startX-pointWidth/2, startX +perWidth-pointWidth/2, startY-padding/2, startY + perHeight+padding/2)) {
                 if (isSelectColumn) {
                     columnData.setDraw(!columnData.isDraw());
                 }
@@ -126,8 +127,8 @@ public class BaseLegend<C extends ColumnData> implements ILegend<C> {
                 }
             }
             paint.setColor(columnData.getColor());
-            drawPoint(canvas, columnData.isDraw(), startX, (int) (startY - legendStyle.getWidth() / 2), paint);
-            startX += legendStyle.getWidth() + padding;
+            drawPoint(canvas, columnData.isDraw(), startX, (int) (startY - pointWidth / 2), paint);
+            startX += pointWidth + padding;
             drawText(canvas, startX, startY, name, paint);
         }
     }
@@ -152,22 +153,9 @@ public class BaseLegend<C extends ColumnData> implements ILegend<C> {
     }
 
     protected void drawPoint(Canvas canvas,boolean isDraw,int x, int y, Paint paint){
-        if(isDraw){
-            int oldColor = paint.getColor();
-            legendStyle.fillPaint(paint);
-            paint.setColor(oldColor);
-        }else{
-            legendStyle.fillPaint(paint);
-        }
-        float w = legendStyle.getWidth();
+        float w = point.getWidth();
         x += w/2;
-        if(legendStyle.getShape() == PointStyle.CIRCLE) {
-            canvas.drawCircle(x, y, w/2, paint);
-        }else if(legendStyle.getShape() == PointStyle.SQUARE){
-            canvas.drawRect(x-w/2,y-w/2,x+w/2,y+w/2,paint);
-        }else if(legendStyle.getShape() == PointStyle.RECT){
-            canvas.drawRect(x-w/2,y-w/3,x+w/2,y+w/3,paint);
-        }
+        point.drawPoint(canvas,x,y,!isDraw,paint);
 
     }
 
@@ -187,9 +175,6 @@ public class BaseLegend<C extends ColumnData> implements ILegend<C> {
         return fontStyle;
     }
 
-    public PointStyle getLegendStyle() {
-        return legendStyle;
-    }
 
     @Override
     public void setLegendDirection(int legendDirection) {
@@ -217,6 +202,13 @@ public class BaseLegend<C extends ColumnData> implements ILegend<C> {
         this.padding = padding;
     }
 
+    public IPoint getPoint() {
+        return point;
+    }
+
+    public void setPoint(IPoint point) {
+        this.point = point;
+    }
 
     public void setSelectColumn(boolean selectColumn) {
         isSelectColumn = selectColumn;

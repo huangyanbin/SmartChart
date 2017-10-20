@@ -14,10 +14,8 @@ import com.daivd.chart.axis.BaseAxis;
 import com.daivd.chart.axis.IAxis;
 import com.daivd.chart.axis.VerticalAxis;
 import com.daivd.chart.core.BarLineChart;
-import com.daivd.chart.core.LineChart;
 import com.daivd.chart.data.BarLineData;
 import com.daivd.chart.data.ChartData;
-import com.daivd.chart.data.LineData;
 import com.daivd.chart.data.style.FontStyle;
 import com.daivd.chart.data.style.LineStyle;
 import com.daivd.chart.data.style.PointStyle;
@@ -25,7 +23,8 @@ import com.daivd.chart.legend.IChartTitle;
 import com.daivd.chart.legend.ILegend;
 import com.daivd.chart.provider.component.cross.Cross;
 import com.daivd.chart.provider.component.level.LevelLine;
-import com.daivd.chart.provider.component.mark.MsgMarkView;
+import com.daivd.chart.provider.component.mark.BubbleMarkView;
+import com.daivd.chart.provider.component.point.Point;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -94,7 +93,7 @@ public class BarLineChartActivity extends AppCompatActivity {
         //开启MarkView
         barLineChart.getProvider().setOpenMark(true);
         //设置MarkView
-        barLineChart.getProvider().setMarkView(new MsgMarkView(this));
+        barLineChart.getProvider().setMarkView(new BubbleMarkView(this));
 
 
         //设置显示标题
@@ -114,7 +113,9 @@ public class BarLineChartActivity extends AppCompatActivity {
         levelLine.getLineStyle().setEffect(effects2);
         barLineChart.getProvider().addLevelLine(levelLine);
         barLineChart.getLegend().setLegendDirection(ILegend.BOTTOM);
-        barLineChart.getLegend().getLegendStyle().setShape(PointStyle.RECT);
+        Point legendPoint = (Point)barLineChart.getLegend().getPoint();
+        PointStyle style = legendPoint.getPointStyle();
+        style.setShape(PointStyle.RECT);
         barLineChart.getLegend().setLegendPercent(0.2f);
         barLineChart.getHorizontalAxis().setRotateAngle(-45);
         barLineChart.setFirstAnim(false);
@@ -416,7 +417,8 @@ public class BarLineChartActivity extends AppCompatActivity {
 
             @Override
             public void onItemClick(String s, int position) {
-                PointStyle style = barLineChart.getLegend().getLegendStyle();
+                Point legendPoint = (Point)barLineChart.getLegend().getPoint();
+                PointStyle style = legendPoint.getPointStyle();
                 if(position == 0){
                     style.setShape(PointStyle.SQUARE);
                 }else if(position ==1){

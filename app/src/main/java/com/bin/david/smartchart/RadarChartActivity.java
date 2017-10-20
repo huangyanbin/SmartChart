@@ -11,7 +11,8 @@ import com.daivd.chart.data.style.FontStyle;
 import com.daivd.chart.data.style.PointStyle;
 import com.daivd.chart.legend.IChartTitle;
 import com.daivd.chart.legend.ILegend;
-import com.daivd.chart.provider.component.mark.MsgMarkView;
+import com.daivd.chart.provider.component.mark.BubbleMarkView;
+import com.daivd.chart.provider.component.point.Point;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +59,7 @@ public class RadarChartActivity extends AppCompatActivity {
         //开启MarkView
         radarChart.getProvider().setOpenMark(true);
         //设置MarkView
-        radarChart.getProvider().setMarkView(new MsgMarkView(this));
+        radarChart.getProvider().setMarkView(new BubbleMarkView(this));
         radarChart.setRotate(true);
 
         //设置显示标题
@@ -70,7 +71,8 @@ public class RadarChartActivity extends AppCompatActivity {
         //设置标题样式
         radarChart.getChartTitle().getTextStyle().setTextColor(res.getColor(R.color.arc23));
         radarChart.getLegend().setLegendDirection(ILegend.BOTTOM);
-        radarChart.getLegend().getLegendStyle().setShape(PointStyle.SQUARE);
+        Point point = (Point)radarChart.getLegend().getPoint();
+        point.getPointStyle().setShape(PointStyle.SQUARE);
         radarChart.getLegend().setLegendPercent(0.2f);
         radarChart.setChartData(chartData2);
         radarChart.startChartAnim(1000);

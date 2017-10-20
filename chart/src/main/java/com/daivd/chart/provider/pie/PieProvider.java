@@ -10,7 +10,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 
 import com.daivd.chart.data.ChartData;
-import com.daivd.chart.data.IFormat;
+import com.daivd.chart.data.format.IFormat;
 import com.daivd.chart.data.PieData;
 import com.daivd.chart.data.style.FontStyle;
 import com.daivd.chart.matrix.RotateHelper;

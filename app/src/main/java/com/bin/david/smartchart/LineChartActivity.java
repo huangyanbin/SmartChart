@@ -1,14 +1,18 @@
 package com.bin.david.smartchart;
 
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.graphics.DashPathEffect;
+import android.graphics.Paint;
 import android.graphics.PathEffect;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 
 import com.bin.david.smartchart.bean.ChartStyle;
 import com.bin.david.smartchart.view.BaseCheckDialog;
+import com.bin.david.smartchart.view.CustomMarkView;
 import com.bin.david.smartchart.view.QuickChartDialog;
 import com.daivd.chart.axis.BaseAxis;
 import com.daivd.chart.axis.IAxis;
@@ -24,7 +28,10 @@ import com.daivd.chart.data.style.PointStyle;
 import com.daivd.chart.legend.IChartTitle;
 import com.daivd.chart.legend.ILegend;
 import com.daivd.chart.listener.OnClickColumnListener;
-import com.daivd.chart.provider.component.mark.MsgMarkView;
+import com.daivd.chart.provider.component.point.Point;
+import com.daivd.chart.provider.component.tip.MultiLineBubbleTip;
+import com.daivd.chart.provider.component.tip.SingleLineBubbleTip;
+import com.daivd.chart.utils.DensityUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +60,7 @@ public class LineChartActivity extends AppCompatActivity {
         tempList1.add(-35d);
         tempList1.add(-40d);
         tempList1.add(10d);
-        LineData columnData1 = new LineData("温度","℃", IAxis.AxisDirection.RIGHT,getResources().getColor(R.color.arc3),tempList1);
+        final LineData columnData1 = new LineData("温度","℃", IAxis.AxisDirection.RIGHT,getResources().getColor(R.color.arc3),tempList1);
         ArrayList<Double> humidityList = new ArrayList<>();
         humidityList.add(60d);
         humidityList.add(50d);
@@ -94,12 +101,34 @@ public class LineChartActivity extends AppCompatActivity {
         //开启MarkView
         lineChart.getProvider().setOpenMark(true);
         //设置MarkView
-        lineChart.getProvider().setMarkView(new MsgMarkView(this));
+        lineChart.getProvider().setMarkView(new CustomMarkView(this));
         //设置显示点
-        lineChart.getProvider().setShowPoint(true);
+        Point point = new Point();
+        point.getPointStyle().setShape(PointStyle.CIRCLE);
         //设置显示点的样式
-        lineChart.getProvider().getPointStyle().setShape(PointStyle.CIRCLE);
+        lineChart.getProvider().setPoint(point);
+        Paint paint = new Paint();
+        paint.setAntiAlias(true);
+        paint.setTextSize(DensityUtils.sp2px(this,13));
+        paint.setStyle(Paint.Style.FILL);
+        paint.setColor(Color.WHITE);
+        MultiLineBubbleTip tip = new MultiLineBubbleTip<LineData>(this,
+                R.mipmap.round_rect,R.mipmap.triangle,paint) {
+            @Override
+            public boolean isShowTip(LineData lineData,int position) {
+                return position == 2;
+            }
 
+            @Override
+            public String[] format(LineData lineData, int position) {
+                String title = lineData.getName();
+                String value = lineData.getChartYDataList().get(position)+lineData.getUnit();
+                return new String[]{title,value};
+            }
+        };
+        tip.setColorFilter(Color.parseColor("#FA8072"));
+        tip.setAlpha(0.8f);
+        lineChart.getProvider().setTip(tip);
         //设置显示标题
         lineChart.setShowChartName(true);
         //设置标题方向
@@ -117,7 +146,9 @@ public class LineChartActivity extends AppCompatActivity {
         levelLine.getLineStyle().setEffect(effects2);
         lineChart.getProvider().addLevelLine(levelLine);
         lineChart.getLegend().setLegendDirection(ILegend.BOTTOM);
-        lineChart.getLegend().getLegendStyle().setShape(PointStyle.RECT);
+        Point legendPoint = (Point)lineChart.getLegend().getPoint();
+        PointStyle style = legendPoint.getPointStyle();
+        style.setShape(PointStyle.RECT);
         lineChart.getLegend().setLegendPercent(0.2f);
         lineChart.getHorizontalAxis().setRotateAngle(-45);
         lineChart.setFirstAnim(false);
@@ -392,9 +423,12 @@ public class LineChartActivity extends AppCompatActivity {
             @Override
             public void onItemClick(String s, int position) {
                 if(position == 0){
-                    lineChart.getProvider().setShowPoint(true);
+                    Point point = new Point();
+                    point.getPointStyle().setShape(PointStyle.CIRCLE);
+                    //设置显示点的样式
+                    lineChart.getProvider().setPoint(point);
                 }else if(position ==1){
-                    lineChart.getProvider().setShowPoint(false);
+                    lineChart.getProvider().setPoint(null);
                 }
                 lineChart.startChartAnim(400);
             }
@@ -406,7 +440,9 @@ public class LineChartActivity extends AppCompatActivity {
 
             @Override
             public void onItemClick(String s, int position) {
-                PointStyle style = lineChart.getProvider().getPointStyle();
+
+                Point point = new Point();
+                PointStyle style =point.getPointStyle();
                 if(position == 0){
                     style.setShape(PointStyle.SQUARE);
                 }else if(position ==1){
@@ -414,6 +450,7 @@ public class LineChartActivity extends AppCompatActivity {
                 } else if(position ==2){
                     style.setShape(PointStyle.RECT);
                 }
+                lineChart.getProvider().setPoint(point);
                 lineChart.startChartAnim(400);
             }
         });
@@ -424,7 +461,8 @@ public class LineChartActivity extends AppCompatActivity {
 
             @Override
             public void onItemClick(String s, int position) {
-                PointStyle style = lineChart.getLegend().getLegendStyle();
+                Point point = (Point)lineChart.getLegend().getPoint();
+                PointStyle style = point.getPointStyle();
                 if(position == 0){
                     style.setShape(PointStyle.SQUARE);
                 }else if(position ==1){

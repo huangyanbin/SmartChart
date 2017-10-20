@@ -1,4 +1,4 @@
-package com.daivd.chart.provider.barLine.model;
+package com.daivd.chart.provider.component.line;
 
 import android.graphics.Path;
 

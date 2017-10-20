@@ -8,7 +8,7 @@ import android.graphics.RectF;
 
 import com.daivd.chart.axis.IAxis;
 import com.daivd.chart.data.ChartData;
-import com.daivd.chart.data.IFormat;
+import com.daivd.chart.data.format.IFormat;
 import com.daivd.chart.data.LineData;
 import com.daivd.chart.data.RoseData;
 import com.daivd.chart.data.ScaleData;

@@ -7,7 +7,7 @@ import android.graphics.Rect;
 import android.view.Gravity;
 
 import com.daivd.chart.data.ChartData;
-import com.daivd.chart.data.IFormat;
+import com.daivd.chart.data.format.IFormat;
 import com.daivd.chart.data.LineData;
 import com.daivd.chart.data.ScaleData;
 import com.daivd.chart.data.style.FontStyle;

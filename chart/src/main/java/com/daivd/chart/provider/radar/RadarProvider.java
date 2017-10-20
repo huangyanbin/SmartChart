@@ -7,7 +7,7 @@ import android.graphics.Rect;
 
 import com.daivd.chart.axis.IAxis;
 import com.daivd.chart.data.ChartData;
-import com.daivd.chart.data.IFormat;
+import com.daivd.chart.data.format.IFormat;
 import com.daivd.chart.data.LineData;
 import com.daivd.chart.data.RadarData;
 import com.daivd.chart.data.ScaleData;

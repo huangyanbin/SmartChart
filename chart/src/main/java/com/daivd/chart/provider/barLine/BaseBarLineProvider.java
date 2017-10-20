@@ -13,6 +13,7 @@ import com.daivd.chart.data.LineData;
 import com.daivd.chart.data.ScaleData;
 import com.daivd.chart.exception.ChartException;
 import com.daivd.chart.provider.BaseProvider;
+import com.daivd.chart.provider.component.tip.ITip;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +26,8 @@ public abstract class BaseBarLineProvider<C extends LineData> extends BaseProvid
 
     private ICross cross;
     private boolean isOpenCross;
-    protected List<ILevel> levelLine = new ArrayList<>();
+    protected ITip<C,?> tip;
+    private List<ILevel> levelLine = new ArrayList<>();
 
 
     @Override
@@ -121,7 +123,22 @@ public abstract class BaseBarLineProvider<C extends LineData> extends BaseProvid
         }
     }
 
+    /**
+     *绘制提示
+     */
+    void drawTip(Canvas canvas,float x, float y,C c,int position){
+        if(tip != null){
+            tip.drawTip(canvas,x,y,getProviderRect(),c,position);
+        }
+    }
 
+     void drawMark(Canvas canvas,float x, float y,Rect rect, int position, int columnPosition) {
+
+        if (markView != null && isOpenMark()) {
+            markView.drawMark(canvas,x, y, rect,chartData.getCharXDataList().get(position),
+                    chartData.getColumnDataList().get(columnPosition), position);
+        }
+    }
 
 
 
@@ -156,4 +173,11 @@ public abstract class BaseBarLineProvider<C extends LineData> extends BaseProvid
         return levelLine;
     }
 
+    public ITip<C,?> getTip() {
+        return tip;
+    }
+
+    public void setTip(ITip<C,?> tip) {
+        this.tip = tip;
+    }
 }

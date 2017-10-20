@@ -15,19 +15,20 @@ import com.daivd.chart.data.style.FontStyle;
 import com.daivd.chart.data.style.PointStyle;
 import com.daivd.chart.legend.ILegend;
 import com.daivd.chart.listener.OnClickColumnListener;
-import com.daivd.chart.provider.component.mark.MsgMarkView;
+import com.daivd.chart.provider.component.mark.BubbleMarkView;
+import com.daivd.chart.provider.component.point.Point;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Bar3DChartActivity extends AppCompatActivity {
 
-    private Bar3DChart columnChartView;
+    private Bar3DChart bar3DChart;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_3dbar);
-        columnChartView = (Bar3DChart) findViewById(R.id.columnChart);
+        bar3DChart = (Bar3DChart) findViewById(R.id.columnChart);
         Resources res = getResources();
         FontStyle.setDefaultTextSpSize(this,12);
         List<String> groupData = new ArrayList<>();
@@ -56,28 +57,30 @@ public class Bar3DChartActivity extends AppCompatActivity {
         ColumnDatas.add(columnData1);
         ColumnDatas.add(columnData2);
         ChartData<LineData> chartData = new ChartData<>("3D柱状图",groupData,ColumnDatas);
-        columnChartView.setChartData(chartData);
-        columnChartView.startChartAnim(1000);
-        columnChartView.setZoom(true);
-        columnChartView.setShowChartName(true);
+        bar3DChart.setChartData(chartData);
+        bar3DChart.startChartAnim(1000);
+        bar3DChart.setZoom(true);
+        bar3DChart.setShowChartName(true);
         //设置标题样式
-        FontStyle fontStyle = columnChartView.getChartTitle().getTextStyle();
+        FontStyle fontStyle = bar3DChart.getChartTitle().getTextStyle();
         fontStyle.setTextColor(res.getColor(R.color.arc23));
         fontStyle.setTextSpSize(this,15);
-        columnChartView.getProvider().setOpenMark(true);
-        columnChartView.getProvider().setOpenCross(true);
+        bar3DChart.getProvider().setOpenMark(true);
+        bar3DChart.getProvider().setOpenCross(true);
         LevelLine levelLine = new LevelLine(20);
         DashPathEffect effects = new DashPathEffect(new float[] { 1, 2, 4, 8}, 1);
         levelLine.getLineStyle().setWidth(this,1).setColor(res.getColor(R.color.arc23)).setEffect(effects);
-        columnChartView.getProvider().addLevelLine(levelLine);
-        columnChartView.getProvider().setMarkView(new MsgMarkView(this));
-        columnChartView.getLegend().getLegendStyle().setShape(PointStyle.CIRCLE);
-        BaseAxis vaxis = columnChartView.getLeftVerticalAxis();
+        bar3DChart.getProvider().addLevelLine(levelLine);
+        bar3DChart.getProvider().setMarkView(new BubbleMarkView(this));
+        Point legendPoint = (Point) bar3DChart.getLegend().getPoint();
+        PointStyle style = legendPoint.getPointStyle();
+        style.setShape(PointStyle.CIRCLE);
+        BaseAxis vaxis = bar3DChart.getLeftVerticalAxis();
         vaxis.setDrawGrid(true);
-        columnChartView.getLeftVerticalAxis().getGridStyle().setEffect(effects);
+        bar3DChart.getLeftVerticalAxis().getGridStyle().setEffect(effects);
         vaxis.getGridStyle().setColor(R.color.arc_inteval);
-        columnChartView.getLegend().setLegendDirection(ILegend.TOP);
-        columnChartView.setOnClickColumnListener(new OnClickColumnListener<LineData>() {
+        bar3DChart.getLegend().setLegendDirection(ILegend.TOP);
+        bar3DChart.setOnClickColumnListener(new OnClickColumnListener<LineData>() {
             @Override
             public void onClickColumn(LineData lineData, int position) {
                 Toast.makeText(Bar3DChartActivity.this,lineData.getChartYDataList().get(position)+lineData.getUnit(),Toast.LENGTH_SHORT).show();

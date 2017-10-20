@@ -61,16 +61,14 @@ public class BarProvider<C extends LineData> extends BaseBarLineProvider<C> {
                 }
                 Rect barRect = new Rect(left, top, right, bottom);
                 drawBar(canvas, barRect, value, paint);
+                drawTip(canvas,left+barRect.width()/2,top,columnData,j);
             }
         }
-
-        if (levelLine != null) {
-            drawLevelLine(canvas, zoomRect, paint);
-        }
+        drawLevelLine(canvas, zoomRect, paint);
         if (isClickRect && containsRect(clickPoint.x, clickPoint.y)) {
             drawCross(canvas, clickPoint.x, clickPoint.y, zoomRect, paint);
             super.matrixRectEnd(canvas, rect);
-            drawMark(canvas,clickPoint.x, clickPoint.y, clickPosition, clickColumnPosition, chartData);
+            drawMark(canvas,clickPoint.x, clickPoint.y,rect, clickPosition, clickColumnPosition);
         }
     }
 
@@ -96,13 +94,7 @@ public class BarProvider<C extends LineData> extends BaseBarLineProvider<C> {
         }
     }
 
-    private void drawMark(Canvas canvas,float x, float y, int position, int columnPosition, ChartData<C> chartData) {
 
-        if (markView != null && isOpenMark()) {
-            markView.drawMark(canvas,x, y, chartData.getCharXDataList().get(position),
-                    chartData.getColumnDataList().get(columnPosition), position);
-        }
-    }
 
     protected boolean isClickRect(float left, float right, float top, float bottom) {
         return pointF != null && pointF.x >= left && pointF.x <= right && pointF.y >= top && pointF.y <= bottom;

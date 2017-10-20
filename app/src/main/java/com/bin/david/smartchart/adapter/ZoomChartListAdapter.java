@@ -20,7 +20,8 @@ import com.daivd.chart.data.style.LineStyle;
 import com.daivd.chart.data.style.PointStyle;
 import com.daivd.chart.legend.IChartTitle;
 import com.daivd.chart.legend.ILegend;
-import com.daivd.chart.provider.component.mark.MsgMarkView;
+import com.daivd.chart.provider.component.mark.BubbleMarkView;
+import com.daivd.chart.provider.component.point.Point;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,8 +40,8 @@ public class ZoomChartListAdapter extends BaseQuickAdapter<String,BaseViewHolder
 
     @Override
     protected void convert(BaseViewHolder helper, String item) {
-      LineChart lineChartView =  helper.getView(R.id.lineChart);
-        lineChartView.setLineModel(LineChart.CURVE_MODEL);
+       LineChart lineChart =  helper.getView(R.id.lineChart);
+        lineChart.setLineModel(LineChart.CURVE_MODEL);
         Resources res = mContext.getResources();
         FontStyle.setDefaultTextSpSize(mContext,12);
         List<String> chartYDataList = new ArrayList<>();
@@ -65,10 +66,10 @@ public class ZoomChartListAdapter extends BaseQuickAdapter<String,BaseViewHolder
         ColumnDatas.add(columnData2);
         ChartData<LineData> chartData2 = new ChartData<>("线型图",chartYDataList,ColumnDatas);
 
-        lineChartView.setLineModel(LineChart.CURVE_MODEL);
-        VerticalAxis verticalAxis =  lineChartView.getLeftVerticalAxis();
-        HorizontalAxis horizontalAxis=  lineChartView.getHorizontalAxis();
-        VerticalAxis rightAxis = lineChartView.getRightVerticalAxis();
+        lineChart.setLineModel(LineChart.CURVE_MODEL);
+        VerticalAxis verticalAxis =  lineChart.getLeftVerticalAxis();
+        HorizontalAxis horizontalAxis=  lineChart.getHorizontalAxis();
+        VerticalAxis rightAxis = lineChart.getRightVerticalAxis();
         rightAxis.setStartZero(false);
         rightAxis.setMaxValue(200);
         rightAxis.setMinValue(-50);
@@ -88,40 +89,43 @@ public class ZoomChartListAdapter extends BaseQuickAdapter<String,BaseViewHolder
       LineStyle crossStyle = cross.getCrossStyle();
       crossStyle.setWidth(mContext,1);
       crossStyle.setColor(res.getColor(R.color.arc21));
-      lineChartView.getProvider().setCross(cross);
-        lineChartView.setZoom(true);
+      lineChart.getProvider().setCross(cross);
+        lineChart.setZoom(true);
         //开启十字架
-        lineChartView.getProvider().setOpenCross(true);
+        lineChart.getProvider().setOpenCross(true);
         //开启MarkView
-        lineChartView.getProvider().setOpenMark(true);
+        lineChart.getProvider().setOpenMark(true);
         //设置MarkView
-        lineChartView.getProvider().setMarkView(new MsgMarkView(mContext));
+        lineChart.getProvider().setMarkView(new BubbleMarkView(mContext));
         //设置显示点
-        lineChartView.getProvider().setShowPoint(true);
+        Point point = new Point();
+        point.getPointStyle().setShape(PointStyle.CIRCLE);
         //设置显示点的样式
-        lineChartView.getProvider().getPointStyle().setShape(PointStyle.CIRCLE);
+        lineChart.getProvider().setPoint(point);
 
         //设置显示标题
-        lineChartView.setShowChartName(true);
+        lineChart.setShowChartName(true);
         //设置标题方向
-        lineChartView.getChartTitle().setTitleDirection(IChartTitle.TOP);
+        lineChart.getChartTitle().setTitleDirection(IChartTitle.TOP);
         //设置标题比例
-        lineChartView.getChartTitle().setTitlePercent(0.2f);
+        lineChart.getChartTitle().setTitlePercent(0.2f);
         //设置标题样式
-        FontStyle fontStyle = lineChartView.getChartTitle().getTextStyle();
+        FontStyle fontStyle = lineChart.getChartTitle().getTextStyle();
         fontStyle.setTextColor(res.getColor(R.color.arc_temp));
         fontStyle.setTextSpSize(mContext,15);
         LevelLine levelLine = new LevelLine(20);
         DashPathEffect effects2 = new DashPathEffect(new float[] { 1, 2,2,4}, 1);
         levelLine.getLineStyle().setWidth(mContext,1).setColor(res.getColor(R.color.arc23)).setEffect(effects);
         levelLine.getLineStyle().setEffect(effects2);
-        lineChartView.getProvider().addLevelLine(levelLine);
-        lineChartView.getLegend().setLegendDirection(ILegend.BOTTOM);
-        lineChartView.getLegend().getLegendStyle().setShape(PointStyle.RECT);
-        lineChartView.getLegend().setLegendPercent(0.2f);
-        lineChartView.getHorizontalAxis().setRotateAngle(-45);
-        lineChartView.setFirstAnim(false);
-        lineChartView.setChartData(chartData2);
-        lineChartView.startChartAnim(1000);
+        lineChart.getProvider().addLevelLine(levelLine);
+        lineChart.getLegend().setLegendDirection(ILegend.BOTTOM);
+        Point legendPoint = (Point) lineChart.getLegend().getPoint();
+        PointStyle style = legendPoint.getPointStyle();
+        style.setShape(PointStyle.RECT);
+        lineChart.getLegend().setLegendPercent(0.2f);
+        lineChart.getHorizontalAxis().setRotateAngle(-45);
+        lineChart.setFirstAnim(false);
+        lineChart.setChartData(chartData2);
+        lineChart.startChartAnim(1000);
     }
 }
