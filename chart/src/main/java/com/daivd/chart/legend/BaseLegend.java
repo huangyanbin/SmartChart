@@ -37,6 +37,7 @@ public class BaseLegend<C extends ColumnData> implements ILegend<C> {
 
     public BaseLegend(){
         point = new Point();
+        ((Point)point).getPointStyle().setWidth(point.getWidth()*2);
         fontStyle = new FontStyle();
     }
 
