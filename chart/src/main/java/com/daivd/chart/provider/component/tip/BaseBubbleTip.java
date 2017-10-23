@@ -62,10 +62,10 @@ public abstract class BaseBubbleTip<C,S> implements ITip<C,S>{
             tipRect.top = tipRect.bottom - h;
             int tranX = 0;
             if (tipRect.left < rect.left) {
-                tranX = rect.left - tipRect.left - triangleWidth;
+                tranX = rect.left - tipRect.left - triangleWidth/2;
 
             } else if (tipRect.right > rect.right) {
-                tranX = rect.right - tipRect.right + triangleWidth;
+                tranX = rect.right - tipRect.right + triangleWidth/2;
             }
 
             if (tipRect.top < rect.top) {

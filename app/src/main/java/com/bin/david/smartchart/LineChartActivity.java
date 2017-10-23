@@ -7,7 +7,6 @@ import android.graphics.Paint;
 import android.graphics.PathEffect;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 
 import com.bin.david.smartchart.bean.ChartStyle;
@@ -19,7 +18,8 @@ import com.daivd.chart.axis.IAxis;
 import com.daivd.chart.axis.VerticalAxis;
 import com.daivd.chart.core.LineChart;
 import com.daivd.chart.data.ChartData;
-import com.daivd.chart.provider.component.cross.Cross;
+import com.daivd.chart.provider.component.cross.DoubleDriCross;
+import com.daivd.chart.provider.component.cross.VerticalCross;
 import com.daivd.chart.provider.component.level.LevelLine;
 import com.daivd.chart.data.LineData;
 import com.daivd.chart.data.style.FontStyle;
@@ -30,7 +30,6 @@ import com.daivd.chart.legend.ILegend;
 import com.daivd.chart.listener.OnClickColumnListener;
 import com.daivd.chart.provider.component.point.Point;
 import com.daivd.chart.provider.component.tip.MultiLineBubbleTip;
-import com.daivd.chart.provider.component.tip.SingleLineBubbleTip;
 import com.daivd.chart.utils.DensityUtils;
 
 import java.util.ArrayList;
@@ -90,7 +89,7 @@ public class LineChartActivity extends AppCompatActivity {
         DashPathEffect effects = new DashPathEffect(new float[] { 1, 2, 4, 8}, 1);
         verticalAxis.getGridStyle().setWidth(this,1).setColor(res.getColor(R.color.arc_text)).setEffect(effects);
         horizontalAxis.getGridStyle().setWidth(this,1).setColor(res.getColor(R.color.arc_text)).setEffect(effects);
-        Cross cross = new Cross();
+        VerticalCross cross = new VerticalCross();
         LineStyle crossStyle = cross.getCrossStyle();
         crossStyle.setWidth(this,1);
         crossStyle.setColor(res.getColor(R.color.arc21));

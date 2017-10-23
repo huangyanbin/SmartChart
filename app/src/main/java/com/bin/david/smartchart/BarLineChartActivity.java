@@ -21,7 +21,7 @@ import com.daivd.chart.data.style.LineStyle;
 import com.daivd.chart.data.style.PointStyle;
 import com.daivd.chart.legend.IChartTitle;
 import com.daivd.chart.legend.ILegend;
-import com.daivd.chart.provider.component.cross.Cross;
+import com.daivd.chart.provider.component.cross.DoubleDriCross;
 import com.daivd.chart.provider.component.level.LevelLine;
 import com.daivd.chart.provider.component.mark.BubbleMarkView;
 import com.daivd.chart.provider.component.point.Point;
@@ -82,7 +82,7 @@ public class BarLineChartActivity extends AppCompatActivity {
         DashPathEffect effects = new DashPathEffect(new float[] { 1, 2, 4, 8}, 1);
         verticalAxis.getGridStyle().setWidth(this,1).setColor(res.getColor(R.color.arc_text)).setEffect(effects);
         horizontalAxis.getGridStyle().setWidth(this,1).setColor(res.getColor(R.color.arc_text)).setEffect(effects);
-        Cross cross = new Cross();
+        DoubleDriCross cross = new DoubleDriCross();
         LineStyle crossStyle = cross.getCrossStyle();
         crossStyle.setWidth(this,1);
         crossStyle.setColor(res.getColor(R.color.arc21));
