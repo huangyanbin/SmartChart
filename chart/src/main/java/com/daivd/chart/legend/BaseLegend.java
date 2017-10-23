@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.Rect;
+import android.util.Log;
 
 import com.daivd.chart.data.ChartData;
 import com.daivd.chart.data.ColumnData;
@@ -15,6 +16,7 @@ import com.daivd.chart.provider.component.point.Point;
 
 import java.util.List;
 
+import static android.R.attr.flipInterval;
 import static android.R.attr.startY;
 
 /**BaseLegend
@@ -36,8 +38,9 @@ public class BaseLegend<C extends ColumnData> implements ILegend<C> {
 
 
     public BaseLegend(){
-        point = new Point();
-        ((Point)point).getPointStyle().setWidth(point.getWidth()*2);
+        Point p = new Point();
+        p.getPointStyle().setWidth(p.getPointStyle().getWidth()*2);
+        point = p;
         fontStyle = new FontStyle();
     }
 
@@ -118,7 +121,8 @@ public class BaseLegend<C extends ColumnData> implements ILegend<C> {
             C columnData = columnDataList.get(i);
             String name = columnData.getName();
             float pointWidth = point.getWidth();
-            if (pointF != null && isClickRect(startX-pointWidth/2, startX +perWidth-pointWidth/2, startY-padding/2, startY + perHeight+padding/2)) {
+            float pointHeight = point.getHeight();
+            if (pointF != null && isClickRect(startX-pointWidth, startX +perWidth, startY-padding/2, startY + perHeight+padding/2)) {
                 if (isSelectColumn) {
                     columnData.setDraw(!columnData.isDraw());
                 }
@@ -128,7 +132,7 @@ public class BaseLegend<C extends ColumnData> implements ILegend<C> {
                 }
             }
             paint.setColor(columnData.getColor());
-            drawPoint(canvas, columnData.isDraw(), startX, (int) (startY - pointWidth / 2), paint);
+            drawPoint(canvas, columnData.isDraw(), startX, (int) (startY-textHeight/2+pointHeight/2), paint);
             startX += pointWidth + padding;
             drawText(canvas, startX, startY, name, paint);
         }

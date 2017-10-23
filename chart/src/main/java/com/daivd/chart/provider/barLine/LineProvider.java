@@ -60,9 +60,10 @@ public class LineProvider extends BaseBarLineProvider<LineData> {
             canvas.save();
             canvas.clipRect(rect);
             drawLine(canvas, rect, pointX, pointY, paint);
+            drawTip(canvas, pointX, pointY, columnData);
             canvas.restore();
             drawPoint(canvas, pointX, pointY, paint);
-            drawTip(canvas, pointX, pointY, columnData);
+
         }
         drawLevelLine(canvas, zoomRect, paint);
         drawClickCross(canvas, rect, zoomRect, paint);

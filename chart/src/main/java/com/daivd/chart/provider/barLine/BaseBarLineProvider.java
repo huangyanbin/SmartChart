@@ -127,7 +127,7 @@ public abstract class BaseBarLineProvider<C extends LineData> extends BaseProvid
      *绘制提示
      */
     void drawTip(Canvas canvas,float x, float y,C c,int position){
-        if(tip != null && containsRect(x,y)){
+        if(tip != null){
             tip.drawTip(canvas,x,y,getProviderRect(),c,position);
         }
     }

@@ -23,17 +23,26 @@ public class Point implements IPoint {
             paint.setColor(oldColor);
         }
          if (pointStyle.getShape() == PointStyle.CIRCLE) {
-              canvas.drawCircle(x, y, w, paint);
+              canvas.drawCircle(x, y, w/2, paint);
          } else if (pointStyle.getShape() == PointStyle.SQUARE) {
-              canvas.drawRect(x - w / 2, y - w / 2, x + w / 2, y + w / 2, paint);
+              canvas.drawRect(x - w/2 , y - w/2 , x + w/2, y + w/2 , paint);
          } else if (pointStyle.getShape() == PointStyle.RECT) {
-              canvas.drawRect(x - w * 2 / 3, y - w / 2, x + w * 2 / 3, y + w / 2, paint);
+              canvas.drawRect(x - w * 2 / 3, y - w/2 , x + w * 2 / 3, y + w/2, paint);
          }
      }
 
 
     @Override
     public float getWidth() {
+        if(pointStyle.getShape() == PointStyle.RECT){
+            return pointStyle.getWidth() * 4/ 3;
+        }
+        return pointStyle.getWidth();
+    }
+
+    @Override
+    public float getHeight() {
+
         return pointStyle.getWidth();
     }
 

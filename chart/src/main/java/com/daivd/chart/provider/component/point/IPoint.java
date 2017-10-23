@@ -11,5 +11,6 @@ public interface IPoint {
 
      void drawPoint(Canvas canvas, float x,float y,boolean isShowDefaultColor,Paint paint);
      float getWidth();
+     float getHeight();
 
 }
