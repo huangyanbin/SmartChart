@@ -31,7 +31,7 @@ public class PieProvider extends BaseProvider<PieData> {
     private int centerRadius;
     private double clickAngle = -1;
     private final float startAngle = -90;
-    private RotateHelper rotateHelper;
+    protected RotateHelper rotateHelper;
     private FontStyle textStyle = new FontStyle();
     private float centerCirclePercent = 0.3f;
     private boolean isShader;
@@ -43,7 +43,9 @@ public class PieProvider extends BaseProvider<PieData> {
         return true;
     }
 
-
+    /**
+     *变形开始
+     */
     @Override
     protected void matrixRectStart(Canvas canvas, Rect rect) {
         super.matrixRectStart(canvas, rect);
@@ -52,6 +54,9 @@ public class PieProvider extends BaseProvider<PieData> {
         }
     }
 
+    /**
+     * 绘制内容
+     */
     @Override
     protected void drawProvider(Canvas canvas, Rect zoomRect, Rect rect, Paint paint) {
         int layerId = canvas.saveLayer(rect.left,rect.top,rect.right,rect.bottom, null, Canvas.ALL_SAVE_FLAG);
@@ -101,6 +106,7 @@ public class PieProvider extends BaseProvider<PieData> {
             }
             startAngle += sweepAngle;
         }
+        //裁切中间圆
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_OUT));
         if(centerCirclePercent >0) {
             paint.setColor(Color.TRANSPARENT);

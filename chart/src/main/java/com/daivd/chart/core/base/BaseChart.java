@@ -75,6 +75,9 @@ public abstract class BaseChart<P extends IProvider<C>,C extends ColumnData> ext
         init();
     }
 
+    /**
+     * 初始化组件
+     */
     protected void init() {
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         chartTitle = new BaseChartTitle();
@@ -86,7 +89,9 @@ public abstract class BaseChart<P extends IProvider<C>,C extends ColumnData> ext
         provider = initProvider();
     }
 
-
+    /**
+     *将触摸事件交给Iouch处理
+     */
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         return matrixHelper.handlerTouchEvent(event);
@@ -98,6 +103,9 @@ public abstract class BaseChart<P extends IProvider<C>,C extends ColumnData> ext
         return super.dispatchTouchEvent(event);
     }
 
+    /**
+     * 获取大小
+     */
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         width = w;
@@ -109,26 +117,33 @@ public abstract class BaseChart<P extends IProvider<C>,C extends ColumnData> ext
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         if (chartData != null) {
-
             resetScaleData();
             computePaddingRect();
             if (isShowChartName) {
+                //计算标题的大小
                 chartTitle.computeTitle(chartData, chartRect, paint);
                 chartTitle.drawTitle(canvas, chartRect, paint);
+                //减掉标题大小
                 computeTitleRect();
             }
             if (!chartData.isEmpty()) {
+                //计算图例的大小
                 legend.computeLegend(chartData, chartRect, paint);
+                //绘制图例
                 legend.drawLegend(canvas, chartRect, paint);
+                //减掉图例大小
                 computeLegendRect();
             }
             if (!isCharEmpty) {
+                //绘制内容
                 drawContent(canvas);
             } else {
+                //绘制空白
                 emptyView.drawEmpty(canvas, chartRect, paint);
             }
         }
     }
+    //待改善
     private void resetScaleData(){
         ScaleData scaleData = chartData.getScaleData();
         scaleData.scaleRect.set(0,0,0,0);
@@ -188,6 +203,9 @@ public abstract class BaseChart<P extends IProvider<C>,C extends ColumnData> ext
 
     protected abstract P initProvider();
 
+    /**
+     * 设置图内容绘制者
+     */
     public void setProvider(P provider) {
         this.provider = provider;
     }
@@ -200,6 +218,9 @@ public abstract class BaseChart<P extends IProvider<C>,C extends ColumnData> ext
         return chartData;
     }
 
+    /**
+     * 设置图表数据源
+     */
     public void setChartData(ChartData<C> chartData) {
         isCharEmpty = !provider.calculation(chartData);
         this.chartData = chartData;
@@ -209,6 +230,9 @@ public abstract class BaseChart<P extends IProvider<C>,C extends ColumnData> ext
     private int duration = 400;
     private Interpolator interpolator;
 
+    /**
+     * 动画
+     */
     private void startChartAnim() {
 
         if (interpolator == null)
@@ -217,11 +241,15 @@ public abstract class BaseChart<P extends IProvider<C>,C extends ColumnData> ext
             startChartAnim(duration, interpolator);
     }
 
-
+    /**
+     * 动画
+     * @param duration 时间
+     */
     public void startChartAnim(int duration){
         new DecelerateInterpolator();
         provider.startAnim(this,duration,new DecelerateInterpolator());
     }
+
     public void startChartAnim(int duration, Interpolator interpolator){
 
         this.duration = duration;
@@ -277,10 +305,17 @@ public abstract class BaseChart<P extends IProvider<C>,C extends ColumnData> ext
         return legend;
     }
 
+    /**
+     * 设置是否可以缩放
+     * @param zoom
+     */
     public void setZoom(boolean zoom) {
         matrixHelper.setCanZoom(zoom);
     }
 
+    /**
+     * 图表放大位移之后通知更新
+     */
     @Override
     public void onViewChanged(float scale, float translateX, float translateY) {
         invalidate();
@@ -297,6 +332,10 @@ public abstract class BaseChart<P extends IProvider<C>,C extends ColumnData> ext
         this.onClickLegendListener = onClickLegendListener;
     }
 
+    /**
+     * 是否动画只执行一次
+     * @param isFirstAnim
+     */
     public void setFirstAnim(boolean isFirstAnim) {
         this.isFirstAnim = isFirstAnim;
     }
