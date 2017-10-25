@@ -31,11 +31,11 @@ public class BarChartActivity extends AppCompatActivity {
         barChart = (BarChart) findViewById(R.id.columnChart);
         Resources res = getResources();
         FontStyle.setDefaultTextSpSize(this,12);
-        List<String> groupData = new ArrayList<>();
-        groupData.add("华北");
-        groupData.add("华中");
-        groupData.add("华东");
-        groupData.add("华西");
+        List<String> chartYDataList = new ArrayList<>();
+        chartYDataList.add("Tokyo");
+        chartYDataList.add("Paris");
+        chartYDataList.add("Hong Kong");
+        chartYDataList.add("Singapore");
 
 
         List<LineData> ColumnDatas = new ArrayList<>();
@@ -46,17 +46,17 @@ public class BarChartActivity extends AppCompatActivity {
         tempList1.add(10d);
 
 
-        LineData columnData1 = new LineData("温度","℃",getResources().getColor(R.color.arc3),tempList1);
+        LineData columnData1 = new LineData("Temperature","℃",getResources().getColor(R.color.arc3),tempList1);
         ArrayList<Double> humidityList = new ArrayList<>();
         humidityList.add(60d);
         humidityList.add(50d);
         humidityList.add(30d);
         humidityList.add(65d);
 
-        LineData columnData2 = new LineData("湿度","RH%",getResources().getColor(R.color.arc2),humidityList);
+        LineData columnData2 = new LineData("Humidity","RH%",getResources().getColor(R.color.arc2),humidityList);
         ColumnDatas.add(columnData1);
         ColumnDatas.add(columnData2);
-        ChartData<LineData> chartData = new ChartData<>("柱状图",groupData,ColumnDatas);
+        ChartData<LineData> chartData = new ChartData<>("bar chart",chartYDataList,ColumnDatas);
         barChart.setChartData(chartData);
         barChart.startChartAnim(1000);
         barChart.setZoom(true);

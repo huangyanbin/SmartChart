@@ -15,7 +15,7 @@
         android:paddingLeft="23dp"
         android:paddingRight="23dp"
         android:background="@drawable/dialog_btn_bg"
-        android:text="开始"
+        android:text="Start"
         android:onClick="onClick"
         android:clickable="true"
         android:textColor="#fff"

@@ -6,24 +6,24 @@ package com.bin.david.smartchart.bean;
 
 public enum  ChartStyle {
 
-  LINE_TYPE("选择线种类"),
-  LINE_STYLE("选择线样式"),
-  LEGEND_POSITION("选择图示位置"),
-  LEGEND_TYPE("选择图示样式"),
-    LEGEND_CLICK("图示是否点击"),
-  LINE_SHOWPOINT("是否显示点"),
-    LINE_POINT_STYLE("选择点样式"),
-    LINE_TEXT("选择是否显示点值"),
-    ZOOM("是否缩放"),
-    SHOW_TITLE("是否显示标题"),
-    TITLE_POSITON("选择标题位置"),
-    CROSS("是否打开十字轴"),
-    MARK_VIEW("是否显示MarkView"),
-    H_GRID("是否显示横向网格"),
-    SHOW_LINE("是否显示线"),
-    SHOW_AREA("是否显示面积图"),
-    V_GRID("是否显示纵向网格"),
-    ROATE_ANGLE("横轴旋转角度");
+  LINE_TYPE("Line type"),
+  LINE_STYLE("Line style"),
+  LEGEND_POSITION("Legend position"),
+  LEGEND_TYPE("Legend type"),
+    LEGEND_CLICK("Legend click"),
+  LINE_SHOWPOINT("Show Point"),
+    LINE_POINT_STYLE("Point style"),
+    LINE_TEXT("Show point value"),
+    ZOOM("Zoom"),
+    SHOW_TITLE("Show title"),
+    TITLE_POSITON("Show title position"),
+    CROSS("Open cross"),
+    MARK_VIEW("Show mark view"),
+    H_GRID("Show horizontal grid"),
+    SHOW_LINE("Show line"),
+    SHOW_AREA("Show area"),
+    V_GRID("Show vertical grid"),
+    ROATE_ANGLE("Horizontal axis value angle");
 
 
 

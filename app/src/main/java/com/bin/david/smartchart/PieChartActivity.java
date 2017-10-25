@@ -28,25 +28,25 @@ public class PieChartActivity extends AppCompatActivity {
         pieChart = (PieChart) findViewById(R.id.pieChart);
         Resources res = getResources();
         FontStyle.setDefaultTextSpSize(this,12);
-        List<String> groupData = new ArrayList<>();
-        groupData.add("华北");
-        groupData.add("华中");
-        groupData.add("华东");
-        groupData.add("华西");
+        List<String> chartYDataList = new ArrayList<>();
+        chartYDataList.add("Tokyo");
+        chartYDataList.add("Paris");
+        chartYDataList.add("Hong Kong");
+        chartYDataList.add("Singapore");
 
 
         List<PieData> pieDatas = new ArrayList<>();
 
 
-        PieData columnData1 = new PieData("华北","℃",getResources().getColor(R.color.arc1),20d);
-        PieData columnData2 = new PieData("华中","℃",getResources().getColor(R.color.arc2),15d);
-        PieData columnData3 = new PieData("华东","℃",getResources().getColor(R.color.arc3),25d);
-        PieData columnData4 = new PieData("华西","℃",getResources().getColor(R.color.arc21),5d);
+        PieData columnData1 = new PieData("Tokyo","℃",getResources().getColor(R.color.arc1),20d);
+        PieData columnData2 = new PieData("Paris","℃",getResources().getColor(R.color.arc2),15d);
+        PieData columnData3 = new PieData("Hong Kong","℃",getResources().getColor(R.color.arc3),25d);
+        PieData columnData4 = new PieData("Singapore","℃",getResources().getColor(R.color.arc21),5d);
         pieDatas.add(columnData1);
         pieDatas.add(columnData2);
         pieDatas.add(columnData3);
         pieDatas.add(columnData4);
-        ChartData<PieData> chartData = new ChartData<>("饼图",groupData,pieDatas);
+        ChartData<PieData> chartData = new ChartData<>("pie chart",chartYDataList,pieDatas);
         pieChart.setShowChartName(true);
         //设置标题样式
         FontStyle fontStyle = pieChart.getChartTitle().getTextStyle();

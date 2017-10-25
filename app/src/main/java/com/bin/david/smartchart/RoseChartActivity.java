@@ -60,7 +60,7 @@ public class RoseChartActivity extends AppCompatActivity {
             RoseData columnData1 = new RoseData(j*2+"-"+(j+1)*2+"m/s", "%", colors[j], dataList);
             lineDatas.add(columnData1);
         }
-        ChartData<RoseData> chartData2 = new ChartData<>("玫瑰图",chartYDataList,lineDatas);
+        ChartData<RoseData> chartData2 = new ChartData<>("rose chart",chartYDataList,lineDatas);
 
         //开启MarkView
         roseChart.getProvider().setOpenMark(true);

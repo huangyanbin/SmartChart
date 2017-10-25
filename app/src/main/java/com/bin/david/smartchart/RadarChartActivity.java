@@ -29,12 +29,12 @@ public class RadarChartActivity extends AppCompatActivity {
         Resources res = getResources();
         FontStyle.setDefaultTextSpSize(this,12);
         List<String> chartYDataList = new ArrayList<>();
-        chartYDataList.add("华北");
-        chartYDataList.add("华中");
-        chartYDataList.add("华东");
-        chartYDataList.add("华西");
-        chartYDataList.add("华东");
-        chartYDataList.add("华西");
+        chartYDataList.add("Tokyo");
+        chartYDataList.add("Paris");
+        chartYDataList.add("Hong Kong");
+        chartYDataList.add("Singapore");
+        chartYDataList.add("Sydney");
+        chartYDataList.add("Milano");
         List<RadarData> ColumnDatas = new ArrayList<>();
         ArrayList<Double> tempList1 = new ArrayList<>();
         tempList1.add(26d);
@@ -43,7 +43,7 @@ public class RadarChartActivity extends AppCompatActivity {
         tempList1.add(10d);
         tempList1.add(26d);
         tempList1.add(35d);
-        RadarData columnData1 = new RadarData("温度","℃",getResources().getColor(R.color.arc3),tempList1);
+        RadarData columnData1 = new RadarData("Temperature","℃",getResources().getColor(R.color.arc3),tempList1);
         ArrayList<Double> humidityList = new ArrayList<>();
         humidityList.add(60d);
         humidityList.add(50d);
@@ -51,10 +51,10 @@ public class RadarChartActivity extends AppCompatActivity {
         humidityList.add(65d);
         humidityList.add(30d);
         humidityList.add(65d);
-        RadarData columnData2 = new RadarData("湿度","RH%",getResources().getColor(R.color.arc2),humidityList);
+        RadarData columnData2 = new RadarData("Humidity","RH%",getResources().getColor(R.color.arc2),humidityList);
         ColumnDatas.add(columnData1);
         ColumnDatas.add(columnData2);
-        ChartData<RadarData> chartData2 = new ChartData<>("雷达图",chartYDataList,ColumnDatas);
+        ChartData<RadarData> chartData2 = new ChartData<>("Radar chart",chartYDataList,ColumnDatas);
 
         //开启MarkView
         radarChart.getProvider().setOpenMark(true);

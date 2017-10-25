@@ -43,26 +43,26 @@ public class BarLineChartActivity extends AppCompatActivity {
         Resources res = getResources();
         FontStyle.setDefaultTextSpSize(this,12);
         List<String> chartYDataList = new ArrayList<>();
-        chartYDataList.add("华北");
-        chartYDataList.add("华中");
-        chartYDataList.add("华东");
-        chartYDataList.add("华西");
+        chartYDataList.add("Tokyo");
+        chartYDataList.add("Paris");
+        chartYDataList.add("Hong Kong");
+        chartYDataList.add("Singapore");
         List<BarLineData> ColumnDatas = new ArrayList<>();
         ArrayList<Double> tempList1 = new ArrayList<>();
         tempList1.add(26d);
         tempList1.add(-35d);
         tempList1.add(-40d);
         tempList1.add(10d);
-        BarLineData columnData1 = new BarLineData("温度",BarLineData.BAR,"℃", IAxis.AxisDirection.RIGHT,getResources().getColor(R.color.arc3),tempList1);
+        BarLineData columnData1 = new BarLineData("Temperature",BarLineData.BAR,"℃", IAxis.AxisDirection.RIGHT,getResources().getColor(R.color.arc3),tempList1);
         ArrayList<Double> humidityList = new ArrayList<>();
         humidityList.add(60d);
         humidityList.add(50d);
         humidityList.add(30d);
         humidityList.add(65d);
-        BarLineData columnData2 = new BarLineData("湿度",BarLineData.CURVE,"RH%",getResources().getColor(R.color.arc2),humidityList);
+        BarLineData columnData2 = new BarLineData("Humidity",BarLineData.CURVE,"RH%",getResources().getColor(R.color.arc2),humidityList);
         ColumnDatas.add(columnData1);
         ColumnDatas.add(columnData2);
-        ChartData<BarLineData> chartData2 = new ChartData<>("组合图",chartYDataList,ColumnDatas);
+        ChartData<BarLineData> chartData2 = new ChartData<>("BarLineChart",chartYDataList,ColumnDatas);
 
         BaseAxis verticalAxis =  barLineChart.getLeftVerticalAxis();
         BaseAxis horizontalAxis=  barLineChart.getHorizontalAxis();
@@ -133,7 +133,7 @@ public class BarLineChartActivity extends AppCompatActivity {
     private void changedStyle() {
 
         if(chartDialog == null) {
-            chartDialog = new BaseCheckDialog<>("Chart配置", new BaseCheckDialog.OnCheckChangeListener<ChartStyle>() {
+            chartDialog = new BaseCheckDialog<>("ChartSetting", new BaseCheckDialog.OnCheckChangeListener<ChartStyle>() {
                 @Override
                 public String getItemText(ChartStyle chartStyle) {
                     return chartStyle.value;
@@ -255,7 +255,7 @@ public class BarLineChartActivity extends AppCompatActivity {
     }*/
     private void lengedClick(ChartStyle c) {
 
-        quickChartDialog.showDialog(this,c,new String[]{"是","否"},new QuickChartDialog.OnCheckChangeAdapter(){
+        quickChartDialog.showDialog(this,c,new String[]{"yes","no"},new QuickChartDialog.OnCheckChangeAdapter(){
 
             @Override
             public void onItemClick(String s, int position) {
@@ -270,7 +270,7 @@ public class BarLineChartActivity extends AppCompatActivity {
     }
     private void showHGrid(ChartStyle c) {
 
-        quickChartDialog.showDialog(this,c,new String[]{"显示","隐藏"},new QuickChartDialog.OnCheckChangeAdapter(){
+        quickChartDialog.showDialog(this,c,new String[]{"show","hide"},new QuickChartDialog.OnCheckChangeAdapter(){
 
             @Override
             public void onItemClick(String s, int position) {
@@ -287,7 +287,7 @@ public class BarLineChartActivity extends AppCompatActivity {
 
     private void showVGrid(ChartStyle c) {
 
-        quickChartDialog.showDialog(this,c,new String[]{"显示","隐藏"},new QuickChartDialog.OnCheckChangeAdapter(){
+        quickChartDialog.showDialog(this,c,new String[]{"show","hide"},new QuickChartDialog.OnCheckChangeAdapter(){
 
             @Override
             public void onItemClick(String s, int position) {
@@ -303,7 +303,7 @@ public class BarLineChartActivity extends AppCompatActivity {
 
     private void cross(ChartStyle c) {
 
-        quickChartDialog.showDialog(this,c,new String[]{"是","否"},new QuickChartDialog.OnCheckChangeAdapter(){
+        quickChartDialog.showDialog(this,c,new String[]{"yes","no"},new QuickChartDialog.OnCheckChangeAdapter(){
 
             @Override
             public void onItemClick(String s, int position) {
@@ -319,7 +319,7 @@ public class BarLineChartActivity extends AppCompatActivity {
 
     private void mark(ChartStyle c) {
 
-        quickChartDialog.showDialog(this,c,new String[]{"是","否"},new QuickChartDialog.OnCheckChangeAdapter(){
+        quickChartDialog.showDialog(this,c,new String[]{"yes","no"},new QuickChartDialog.OnCheckChangeAdapter(){
 
             @Override
             public void onItemClick(String s, int position) {
@@ -334,7 +334,7 @@ public class BarLineChartActivity extends AppCompatActivity {
     }
     private void zoom(ChartStyle c) {
 
-        quickChartDialog.showDialog(this,c,new String[]{"是","否"},new QuickChartDialog.OnCheckChangeAdapter(){
+        quickChartDialog.showDialog(this,c,new String[]{"yes","no"},new QuickChartDialog.OnCheckChangeAdapter(){
 
             @Override
             public void onItemClick(String s, int position) {
@@ -350,7 +350,7 @@ public class BarLineChartActivity extends AppCompatActivity {
 
     private void showValue(ChartStyle c) {
 
-        quickChartDialog.showDialog(this,c,new String[]{"显示","隐藏"},new QuickChartDialog.OnCheckChangeAdapter(){
+        quickChartDialog.showDialog(this,c,new String[]{"show","hide"},new QuickChartDialog.OnCheckChangeAdapter(){
 
             @Override
             public void onItemClick(String s, int position) {
@@ -365,7 +365,7 @@ public class BarLineChartActivity extends AppCompatActivity {
     }
 
     private void showTitle(ChartStyle c) {
-        quickChartDialog.showDialog(this,c,new String[]{"显示","隐藏"},new QuickChartDialog.OnCheckChangeAdapter(){
+        quickChartDialog.showDialog(this,c,new String[]{"show","hide"},new QuickChartDialog.OnCheckChangeAdapter(){
 
             @Override
             public void onItemClick(String s, int position) {
@@ -413,7 +413,7 @@ public class BarLineChartActivity extends AppCompatActivity {
     }*/
 
     private void showLegendStyle(ChartStyle c) {
-        quickChartDialog.showDialog(this,c,new String[]{"正方形","圆形","长方形"},new QuickChartDialog.OnCheckChangeAdapter(){
+        quickChartDialog.showDialog(this,c,new String[]{"SQUARE","CIRCLE","RECT"},new QuickChartDialog.OnCheckChangeAdapter(){
 
             @Override
             public void onItemClick(String s, int position) {
@@ -433,7 +433,7 @@ public class BarLineChartActivity extends AppCompatActivity {
 
 
     private void showTitlePos(ChartStyle c) {
-        quickChartDialog.showDialog(this,c,new String[]{"上","下","左","右"},new QuickChartDialog.OnCheckChangeAdapter(){
+        quickChartDialog.showDialog(this,c,new String[]{"top","bottom","left","right"},new QuickChartDialog.OnCheckChangeAdapter(){
 
             @Override
             public void onItemClick(String s, int position) {
@@ -454,7 +454,7 @@ public class BarLineChartActivity extends AppCompatActivity {
 
 
     private void showLegendPos(ChartStyle c) {
-        quickChartDialog.showDialog(this,c,new String[]{"上","下","左","右"},new QuickChartDialog.OnCheckChangeAdapter(){
+        quickChartDialog.showDialog(this,c,new String[]{"top","bottom","left","right"},new QuickChartDialog.OnCheckChangeAdapter(){
 
             @Override
             public void onItemClick(String s, int position) {
@@ -491,7 +491,7 @@ public class BarLineChartActivity extends AppCompatActivity {
 
     private void showLineStyleSelectDialog(ChartStyle c) {
 
-        quickChartDialog.showDialog(this,c,new String[]{"实线","虚线"},new QuickChartDialog.OnCheckChangeAdapter(){
+        quickChartDialog.showDialog(this,c,new String[]{"CURVE","LINE"},new QuickChartDialog.OnCheckChangeAdapter(){
 
             @Override
             public void onItemClick(String s, int position) {
