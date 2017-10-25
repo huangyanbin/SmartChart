@@ -24,12 +24,14 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         ArrayList<MainItem> items = new ArrayList<>();
+        items.add(new MainItem(RotateActivity.class,"旋转测试"));
         items.add(new MainItem(LineChartActivity.class,"线性图"));
         items.add(new MainItem(ScatterChartActivity.class,"散点图"));
         items.add(new MainItem(AreaChartActivity.class,"面积图"));
         items.add(new MainItem(BarChartActivity.class,"柱状图"));
         items.add(new MainItem(Bar3DChartActivity.class,"3D柱状图"));
         items.add(new MainItem(PieChartActivity.class,"饼图"));
+        items.add(new MainItem(Pie3DChartActivity.class,"3D饼图"));
         items.add(new MainItem(RadarChartActivity.class,"雷达图"));
         items.add(new MainItem(RoseChartActivity.class,"玫瑰图"));
         items.add(new MainItem(BarLineChartActivity.class,"组合图"));

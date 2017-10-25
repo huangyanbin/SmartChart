@@ -28,6 +28,8 @@
         <activity android:name=".ZoomChartListActivity"/>
         <activity android:name=".RotateChartListActivity"/>
         <activity android:name=".BarLineChartActivity"/>
+        <activity android:name=".Pie3DChartActivity"/>
+        <activity android:name=".RotateActivity"/>
 
     </application>
 

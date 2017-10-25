@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    tools:context="com.bin.david.smartchart.MainActivity">
+
+   <com.daivd.chart.core.Pie3DChart
+       android:id="@+id/pieChart"
+       android:layout_width="match_parent"
+       android:background="#f4f4f4"
+       android:layout_height="380dp"
+       android:layout_marginBottom="5dp"/>
+
+
+</LinearLayout>
