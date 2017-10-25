@@ -21,7 +21,7 @@
         android:paddingLeft="23dp"
         android:paddingRight="23dp"
         android:background="@drawable/dialog_btn_bg"
-        android:text="chart配置"
+        android:text="chart Setting"
         android:onClick="onClick"
         android:clickable="true"
         android:textColor="#fff"

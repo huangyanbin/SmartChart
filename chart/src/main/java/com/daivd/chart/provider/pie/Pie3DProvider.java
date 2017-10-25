@@ -112,8 +112,9 @@ public class Pie3DProvider extends BaseProvider<PieData> {
                         isClick = false;
                     }
                 }
+               // paint.setShadowLayer(maxRadius/10,0,0,paint.getColor());
                 canvas.drawArc(oval, startAngle, sweepAngle, true, paint);
-
+                paint.clearShadowLayer();
                if(isShowText()) {
                    canvas.save();
                    canvas.rotate(startAngle + sweepAngle / 2 - this.startAngle, zoomRect.centerX(), zoomRect.centerY());
