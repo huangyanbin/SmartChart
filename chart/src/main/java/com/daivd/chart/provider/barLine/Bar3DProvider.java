@@ -5,14 +5,14 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
 
-import com.daivd.chart.data.LineData;
+import com.daivd.chart.data.BarData;
 
 
 /**柱状内容绘制
  * Created by huang on 2017/9/26.
  */
 
-public class Bar3DProvider extends BarProvider<LineData> {
+public class Bar3DProvider extends BarProvider<BarData> {
 
     @Override
     protected void drawBar(Canvas canvas,Rect rect,double value,Paint paint){

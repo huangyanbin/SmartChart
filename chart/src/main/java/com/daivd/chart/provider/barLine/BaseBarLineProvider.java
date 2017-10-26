@@ -6,14 +6,14 @@ import android.graphics.Rect;
 
 import com.daivd.chart.component.base.IAxis;
 import com.daivd.chart.data.ChartData;
-import com.daivd.chart.group.cross.ICross;
-import com.daivd.chart.group.level.ILevel;
-import com.daivd.chart.group.level.LevelLine;
-import com.daivd.chart.data.LineData;
+import com.daivd.chart.provider.component.cross.ICross;
+import com.daivd.chart.provider.component.level.ILevel;
+import com.daivd.chart.provider.component.level.LevelLine;
+import com.daivd.chart.data.BarData;
 import com.daivd.chart.data.ScaleData;
 import com.daivd.chart.exception.ChartException;
 import com.daivd.chart.provider.BaseProvider;
-import com.daivd.chart.group.tip.ITip;
+import com.daivd.chart.provider.component.tip.ITip;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +22,7 @@ import java.util.List;
  * Created by huang on 2017/9/26.
  */
 
-public abstract class BaseBarLineProvider<C extends LineData> extends BaseProvider<C> {
+public abstract class BaseBarLineProvider<C extends BarData> extends BaseProvider<C> {
 
     private ICross cross;
     private boolean isOpenCross;
@@ -41,7 +41,7 @@ public abstract class BaseBarLineProvider<C extends LineData> extends BaseProvid
         scaleData.rowSize = chartData.getCharXDataList().size();
         int columnSize = columnDataList.size();
         for(int i = 0 ; i <columnSize; i++){
-            LineData columnData = columnDataList.get(i);
+            BarData columnData = columnDataList.get(i);
             if(!columnData.isDraw()){
                 continue;
             }

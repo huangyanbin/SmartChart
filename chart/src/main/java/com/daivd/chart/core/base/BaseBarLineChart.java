@@ -9,7 +9,7 @@ import android.util.AttributeSet;
 import com.daivd.chart.component.axis.HorizontalAxis;
 import com.daivd.chart.component.base.IAxis;
 import com.daivd.chart.component.axis.VerticalAxis;
-import com.daivd.chart.data.LineData;
+import com.daivd.chart.data.BarData;
 import com.daivd.chart.provider.IProvider;
 
 
@@ -18,7 +18,7 @@ import com.daivd.chart.provider.IProvider;
  * 线性和柱状图
  */
 
-public abstract class BaseBarLineChart<P extends IProvider<C>,C extends LineData> extends BaseChart<P,C> {
+public abstract class BaseBarLineChart<P extends IProvider<C>,C extends BarData> extends BaseChart<P,C> {
 
 
     protected HorizontalAxis horizontalAxis; //横轴

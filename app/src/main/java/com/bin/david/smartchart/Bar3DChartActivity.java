@@ -10,13 +10,13 @@ import com.daivd.chart.component.axis.BaseAxis;
 import com.daivd.chart.component.base.IComponent;
 import com.daivd.chart.core.Bar3DChart;
 import com.daivd.chart.data.ChartData;
-import com.daivd.chart.group.level.LevelLine;
-import com.daivd.chart.data.LineData;
+import com.daivd.chart.provider.component.level.LevelLine;
+import com.daivd.chart.data.BarData;
 import com.daivd.chart.data.style.FontStyle;
 import com.daivd.chart.data.style.PointStyle;
 import com.daivd.chart.listener.OnClickColumnListener;
-import com.daivd.chart.group.mark.BubbleMarkView;
-import com.daivd.chart.group.point.Point;
+import com.daivd.chart.provider.component.mark.BubbleMarkView;
+import com.daivd.chart.provider.component.point.Point;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +38,7 @@ public class Bar3DChartActivity extends AppCompatActivity {
         chartYDataList.add("Singapore");
 
 
-        List<LineData> ColumnDatas = new ArrayList<>();
+        List<BarData> ColumnDatas = new ArrayList<>();
         ArrayList<Double> tempList1 = new ArrayList<>();
         tempList1.add(26d);
         tempList1.add(35d);
@@ -46,17 +46,17 @@ public class Bar3DChartActivity extends AppCompatActivity {
         tempList1.add(10d);
 
 
-        LineData columnData1 = new LineData("Temperature","℃",getResources().getColor(R.color.arc3),tempList1);
+        BarData columnData1 = new BarData("Temperature","℃",getResources().getColor(R.color.arc3),tempList1);
         ArrayList<Double> humidityList = new ArrayList<>();
         humidityList.add(60d);
         humidityList.add(50d);
         humidityList.add(30d);
         humidityList.add(65d);
 
-        LineData columnData2 = new LineData("Humidity","RH%",getResources().getColor(R.color.arc2),humidityList);
+        BarData columnData2 = new BarData("Humidity","RH%",getResources().getColor(R.color.arc2),humidityList);
         ColumnDatas.add(columnData1);
         ColumnDatas.add(columnData2);
-        ChartData<LineData> chartData = new ChartData<>("3D bar chart",chartYDataList,ColumnDatas);
+        ChartData<BarData> chartData = new ChartData<>("3D bar chart",chartYDataList,ColumnDatas);
         bar3DChart.setChartData(chartData);
         bar3DChart.startChartAnim(1000);
         bar3DChart.setZoom(true);
@@ -80,9 +80,9 @@ public class Bar3DChartActivity extends AppCompatActivity {
         bar3DChart.getLeftVerticalAxis().getGridStyle().setEffect(effects);
         vaxis.getGridStyle().setColor(R.color.arc_inteval);
         bar3DChart.getLegend().setDirection(IComponent.TOP);
-        bar3DChart.setOnClickColumnListener(new OnClickColumnListener<LineData>() {
+        bar3DChart.setOnClickColumnListener(new OnClickColumnListener<BarData>() {
             @Override
-            public void onClickColumn(LineData lineData, int position) {
+            public void onClickColumn(BarData lineData, int position) {
                 Toast.makeText(Bar3DChartActivity.this,lineData.getChartYDataList().get(position)+lineData.getUnit(),Toast.LENGTH_SHORT).show();
             }
         });

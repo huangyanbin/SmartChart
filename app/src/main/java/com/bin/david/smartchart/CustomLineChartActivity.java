@@ -10,22 +10,24 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.bin.david.smartchart.bean.ChartStyle;
+import com.bin.david.smartchart.custom.MarkPoint;
+import com.bin.david.smartchart.custom.StarPoint;
 import com.bin.david.smartchart.view.BaseCheckDialog;
 import com.bin.david.smartchart.custom.CustomMarkView;
 import com.bin.david.smartchart.view.QuickChartDialog;
 import com.daivd.chart.component.axis.BaseAxis;
-import com.daivd.chart.component.base.IAxis;
 import com.daivd.chart.component.axis.VerticalAxis;
+import com.daivd.chart.component.base.IAxis;
 import com.daivd.chart.component.base.IComponent;
 import com.daivd.chart.core.LineChart;
 import com.daivd.chart.data.ChartData;
 import com.daivd.chart.data.LineData;
-import com.daivd.chart.provider.component.cross.VerticalCross;
-import com.daivd.chart.provider.component.level.LevelLine;
 import com.daivd.chart.data.style.FontStyle;
 import com.daivd.chart.data.style.LineStyle;
 import com.daivd.chart.data.style.PointStyle;
 import com.daivd.chart.listener.OnClickColumnListener;
+import com.daivd.chart.provider.component.cross.VerticalCross;
+import com.daivd.chart.provider.component.level.LevelLine;
 import com.daivd.chart.provider.component.point.Point;
 import com.daivd.chart.provider.component.tip.MultiLineBubbleTip;
 import com.daivd.chart.utils.DensityUtils;
@@ -33,7 +35,7 @@ import com.daivd.chart.utils.DensityUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LineChartActivity extends AppCompatActivity {
+public class CustomLineChartActivity extends AppCompatActivity {
 
     private LineChart lineChart;
     private BaseCheckDialog<ChartStyle> chartDialog;
@@ -51,22 +53,25 @@ public class LineChartActivity extends AppCompatActivity {
         chartYDataList.add("Paris");
         chartYDataList.add("Hong Kong");
         chartYDataList.add("Singapore");
-        List<LineData> ColumnDatas = new ArrayList<>();
+        List<LineData> lineDataList = new ArrayList<>();
         ArrayList<Double> tempList1 = new ArrayList<>();
         tempList1.add(26d);
         tempList1.add(-35d);
         tempList1.add(-40d);
         tempList1.add(10d);
-        final LineData columnData1 = new LineData("Temperature","℃", IAxis.AxisDirection.RIGHT,getResources().getColor(R.color.arc3),tempList1);
+        final LineData lineData1 = new LineData("Temperature","℃", IAxis.AxisDirection.RIGHT,res.getColor(R.color.arc3),tempList1);
+        lineData1.setPoint(new StarPoint(DensityUtils.dp2px(this,10),res.getColor(R.color.arc3)));
         ArrayList<Double> humidityList = new ArrayList<>();
         humidityList.add(60d);
         humidityList.add(50d);
         humidityList.add(30d);
         humidityList.add(65d);
-        LineData columnData2 = new LineData("Humidity","RH%",getResources().getColor(R.color.arc2),humidityList);
-        ColumnDatas.add(columnData1);
-        ColumnDatas.add(columnData2);
-        ChartData<LineData> chartData2 = new ChartData<>("Line chart",chartYDataList,ColumnDatas);
+        final LineData lineData2 = new LineData("Humidity","RH%",res.getColor(R.color.arc2),humidityList);
+        lineData2.setPoint(new MarkPoint(this,DensityUtils.dp2px(this,50)));
+        lineDataList.add(lineData1);
+
+        lineDataList.add(lineData2);
+        ChartData<LineData> chartData2 = new ChartData<>("Line chart",chartYDataList,lineDataList);
 
         lineChart.setLineModel(LineChart.CURVE_MODEL);
         BaseAxis verticalAxis =  lineChart.getLeftVerticalAxis();
@@ -113,7 +118,10 @@ public class LineChartActivity extends AppCompatActivity {
                 R.mipmap.round_rect,R.mipmap.triangle,paint) {
             @Override
             public boolean isShowTip(LineData lineData, int position) {
-                return position == 2;
+                if(lineData == lineData1) {
+                    return position == 2;
+                }
+                return false;
             }
 
             @Override

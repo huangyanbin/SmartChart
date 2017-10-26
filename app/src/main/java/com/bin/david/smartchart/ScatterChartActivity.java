@@ -16,14 +16,14 @@ import com.daivd.chart.component.base.IComponent;
 import com.daivd.chart.core.LineChart;
 import com.daivd.chart.data.ChartData;
 import com.daivd.chart.data.format.IFormat;
-import com.daivd.chart.group.cross.DoubleDriCross;
-import com.daivd.chart.group.level.LevelLine;
+import com.daivd.chart.provider.component.cross.DoubleDriCross;
+import com.daivd.chart.provider.component.level.LevelLine;
 import com.daivd.chart.data.LineData;
 import com.daivd.chart.data.style.FontStyle;
 import com.daivd.chart.data.style.LineStyle;
 import com.daivd.chart.data.style.PointStyle;
-import com.daivd.chart.group.mark.BubbleMarkView;
-import com.daivd.chart.group.point.Point;
+import com.daivd.chart.provider.component.mark.BubbleMarkView;
+import com.daivd.chart.provider.component.point.Point;
 
 import java.util.ArrayList;
 import java.util.List;

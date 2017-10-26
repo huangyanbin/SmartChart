@@ -6,7 +6,7 @@ import java.util.List;
  * Created by huang on 2017/10/19.
  */
 
-public class BarLineData extends LineData {
+public class BarLineData extends BarData {
     public static final int BROKEN= 0;
     public static final int CURVE = 1;
     public static final int BAR = 2;

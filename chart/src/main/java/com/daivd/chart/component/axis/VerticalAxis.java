@@ -7,7 +7,7 @@ import android.graphics.Path;
 import android.graphics.Rect;
 
 import com.daivd.chart.data.ChartData;
-import com.daivd.chart.data.LineData;
+import com.daivd.chart.data.BarData;
 import com.daivd.chart.data.ScaleData;
 import com.daivd.chart.data.ScaleSetData;
 import com.daivd.chart.exception.ChartException;
@@ -30,7 +30,7 @@ public class VerticalAxis extends BaseAxis<Double> {
     private java.text.DecimalFormat df = new java.text.DecimalFormat("0.00");
 
     @Override
-    public void computeScale(ChartData<? extends LineData> chartData, Rect rect, Paint paint) {
+    public void computeScale(ChartData<? extends BarData> chartData, Rect rect, Paint paint) {
         ScaleData scaleData = chartData.getScaleData();
         scaleData.resetScale(scaleSetData,direction);
         scaleStyle.fillPaint(paint);
@@ -46,7 +46,7 @@ public class VerticalAxis extends BaseAxis<Double> {
     }
 
     @Override
-    protected void drawScale(Canvas canvas, Rect zoomRect, Rect clipRect, Paint paint,  ChartData<? extends LineData> chartData) {
+    protected void drawScale(Canvas canvas, Rect zoomRect, Rect clipRect, Paint paint,  ChartData<? extends BarData> chartData) {
         ScaleData scaleData = chartData.getScaleData();
         List<Double> scaleList = scaleData.getScaleList(direction);
         float startX;

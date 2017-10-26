@@ -6,14 +6,14 @@ import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 
 import com.daivd.chart.core.base.BaseBarLineChart;
-import com.daivd.chart.data.LineData;
+import com.daivd.chart.data.BarData;
 import com.daivd.chart.provider.barLine.Bar3DProvider;
 
 /**
  * Created by huang on 2017/9/26.
  */
 
-public class Bar3DChart extends BaseBarLineChart<Bar3DProvider,LineData> {
+public class Bar3DChart extends BaseBarLineChart<Bar3DProvider,BarData> {
 
     public Bar3DChart(Context context) {
         super(context);

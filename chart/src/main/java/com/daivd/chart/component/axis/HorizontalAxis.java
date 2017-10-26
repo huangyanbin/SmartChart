@@ -8,7 +8,7 @@ import android.graphics.Rect;
 import android.view.Gravity;
 
 import com.daivd.chart.data.ChartData;
-import com.daivd.chart.data.LineData;
+import com.daivd.chart.data.BarData;
 import com.daivd.chart.data.ScaleData;
 import com.daivd.chart.exception.ChartException;
 
@@ -30,7 +30,7 @@ public class HorizontalAxis extends BaseAxis<String> {
     private int textHeight;
     private int rotateTextHeight;
     @Override
-    public void computeScale(ChartData<? extends LineData> chartData, Rect rect, Paint paint) {
+    public void computeScale(ChartData<? extends BarData> chartData, Rect rect, Paint paint) {
         ScaleData scaleData = chartData.getScaleData();
         scaleStyle.fillPaint(paint);
         Paint.FontMetrics fontMetrics = paint.getFontMetrics();
@@ -63,7 +63,7 @@ public class HorizontalAxis extends BaseAxis<String> {
         }
     }
 
-    protected void drawScale(Canvas canvas, Rect zoomRect, Rect rect, Paint paint,  ChartData<? extends LineData> chartData) {
+    protected void drawScale(Canvas canvas, Rect zoomRect, Rect rect, Paint paint,  ChartData<? extends BarData> chartData) {
 
         ScaleData scaleData = chartData.getScaleData();
         List<String> groupDataList = chartData.getCharXDataList();
@@ -164,7 +164,10 @@ public class HorizontalAxis extends BaseAxis<String> {
     }
 
 
-
+    /**
+     * 设置文字旋转角度
+     * @param rotateAngle
+     */
     public void setRotateAngle(int rotateAngle) {
         isRotateAngle = true;
         this.rotateAngle = rotateAngle;

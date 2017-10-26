@@ -9,7 +9,7 @@ import android.view.Gravity;
 import com.daivd.chart.component.base.IAxis;
 import com.daivd.chart.data.ChartData;
 import com.daivd.chart.data.format.IFormat;
-import com.daivd.chart.data.LineData;
+import com.daivd.chart.data.BarData;
 import com.daivd.chart.data.ScaleData;
 import com.daivd.chart.data.style.FontStyle;
 import com.daivd.chart.data.style.LineStyle;
@@ -70,13 +70,13 @@ public abstract class BaseAxis<V> implements IAxis<V> {
     }
 
     @Override
-    public void draw(Canvas canvas, Rect rect, MatrixHelper helper, Paint paint, ChartData<? extends LineData> chartData) {
+    public void draw(Canvas canvas, Rect rect, MatrixHelper helper, Paint paint, ChartData<? extends BarData> chartData) {
         drawScale(canvas, rect, helper, paint, chartData);
         drawAxis(canvas, rect, paint, chartData);
     }
 
 
-    protected void drawScale(Canvas canvas, Rect rect, MatrixHelper helper, Paint paint, ChartData<? extends LineData> chartData) {
+    protected void drawScale(Canvas canvas, Rect rect, MatrixHelper helper, Paint paint, ChartData<? extends BarData> chartData) {
         ScaleData scaleData = chartData.getScaleData();
         Rect clipRect = new Rect(rect);
         Rect scaleRect = scaleData.scaleRect;
@@ -98,7 +98,7 @@ public abstract class BaseAxis<V> implements IAxis<V> {
         drawScale(canvas, zoomRect, clipRect, paint, chartData);
     }
 
-    protected void drawAxis(Canvas canvas, Rect rect, Paint paint,  ChartData<? extends LineData> chartData) {
+    protected void drawAxis(Canvas canvas, Rect rect, Paint paint,  ChartData<? extends BarData> chartData) {
         if(isShowAxisLine) {
             Rect scaleRect = chartData.getScaleData().scaleRect;
             axisStyle.fillPaint(paint);
@@ -115,7 +115,7 @@ public abstract class BaseAxis<V> implements IAxis<V> {
 
 
 
-    protected abstract void drawScale(Canvas canvas, Rect rect, Rect clipRect, Paint paint,ChartData<? extends LineData> chartData);
+    protected abstract void drawScale(Canvas canvas, Rect rect, Rect clipRect, Paint paint,ChartData<? extends BarData> chartData);
 
     public IFormat<V> getFormat() {
         return format;

@@ -9,7 +9,7 @@ import android.graphics.RectF;
 import com.daivd.chart.component.base.IAxis;
 import com.daivd.chart.data.ChartData;
 import com.daivd.chart.data.format.IFormat;
-import com.daivd.chart.data.LineData;
+import com.daivd.chart.data.BarData;
 import com.daivd.chart.data.RoseData;
 import com.daivd.chart.data.ScaleData;
 import com.daivd.chart.data.style.FontStyle;
@@ -78,13 +78,13 @@ public class RoseProvider extends BaseProvider<RoseData> {
         paint.setStyle(Paint.Style.FILL);
         for (int j = 0; j < count; j++) {
             double value = 0;
-            for (LineData lineData :columnDataList) {
+            for (BarData lineData :columnDataList) {
                 if(lineData.isDraw()) {
                     value += lineData.getChartYDataList().get(j);
                 }
             }
             for (int i = columnDataList.size() - 1; i >= 0; i--) {
-                LineData lineData = columnDataList.get(i);
+                BarData lineData = columnDataList.get(i);
                 if(lineData.isDraw()) {
                     float curR = getAnimValue((float) (value * centerRadius / maxScale));
                     RectF rectF = new RectF(zoomRect.centerX() - curR, zoomRect.centerY() - curR, zoomRect.centerX() + curR, zoomRect.centerY() + curR);
@@ -218,7 +218,7 @@ public class RoseProvider extends BaseProvider<RoseData> {
         for (int j = 0; j < chartData.getCharXDataList().size(); j++) {
             float maxValue = 0;
             for (int i = 0; i < columnSize; i++) {
-                LineData columnData = columnDatas.get(i);
+                BarData columnData = columnDatas.get(i);
                 if (!columnData.isDraw()) {
                     continue;
                 }

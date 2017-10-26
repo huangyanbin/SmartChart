@@ -1,4 +1,4 @@
-package com.daivd.chart.group.mark;
+package com.daivd.chart.provider.component.mark;
 
 
 import android.content.Context;
@@ -7,8 +7,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 
-import com.daivd.chart.group.tip.SingleLineBubbleTip;
-import com.daivd.chart.data.LineData;
+import com.daivd.chart.provider.component.tip.SingleLineBubbleTip;
+import com.daivd.chart.data.BarData;
 import com.daivd.chart.utils.DensityUtils;
 import com.david.chart.R;
 
@@ -16,7 +16,7 @@ import com.david.chart.R;
  * Created by huang on 2017/9/28.
  */
 
-public  class BubbleMarkView<C extends LineData> implements IMark<C> {
+public  class BubbleMarkView<C extends BarData> implements IMark<C> {
 
    private SingleLineBubbleTip<String> bubbleTip;
     private Paint paint;
@@ -48,7 +48,7 @@ public  class BubbleMarkView<C extends LineData> implements IMark<C> {
     }
 
     @Override
-    public void drawMark(Canvas canvas, float x, float y, Rect rect, String content, LineData data, int position) {
+    public void drawMark(Canvas canvas, float x, float y, Rect rect, String content, BarData data, int position) {
 
         String text = content + data.getChartYDataList().get(position) + data.getUnit();
         bubbleTip.drawTip(canvas, x, y, rect, text,position);

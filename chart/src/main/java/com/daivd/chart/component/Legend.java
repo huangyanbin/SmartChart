@@ -11,8 +11,8 @@ import com.daivd.chart.data.ChartData;
 import com.daivd.chart.data.ColumnData;
 import com.daivd.chart.data.style.FontStyle;
 import com.daivd.chart.listener.OnClickLegendListener;
-import com.daivd.chart.group.point.IPoint;
-import com.daivd.chart.group.point.Point;
+import com.daivd.chart.provider.component.point.IPoint;
+import com.daivd.chart.provider.component.point.Point;
 
 import java.util.List;
 

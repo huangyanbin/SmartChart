@@ -1,4 +1,4 @@
-package com.daivd.chart.group.cross;
+package com.daivd.chart.provider.component.cross;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -6,8 +6,8 @@ import android.graphics.PointF;
 import android.graphics.Rect;
 
 import com.daivd.chart.data.style.LineStyle;
-import com.daivd.chart.group.point.IPoint;
-import com.daivd.chart.group.point.Point;
+import com.daivd.chart.provider.component.point.IPoint;
+import com.daivd.chart.provider.component.point.Point;
 
 /**
  * Created by huang on 2017/10/19.

@@ -5,7 +5,7 @@ import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.Rect;
 
-import com.daivd.chart.data.LineData;
+import com.daivd.chart.data.BarData;
 import com.daivd.chart.utils.ColorUtils;
 
 import java.util.List;
@@ -16,7 +16,7 @@ import java.util.List;
  * Created by huang on 2017/9/26.
  */
 
-public class BarProvider<C extends LineData> extends BaseBarLineProvider<C> {
+public class BarProvider<C extends BarData> extends BaseBarLineProvider<C> {
 
     private int categoryPadding = 20;
     private int seriesPadding = 10;

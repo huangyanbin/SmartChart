@@ -30,6 +30,7 @@
         <activity android:name=".BarLineChartActivity"/>
         <activity android:name=".Pie3DChartActivity"/>
         <activity android:name=".RotateActivity"/>
+        <activity android:name=".CustomLineChartActivity"/>
 
     </application>
 

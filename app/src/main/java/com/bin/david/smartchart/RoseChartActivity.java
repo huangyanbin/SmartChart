@@ -11,8 +11,8 @@ import com.daivd.chart.data.format.IFormat;
 import com.daivd.chart.data.RoseData;
 import com.daivd.chart.data.style.FontStyle;
 import com.daivd.chart.data.style.PointStyle;
-import com.daivd.chart.group.mark.BubbleMarkView;
-import com.daivd.chart.group.point.Point;
+import com.daivd.chart.provider.component.mark.BubbleMarkView;
+import com.daivd.chart.provider.component.point.Point;
 
 import java.util.ArrayList;
 import java.util.List;

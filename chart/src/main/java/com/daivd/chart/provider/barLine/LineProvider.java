@@ -6,11 +6,12 @@ import android.graphics.Path;
 import android.graphics.PointF;
 import android.graphics.Rect;
 
+import com.daivd.chart.data.BarData;
 import com.daivd.chart.data.LineData;
 import com.daivd.chart.data.style.LineStyle;
-import com.daivd.chart.group.line.BrokenLineModel;
-import com.daivd.chart.group.line.ILineModel;
-import com.daivd.chart.group.point.IPoint;
+import com.daivd.chart.provider.component.line.BrokenLineModel;
+import com.daivd.chart.provider.component.line.ILineModel;
+import com.daivd.chart.provider.component.point.IPoint;
 import com.daivd.chart.utils.ColorUtils;
 
 import java.util.ArrayList;
@@ -38,39 +39,43 @@ public class LineProvider extends BaseBarLineProvider<LineData> {
         int columnSize = columnDataList.size();
         rowSize = chartData.getCharXDataList().size();
         for (int i = 0; i < columnSize; i++) {
-            LineData columnData = columnDataList.get(i);
-            paint.setColor(columnData.getColor());
-            if (!columnData.isDraw()) {
+            LineData lineData = columnDataList.get(i);
+            paint.setColor(lineData.getColor());
+            if (!lineData.isDraw()) {
                 continue;
             }
             List<Float> pointX = new ArrayList<>();
             List<Float> pointY = new ArrayList<>();
-            List<Double> chartYDataList = columnData.getChartYDataList();
+            List<Double> chartYDataList = lineData.getChartYDataList();
             for (int j = 0; j < rowSize; j++) {
                 double value = chartYDataList.get(j);
                 float x = getStartX(zoomRect, j);
-                float y = getStartY(zoomRect, value, columnData.getDirection());
+                float y = getStartY(zoomRect, value, lineData.getDirection());
                 pointX.add(x);
                 pointY.add(y);
                 drawPointText(canvas, value, x, y, paint);
             }
-            lineStyle.fillPaint(paint);
-            paint.setColor(columnData.getColor());
             canvas.save();
             canvas.clipRect(rect);
-            drawLine(canvas, rect, pointX, pointY, paint);
-            drawTip(canvas, pointX, pointY, columnData);
+            drawLine(canvas, rect, paint, lineData, pointX, pointY);
+            drawTip(canvas, pointX, pointY, lineData);
             canvas.restore();
-            drawPoint(canvas, pointX, pointY, paint);
+            drawPoint(canvas, pointX, pointY,lineData, paint);
 
         }
         drawLevelLine(canvas, zoomRect, paint);
         drawClickCross(canvas, rect, zoomRect, paint);
     }
 
-    private void drawLine(Canvas canvas, Rect rect, List<Float> pointX, List<Float> pointY, Paint paint) {
+    private void drawLine(Canvas canvas, Rect rect, Paint paint, LineData lineData, List<Float> pointX, List<Float> pointY) {
+        LineStyle style = lineData.getLineStyle();
+        style = style == null?lineStyle:style;
+        style.fillPaint(paint);
+        paint.setColor(lineData.getColor());
         if (isDrawLine) {
-            Path path = lineModel.getLinePath(pointX, pointY);
+            ILineModel model = lineData.getLineModel();
+            model = model == null ?lineModel:model;
+            Path path=  model.getLinePath(pointX,pointY);
             if (isArea) {
                 paint.setStyle(Paint.Style.FILL);
                 path.lineTo(rect.right, rect.bottom);
@@ -82,6 +87,8 @@ public class LineProvider extends BaseBarLineProvider<LineData> {
             canvas.drawPath(path, paint);
         }
     }
+
+
 
     @Override
     protected void matrixRectEnd(Canvas canvas, Rect rect) {
@@ -150,13 +157,15 @@ public class LineProvider extends BaseBarLineProvider<LineData> {
         }
     }
 
-    private void drawPoint(Canvas canvas, List<Float> pointX, List<Float> pointY, Paint paint) {
-        if (point != null) {
+    private void drawPoint(Canvas canvas, List<Float> pointX, List<Float> pointY,LineData lineData, Paint paint) {
+        IPoint linePoint = lineData.getPoint();
+        linePoint = linePoint == null? point:linePoint;
+        if (linePoint != null) {
             for (int i = 0; i < pointY.size(); i++) {
                 float x = pointX.get(i);
                 float y = pointY.get(i);
                 if (containsRect(x, y)) {
-                    point.drawPoint(canvas, x, y, false,paint);
+                    linePoint.drawPoint(canvas, x, y, false,paint);
                 }
             }
         }

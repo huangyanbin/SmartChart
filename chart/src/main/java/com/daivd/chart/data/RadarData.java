@@ -6,7 +6,7 @@ import java.util.List;
  * Created by huang on 2017/9/26.
  */
 
-public class RadarData extends LineData {
+public class RadarData extends BarData {
 
 
     public RadarData(String name, String unit, int color, List<Double> chartYDataList) {

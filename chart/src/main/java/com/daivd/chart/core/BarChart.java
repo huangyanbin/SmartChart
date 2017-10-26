@@ -6,7 +6,7 @@ import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 
 import com.daivd.chart.core.base.BaseBarLineChart;
-import com.daivd.chart.data.LineData;
+import com.daivd.chart.data.BarData;
 import com.daivd.chart.provider.barLine.BarProvider;
 
 /**
@@ -14,7 +14,7 @@ import com.daivd.chart.provider.barLine.BarProvider;
  * 柱状图
  */
 
-public class BarChart extends BaseBarLineChart<BarProvider<LineData>,LineData> {
+public class BarChart extends BaseBarLineChart<BarProvider<BarData>,BarData> {
 
     public BarChart(Context context) {
         super(context);

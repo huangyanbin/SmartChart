@@ -8,7 +8,7 @@ import android.graphics.Rect;
 import com.daivd.chart.component.base.IAxis;
 import com.daivd.chart.data.ChartData;
 import com.daivd.chart.data.format.IFormat;
-import com.daivd.chart.data.LineData;
+import com.daivd.chart.data.BarData;
 import com.daivd.chart.data.RadarData;
 import com.daivd.chart.data.ScaleData;
 import com.daivd.chart.data.style.FontStyle;
@@ -74,7 +74,7 @@ public class RadarProvider extends BaseProvider<RadarData> {
         Path path = new Path();
         lineStyle.fillPaint(paint);
         for(int i = 0;i <columnDataList.size();i++){
-            LineData columnData = columnDataList.get(i);
+            BarData columnData = columnDataList.get(i);
             if(columnData.isDraw()) {
                 paint.setColor(columnData.getColor());
                 path.reset();
@@ -228,7 +228,7 @@ public class RadarProvider extends BaseProvider<RadarData> {
         }
         int columnSize = columnDatas.size();
         for(int i = 0 ; i <columnSize; i++){
-            LineData columnData = columnDatas.get(i);
+            BarData columnData = columnDatas.get(i);
             if(!columnData.isDraw()){
                 continue;
             }

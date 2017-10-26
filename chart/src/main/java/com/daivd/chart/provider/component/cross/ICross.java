@@ -1,4 +1,4 @@
-package com.daivd.chart.group.cross;
+package com.daivd.chart.provider.component.cross;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;

@@ -1,4 +1,4 @@
-package com.daivd.chart.group.point;
+package com.daivd.chart.provider.component.point;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;

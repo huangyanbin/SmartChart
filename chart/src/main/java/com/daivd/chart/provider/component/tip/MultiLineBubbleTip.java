@@ -1,4 +1,4 @@
-package com.daivd.chart.group.tip;
+package com.daivd.chart.provider.component.tip;
 
 
 import android.content.Context;

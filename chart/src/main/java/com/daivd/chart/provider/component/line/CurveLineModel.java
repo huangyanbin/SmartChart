@@ -1,4 +1,4 @@
-package com.daivd.chart.group.line;
+package com.daivd.chart.provider.component.line;
 
 import android.graphics.Path;
 
