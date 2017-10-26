@@ -4,15 +4,14 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import com.daivd.chart.component.base.IComponent;
 import com.daivd.chart.core.RadarChart;
 import com.daivd.chart.data.ChartData;
 import com.daivd.chart.data.RadarData;
 import com.daivd.chart.data.style.FontStyle;
 import com.daivd.chart.data.style.PointStyle;
-import com.daivd.chart.legend.IChartTitle;
-import com.daivd.chart.legend.ILegend;
-import com.daivd.chart.provider.component.mark.BubbleMarkView;
-import com.daivd.chart.provider.component.point.Point;
+import com.daivd.chart.group.mark.BubbleMarkView;
+import com.daivd.chart.group.point.Point;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,15 +64,15 @@ public class RadarChartActivity extends AppCompatActivity {
         //设置显示标题
         radarChart.setShowChartName(true);
         //设置标题方向
-        radarChart.getChartTitle().setTitleDirection(IChartTitle.TOP);
+        radarChart.getChartTitle().setDirection(IComponent.TOP);
         //设置标题比例
-        radarChart.getChartTitle().setTitlePercent(0.1f);
+        radarChart.getChartTitle().setPercent(0.1f);
         //设置标题样式
-        radarChart.getChartTitle().getTextStyle().setTextColor(res.getColor(R.color.arc23));
-        radarChart.getLegend().setLegendDirection(ILegend.BOTTOM);
+        radarChart.getChartTitle().getFontStyle().setTextColor(res.getColor(R.color.arc23));
+        radarChart.getLegend().setDirection(IComponent.BOTTOM);
         Point point = (Point)radarChart.getLegend().getPoint();
         point.getPointStyle().setShape(PointStyle.SQUARE);
-        radarChart.getLegend().setLegendPercent(0.2f);
+        radarChart.getLegend().setPercent(0.2f);
         radarChart.setChartData(chartData2);
         radarChart.startChartAnim(1000);
 

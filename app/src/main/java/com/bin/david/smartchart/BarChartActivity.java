@@ -6,17 +6,17 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
-import com.daivd.chart.axis.BaseAxis;
+import com.daivd.chart.component.axis.BaseAxis;
+import com.daivd.chart.component.base.IComponent;
 import com.daivd.chart.core.BarChart;
 import com.daivd.chart.data.ChartData;
-import com.daivd.chart.provider.component.level.LevelLine;
+import com.daivd.chart.group.level.LevelLine;
 import com.daivd.chart.data.LineData;
 import com.daivd.chart.data.style.FontStyle;
 import com.daivd.chart.data.style.PointStyle;
-import com.daivd.chart.legend.ILegend;
 import com.daivd.chart.listener.OnClickColumnListener;
-import com.daivd.chart.provider.component.mark.BubbleMarkView;
-import com.daivd.chart.provider.component.point.Point;
+import com.daivd.chart.group.mark.BubbleMarkView;
+import com.daivd.chart.group.point.Point;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,7 +62,7 @@ public class BarChartActivity extends AppCompatActivity {
         barChart.setZoom(true);
         barChart.setShowChartName(true);
         //设置标题样式
-        FontStyle fontStyle = barChart.getChartTitle().getTextStyle();
+        FontStyle fontStyle = barChart.getChartTitle().getFontStyle();
         fontStyle.setTextColor(res.getColor(R.color.arc23));
         fontStyle.setTextSpSize(this,15);
         barChart.getProvider().setOpenMark(true);
@@ -79,7 +79,7 @@ public class BarChartActivity extends AppCompatActivity {
         BaseAxis vaxis = barChart.getLeftVerticalAxis();
         vaxis.setDrawGrid(true);
         vaxis.getGridStyle().setColor(R.color.arc_inteval);
-        barChart.getLegend().setLegendDirection(ILegend.TOP);
+        barChart.getLegend().setDirection(IComponent.TOP);
         barChart.setOnClickColumnListener(new OnClickColumnListener<LineData>() {
             @Override
             public void onClickColumn(LineData lineData, int position) {

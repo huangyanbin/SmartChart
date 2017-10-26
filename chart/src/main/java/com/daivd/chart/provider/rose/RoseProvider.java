@@ -6,7 +6,7 @@ import android.graphics.Path;
 import android.graphics.Rect;
 import android.graphics.RectF;
 
-import com.daivd.chart.axis.IAxis;
+import com.daivd.chart.component.base.IAxis;
 import com.daivd.chart.data.ChartData;
 import com.daivd.chart.data.format.IFormat;
 import com.daivd.chart.data.LineData;

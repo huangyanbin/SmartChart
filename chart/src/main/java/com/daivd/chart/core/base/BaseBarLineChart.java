@@ -6,12 +6,9 @@ import android.graphics.Rect;
 import android.os.Build;
 import android.util.AttributeSet;
 
-import com.daivd.chart.axis.HorizontalAxis;
-import com.daivd.chart.axis.IAxis;
-import com.daivd.chart.axis.VerticalAxis;
-import com.daivd.chart.core.base.BaseChart;
-import com.daivd.chart.data.ChartData;
-import com.daivd.chart.data.ColumnData;
+import com.daivd.chart.component.axis.HorizontalAxis;
+import com.daivd.chart.component.base.IAxis;
+import com.daivd.chart.component.axis.VerticalAxis;
 import com.daivd.chart.data.LineData;
 import com.daivd.chart.provider.IProvider;
 

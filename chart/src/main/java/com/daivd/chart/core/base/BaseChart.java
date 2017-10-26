@@ -12,15 +12,15 @@ import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 
+import com.daivd.chart.component.Legend;
+import com.daivd.chart.component.base.IChartTitle;
+import com.daivd.chart.component.base.ILegend;
 import com.daivd.chart.data.ChartData;
 import com.daivd.chart.data.ColumnData;
 import com.daivd.chart.data.ScaleData;
-import com.daivd.chart.legend.BaseChartTitle;
-import com.daivd.chart.legend.BaseLegend;
-import com.daivd.chart.legend.EmptyView;
-import com.daivd.chart.legend.IChartTitle;
-import com.daivd.chart.legend.IEmpty;
-import com.daivd.chart.legend.ILegend;
+import com.daivd.chart.component.ChartTitle;
+import com.daivd.chart.component.EmptyView;
+import com.daivd.chart.component.base.IEmpty;
 import com.daivd.chart.listener.OnClickColumnListener;
 import com.daivd.chart.listener.OnClickLegendListener;
 import com.daivd.chart.listener.ChartGestureObserver;
@@ -80,8 +80,8 @@ public abstract class BaseChart<P extends IProvider<C>,C extends ColumnData> ext
      */
     protected void init() {
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        chartTitle = new BaseChartTitle();
-        legend = new BaseLegend<>();
+        chartTitle = new ChartTitle();
+        legend = new Legend<>();
         legend.setOnClickLegendListener(this);
         matrixHelper = new MatrixHelper(getContext());
         matrixHelper.register(this);
@@ -121,25 +121,22 @@ public abstract class BaseChart<P extends IProvider<C>,C extends ColumnData> ext
             computePaddingRect();
             if (isShowChartName) {
                 //计算标题的大小
-                chartTitle.computeTitle(chartData, chartRect, paint);
-                chartTitle.drawTitle(canvas, chartRect, paint);
-                //减掉标题大小
-                computeTitleRect();
+                chartTitle.computeRect(chartRect);
+                chartTitle.draw(canvas, chartData.getChartName(), paint);
             }
             if (!chartData.isEmpty()) {
                 //计算图例的大小
-                legend.computeLegend(chartData, chartRect, paint);
+                legend.computeRect(chartRect);
                 //绘制图例
-                legend.drawLegend(canvas, chartRect, paint);
-                //减掉图例大小
-                computeLegendRect();
+                legend.draw(canvas, chartData, paint);
             }
             if (!isCharEmpty) {
                 //绘制内容
                 drawContent(canvas);
             } else {
                 //绘制空白
-                emptyView.drawEmpty(canvas, chartRect, paint);
+                emptyView.computeRect(chartRect);
+                emptyView.draw(canvas, paint);
             }
         }
     }
@@ -147,29 +144,13 @@ public abstract class BaseChart<P extends IProvider<C>,C extends ColumnData> ext
     private void resetScaleData(){
         ScaleData scaleData = chartData.getScaleData();
         scaleData.scaleRect.set(0,0,0,0);
-        scaleData.legendRect.set(0,0,0,0);
-        scaleData.titleRect.set(0,0,0,0);
     }
 
     protected abstract void drawContent(Canvas canvas);
 
-    /**
-     * 计算绘制刻度之后的大小
-     */
-    private void computeTitleRect() {
 
-        Rect rect = chartData.getScaleData().titleRect;
-        computeChartRect(rect);
-    }
 
-    /**
-     * 计算绘制图示之后的大小
-     */
-    private void computeLegendRect() {
 
-        Rect rect = chartData.getScaleData().legendRect;
-        computeChartRect(rect);
-    }
 
 
     protected void computeChartRect(Rect rect) {
@@ -265,7 +246,7 @@ public abstract class BaseChart<P extends IProvider<C>,C extends ColumnData> ext
         invalidate();
     }
     @Override
-    public void onClickLegend(C c, ILegend<C> legend){
+    public void onClickLegend(C c, Legend<C> legend){
         isCharEmpty =  !provider.calculation(chartData);
         if(!isFirstAnim) {
              startChartAnim();
@@ -301,7 +282,7 @@ public abstract class BaseChart<P extends IProvider<C>,C extends ColumnData> ext
         this.chartTitle = chartTitle;
     }
 
-    public ILegend getLegend() {
+    public ILegend<C> getLegend() {
         return legend;
     }
 

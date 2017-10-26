@@ -9,8 +9,8 @@ import android.graphics.Rect;
 
 import com.bin.david.smartchart.R;
 import com.daivd.chart.data.LineData;
-import com.daivd.chart.provider.component.mark.IMark;
-import com.daivd.chart.provider.component.tip.SingleLineBubbleTip;
+import com.daivd.chart.group.mark.IMark;
+import com.daivd.chart.group.tip.SingleLineBubbleTip;
 import com.daivd.chart.utils.DensityUtils;
 
 /**

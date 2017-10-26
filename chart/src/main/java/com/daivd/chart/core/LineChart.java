@@ -10,8 +10,8 @@ import com.daivd.chart.core.base.BaseBarLineChart;
 import com.daivd.chart.data.LineData;
 import com.daivd.chart.exception.ChartException;
 import com.daivd.chart.provider.barLine.LineProvider;
-import com.daivd.chart.provider.component.line.CurveLineModel;
-import com.daivd.chart.provider.component.line.BrokenLineModel;
+import com.daivd.chart.group.line.CurveLineModel;
+import com.daivd.chart.group.line.BrokenLineModel;
 
 /**
  * Created by huang on 2017/9/26.

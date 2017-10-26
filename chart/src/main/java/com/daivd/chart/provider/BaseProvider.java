@@ -14,7 +14,7 @@ import com.daivd.chart.data.ChartData;
 import com.daivd.chart.data.ColumnData;
 import com.daivd.chart.data.style.FontStyle;
 import com.daivd.chart.listener.OnClickColumnListener;
-import com.daivd.chart.provider.component.mark.IMark;
+import com.daivd.chart.group.mark.IMark;
 import com.daivd.chart.matrix.MatrixHelper;
 
 /**

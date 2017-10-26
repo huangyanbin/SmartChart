@@ -4,16 +4,16 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 
-import com.daivd.chart.axis.IAxis;
+import com.daivd.chart.component.base.IAxis;
 import com.daivd.chart.data.ChartData;
-import com.daivd.chart.provider.component.cross.ICross;
-import com.daivd.chart.provider.component.level.ILevel;
-import com.daivd.chart.provider.component.level.LevelLine;
+import com.daivd.chart.group.cross.ICross;
+import com.daivd.chart.group.level.ILevel;
+import com.daivd.chart.group.level.LevelLine;
 import com.daivd.chart.data.LineData;
 import com.daivd.chart.data.ScaleData;
 import com.daivd.chart.exception.ChartException;
 import com.daivd.chart.provider.BaseProvider;
-import com.daivd.chart.provider.component.tip.ITip;
+import com.daivd.chart.group.tip.ITip;
 
 import java.util.ArrayList;
 import java.util.List;

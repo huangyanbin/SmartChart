@@ -1,6 +1,6 @@
 package com.daivd.chart.data;
 
-import com.daivd.chart.axis.IAxis;
+import com.daivd.chart.component.base.IAxis;
 
 import java.util.List;
 

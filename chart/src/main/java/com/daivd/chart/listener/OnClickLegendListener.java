@@ -1,7 +1,7 @@
 package com.daivd.chart.listener;
 
+import com.daivd.chart.component.Legend;
 import com.daivd.chart.data.ColumnData;
-import com.daivd.chart.legend.ILegend;
 
 /**
  * Created by huang on 2017/9/30.
@@ -9,5 +9,5 @@ import com.daivd.chart.legend.ILegend;
 
 public interface OnClickLegendListener<C extends ColumnData> {
 
-   void onClickLegend(C c, ILegend<C> legend);
+   void onClickLegend(C c, Legend<C> legend);
 }

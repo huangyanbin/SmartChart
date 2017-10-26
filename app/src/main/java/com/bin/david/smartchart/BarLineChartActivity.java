@@ -10,21 +10,20 @@ import android.view.View;
 import com.bin.david.smartchart.bean.ChartStyle;
 import com.bin.david.smartchart.view.BaseCheckDialog;
 import com.bin.david.smartchart.view.QuickChartDialog;
-import com.daivd.chart.axis.BaseAxis;
-import com.daivd.chart.axis.IAxis;
-import com.daivd.chart.axis.VerticalAxis;
+import com.daivd.chart.component.axis.BaseAxis;
+import com.daivd.chart.component.base.IAxis;
+import com.daivd.chart.component.axis.VerticalAxis;
+import com.daivd.chart.component.base.IComponent;
 import com.daivd.chart.core.BarLineChart;
 import com.daivd.chart.data.BarLineData;
 import com.daivd.chart.data.ChartData;
 import com.daivd.chart.data.style.FontStyle;
 import com.daivd.chart.data.style.LineStyle;
 import com.daivd.chart.data.style.PointStyle;
-import com.daivd.chart.legend.IChartTitle;
-import com.daivd.chart.legend.ILegend;
-import com.daivd.chart.provider.component.cross.DoubleDriCross;
-import com.daivd.chart.provider.component.level.LevelLine;
-import com.daivd.chart.provider.component.mark.BubbleMarkView;
-import com.daivd.chart.provider.component.point.Point;
+import com.daivd.chart.group.cross.DoubleDriCross;
+import com.daivd.chart.group.level.LevelLine;
+import com.daivd.chart.group.mark.BubbleMarkView;
+import com.daivd.chart.group.point.Point;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -99,11 +98,11 @@ public class BarLineChartActivity extends AppCompatActivity {
         //设置显示标题
         barLineChart.setShowChartName(true);
         //设置标题方向
-        barLineChart.getChartTitle().setTitleDirection(IChartTitle.TOP);
+        barLineChart.getChartTitle().setDirection(IComponent.TOP);
         //设置标题比例
-        barLineChart.getChartTitle().setTitlePercent(0.2f);
+        barLineChart.getChartTitle().setPercent(0.2f);
         //设置标题样式
-        FontStyle fontStyle = barLineChart.getChartTitle().getTextStyle();
+        FontStyle fontStyle = barLineChart.getChartTitle().getFontStyle();
         fontStyle.setTextColor(res.getColor(R.color.arc_temp));
         fontStyle.setTextSpSize(this,15);
 
@@ -112,11 +111,11 @@ public class BarLineChartActivity extends AppCompatActivity {
         levelLine.getLineStyle().setWidth(this,1).setColor(res.getColor(R.color.arc23)).setEffect(effects);
         levelLine.getLineStyle().setEffect(effects2);
         barLineChart.getProvider().addLevelLine(levelLine);
-        barLineChart.getLegend().setLegendDirection(ILegend.BOTTOM);
+        barLineChart.getLegend().setDirection(IComponent.BOTTOM);
         Point legendPoint = (Point)barLineChart.getLegend().getPoint();
         PointStyle style = legendPoint.getPointStyle();
         style.setShape(PointStyle.RECT);
-        barLineChart.getLegend().setLegendPercent(0.2f);
+        barLineChart.getLegend().setPercent(0.2f);
         barLineChart.getHorizontalAxis().setRotateAngle(-45);
         barLineChart.setFirstAnim(false);
         barLineChart.setChartData(chartData2);
@@ -438,14 +437,14 @@ public class BarLineChartActivity extends AppCompatActivity {
             @Override
             public void onItemClick(String s, int position) {
                 if(position == 0){
-                    barLineChart.getChartTitle().setTitleDirection(IChartTitle.TOP);
+                    barLineChart.getChartTitle().setDirection(IComponent.TOP);
                 }else if(position ==1){
-                    barLineChart.getChartTitle().setTitleDirection(IChartTitle.BOTTOM);
+                    barLineChart.getChartTitle().setDirection(IComponent.BOTTOM);
                 } else if(position ==2){
-                    barLineChart.getChartTitle().setTitleDirection(IChartTitle.LEFT);
+                    barLineChart.getChartTitle().setDirection(IComponent.LEFT);
                 }
                 else {
-                    barLineChart.getChartTitle().setTitleDirection(IChartTitle.RIGHT);
+                    barLineChart.getChartTitle().setDirection(IComponent.RIGHT);
                 }
                 barLineChart.startChartAnim(400);
             }
@@ -459,14 +458,14 @@ public class BarLineChartActivity extends AppCompatActivity {
             @Override
             public void onItemClick(String s, int position) {
                 if(position == 0){
-                    barLineChart.getLegend().setLegendDirection(ILegend.TOP);
+                    barLineChart.getLegend().setDirection(IComponent.TOP);
                 }else if(position ==1){
-                    barLineChart.getLegend().setLegendDirection(ILegend.BOTTOM);
+                    barLineChart.getLegend().setDirection(IComponent.BOTTOM);
                 } else if(position ==2){
-                    barLineChart.getLegend().setLegendDirection(ILegend.LEFT);
+                    barLineChart.getLegend().setDirection(IComponent.LEFT);
                 }
                 else {
-                    barLineChart.getLegend().setLegendDirection(ILegend.RIGHT);
+                    barLineChart.getLegend().setDirection(IComponent.RIGHT);
                 }
                 barLineChart.startChartAnim(400);
             }

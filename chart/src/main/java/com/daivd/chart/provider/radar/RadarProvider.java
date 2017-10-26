@@ -5,7 +5,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
 
-import com.daivd.chart.axis.IAxis;
+import com.daivd.chart.component.base.IAxis;
 import com.daivd.chart.data.ChartData;
 import com.daivd.chart.data.format.IFormat;
 import com.daivd.chart.data.LineData;
@@ -214,10 +214,6 @@ public class RadarProvider extends BaseProvider<RadarData> {
         }
 
     }*/
-
-    void setSelection(int position){
-
-    }
 
 
 

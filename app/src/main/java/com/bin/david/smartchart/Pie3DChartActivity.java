@@ -5,15 +5,15 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
+import com.daivd.chart.component.base.IComponent;
 import com.daivd.chart.core.Pie3DChart;
 import com.daivd.chart.data.ChartData;
 import com.daivd.chart.data.PieData;
 import com.daivd.chart.data.style.FontStyle;
 import com.daivd.chart.data.style.PointStyle;
-import com.daivd.chart.legend.ILegend;
 import com.daivd.chart.listener.OnClickColumnListener;
-import com.daivd.chart.provider.component.mark.BubbleMarkView;
-import com.daivd.chart.provider.component.point.Point;
+import com.daivd.chart.group.mark.BubbleMarkView;
+import com.daivd.chart.group.point.Point;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +49,7 @@ public class Pie3DChartActivity extends AppCompatActivity {
         ChartData<PieData> chartData = new ChartData<>("3D pie chart",chartYDataList,pieDatas);
         pie3DChart.setShowChartName(true);
         //设置标题样式
-        FontStyle fontStyle = pie3DChart.getChartTitle().getTextStyle();
+        FontStyle fontStyle = pie3DChart.getChartTitle().getFontStyle();
         fontStyle.setTextColor(res.getColor(R.color.arc3));
         fontStyle.setTextSpSize(this,15);
         pie3DChart.getProvider().setOpenMark(true);
@@ -57,7 +57,7 @@ public class Pie3DChartActivity extends AppCompatActivity {
         Point legendPoint = (Point) pie3DChart.getLegend().getPoint();
         PointStyle style = legendPoint.getPointStyle();
         style.setShape(PointStyle.CIRCLE);
-        pie3DChart.getLegend().setLegendDirection(ILegend.TOP);
+        pie3DChart.getLegend().setDirection(IComponent.TOP);
         pie3DChart.setRotate(true);
         pie3DChart.setChartData(chartData);
         pie3DChart.startChartAnim(1000);

@@ -6,7 +6,6 @@ import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 
 import com.daivd.chart.core.base.BaseBarLineChart;
-import com.daivd.chart.data.BarLineData;
 import com.daivd.chart.data.LineData;
 import com.daivd.chart.provider.barLine.Bar3DProvider;
 

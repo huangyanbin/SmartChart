@@ -8,10 +8,9 @@ import android.graphics.Rect;
 
 import com.daivd.chart.data.LineData;
 import com.daivd.chart.data.style.LineStyle;
-import com.daivd.chart.data.style.PointStyle;
-import com.daivd.chart.provider.component.line.BrokenLineModel;
-import com.daivd.chart.provider.component.line.ILineModel;
-import com.daivd.chart.provider.component.point.IPoint;
+import com.daivd.chart.group.line.BrokenLineModel;
+import com.daivd.chart.group.line.ILineModel;
+import com.daivd.chart.group.point.IPoint;
 import com.daivd.chart.utils.ColorUtils;
 
 import java.util.ArrayList;

@@ -5,32 +5,24 @@ import android.graphics.Camera;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Path;
 import android.graphics.PointF;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
-import android.graphics.RectF;
 import android.util.DisplayMetrics;
 
 import com.daivd.chart.data.ChartData;
 import com.daivd.chart.data.PieData;
-import com.daivd.chart.data.format.IFormat;
-import com.daivd.chart.data.style.FontStyle;
-import com.daivd.chart.matrix.RotateHelper;
-import com.daivd.chart.provider.BaseProvider;
-import com.daivd.chart.utils.ColorUtils;
-
-import java.util.List;
 
 /**
  * Created by huang on 2017/10/9.
+ * 3D饼图
+ * 试验中，未完成
  */
 
 public class Pie3DProvider extends PieProvider {
+    private int borderWidth = 20;
 
     //提供摄像头
-    Camera camera = new Camera();
+    private Camera camera = new Camera();
 
     public Pie3DProvider(Context context){
         //拉远摄像头Z轴
@@ -61,6 +53,20 @@ public class Pie3DProvider extends PieProvider {
         }
 
     }
+
+    @Override
+    protected void drawProvider(Canvas canvas, Rect zoomRect, Rect rect, Paint paint) {
+
+        super.drawProvider(canvas, zoomRect, rect, paint);
+        PointF centerPoint = getCenterPoint();
+        paint.setStrokeWidth(borderWidth);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setColor(Color.parseColor("#80FFFFFF"));
+        int radius = getCenterRadius();
+        canvas.drawCircle(centerPoint.x,centerPoint.y,radius*getCenterCirclePercent()+borderWidth/2,paint);
+        canvas.drawCircle(centerPoint.x,centerPoint.y,radius-borderWidth/2,paint);
+    }
+
     /**
      * 变形结束
      *

@@ -5,15 +5,15 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
+import com.daivd.chart.component.base.IComponent;
 import com.daivd.chart.core.PieChart;
 import com.daivd.chart.data.ChartData;
 import com.daivd.chart.data.PieData;
 import com.daivd.chart.data.style.FontStyle;
 import com.daivd.chart.data.style.PointStyle;
-import com.daivd.chart.legend.ILegend;
 import com.daivd.chart.listener.OnClickColumnListener;
-import com.daivd.chart.provider.component.mark.BubbleMarkView;
-import com.daivd.chart.provider.component.point.Point;
+import com.daivd.chart.group.mark.BubbleMarkView;
+import com.daivd.chart.group.point.Point;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +49,7 @@ public class PieChartActivity extends AppCompatActivity {
         ChartData<PieData> chartData = new ChartData<>("pie chart",chartYDataList,pieDatas);
         pieChart.setShowChartName(true);
         //设置标题样式
-        FontStyle fontStyle = pieChart.getChartTitle().getTextStyle();
+        FontStyle fontStyle = pieChart.getChartTitle().getFontStyle();
         fontStyle.setTextColor(res.getColor(R.color.arc3));
         fontStyle.setTextSpSize(this,15);
         pieChart.getProvider().setOpenMark(true);
@@ -57,7 +57,7 @@ public class PieChartActivity extends AppCompatActivity {
         Point legendPoint = (Point)pieChart.getLegend().getPoint();
         PointStyle style = legendPoint.getPointStyle();
         style.setShape(PointStyle.CIRCLE);
-        pieChart.getLegend().setLegendDirection(ILegend.TOP);
+        pieChart.getLegend().setDirection(IComponent.TOP);
         pieChart.setRotate(true);
         pieChart.setChartData(chartData);
         pieChart.startChartAnim(1000);

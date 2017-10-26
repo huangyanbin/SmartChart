@@ -34,9 +34,9 @@ public class PieProvider extends BaseProvider<PieData> {
     protected RotateHelper rotateHelper;
     private FontStyle textStyle = new FontStyle();
     private float centerCirclePercent = 0.3f;
-    private boolean isShader;
     private boolean isClick;
     private IFormat<Double> valueFormat;
+    private PorterDuffXfermode porterDuffXfermode;
 
     @Override
     public boolean calculationChild(ChartData<PieData> chartData) {
@@ -66,15 +66,19 @@ public class PieProvider extends BaseProvider<PieData> {
         int h = zoomRect.height();
         int w = zoomRect.width();
         int maxRadius = Math.min(w/2, h/2);
-        centerPoint = new PointF(zoomRect.centerX(), zoomRect.centerY());
+
         int x = maxRadius / 10;
         centerRadius = maxRadius - x;
+
+        if(oval == null) {
+            oval = new RectF(zoomRect.centerX() - centerRadius, zoomRect.centerY() - centerRadius,
+                    zoomRect.centerX() + centerRadius, zoomRect.centerY() + centerRadius);
+            centerPoint = new PointF(zoomRect.centerX(), zoomRect.centerY());
+        }
         if(rotateHelper != null){
             rotateHelper.setRadius(centerRadius);
             rotateHelper.setOriginRect(rect);
         }
-        oval= new RectF(zoomRect.centerX()-centerRadius,zoomRect.centerY() - centerRadius,
-                zoomRect.centerX()+centerRadius,zoomRect.centerY() + centerRadius);
         List<PieData> pieDataList = chartData.getColumnDataList();
         float totalScores = 0f;
         for (PieData pieData: pieDataList) {
@@ -107,7 +111,10 @@ public class PieProvider extends BaseProvider<PieData> {
             startAngle += sweepAngle;
         }
         //裁切中间圆
-        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_OUT));
+        if(porterDuffXfermode == null){
+            porterDuffXfermode = new PorterDuffXfermode(PorterDuff.Mode.SRC_OUT);
+        }
+        paint.setXfermode(porterDuffXfermode);
         if(centerCirclePercent >0) {
             paint.setColor(Color.TRANSPARENT);
             canvas.drawCircle(rect.centerX(),rect.centerY(),centerRadius *centerCirclePercent,paint);
@@ -151,13 +158,35 @@ public class PieProvider extends BaseProvider<PieData> {
 
     }
 
+    public PointF getCenterPoint() {
+        return centerPoint;
+    }
 
+    public void setCenterPoint(PointF centerPoint) {
+        this.centerPoint = centerPoint;
+    }
+
+    public int getCenterRadius() {
+        return centerRadius;
+    }
+
+    public void setCenterRadius(int centerRadius) {
+        this.centerRadius = centerRadius;
+    }
 
     public void setValueFormat(IFormat<Double> valueFormat) {
         this.valueFormat = valueFormat;
     }
 
     public void setCenterCirclepercent(float centerCirclePercent) {
+        this.centerCirclePercent = centerCirclePercent;
+    }
+
+    public float getCenterCirclePercent() {
+        return centerCirclePercent;
+    }
+
+    public void setCenterCirclePercent(float centerCirclePercent) {
         this.centerCirclePercent = centerCirclePercent;
     }
 

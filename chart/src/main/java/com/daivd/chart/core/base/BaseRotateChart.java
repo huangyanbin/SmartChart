@@ -7,7 +7,6 @@ import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
-import com.daivd.chart.core.base.BaseChart;
 import com.daivd.chart.data.ColumnData;
 import com.daivd.chart.matrix.RotateHelper;
 import com.daivd.chart.provider.IProvider;

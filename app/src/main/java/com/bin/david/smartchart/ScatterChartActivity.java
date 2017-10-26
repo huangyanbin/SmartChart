@@ -10,21 +10,20 @@ import android.view.View;
 import com.bin.david.smartchart.bean.ChartStyle;
 import com.bin.david.smartchart.view.BaseCheckDialog;
 import com.bin.david.smartchart.view.QuickChartDialog;
-import com.daivd.chart.axis.BaseAxis;
-import com.daivd.chart.axis.IAxis;
+import com.daivd.chart.component.axis.BaseAxis;
+import com.daivd.chart.component.base.IAxis;
+import com.daivd.chart.component.base.IComponent;
 import com.daivd.chart.core.LineChart;
 import com.daivd.chart.data.ChartData;
 import com.daivd.chart.data.format.IFormat;
-import com.daivd.chart.provider.component.cross.DoubleDriCross;
-import com.daivd.chart.provider.component.level.LevelLine;
+import com.daivd.chart.group.cross.DoubleDriCross;
+import com.daivd.chart.group.level.LevelLine;
 import com.daivd.chart.data.LineData;
 import com.daivd.chart.data.style.FontStyle;
 import com.daivd.chart.data.style.LineStyle;
 import com.daivd.chart.data.style.PointStyle;
-import com.daivd.chart.legend.IChartTitle;
-import com.daivd.chart.legend.ILegend;
-import com.daivd.chart.provider.component.mark.BubbleMarkView;
-import com.daivd.chart.provider.component.point.Point;
+import com.daivd.chart.group.mark.BubbleMarkView;
+import com.daivd.chart.group.point.Point;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -125,12 +124,12 @@ public class ScatterChartActivity extends AppCompatActivity {
         //设置显示标题
         lineChart.setShowChartName(true);
         //设置标题方向
-        lineChart.getChartTitle().setTitleDirection(IChartTitle.BOTTOM);
+        lineChart.getChartTitle().setDirection(IComponent.BOTTOM);
         //设置标题比例
-        lineChart.getChartTitle().setTitlePercent(0.2f);
+        lineChart.getChartTitle().setPercent(0.2f);
         //设置标题样式
         //设置标题样式
-        FontStyle fontStyle = lineChart.getChartTitle().getTextStyle();
+        FontStyle fontStyle = lineChart.getChartTitle().getFontStyle();
         fontStyle.setTextColor(res.getColor(R.color.arc_temp));
         fontStyle.setTextSpSize(this,15);
         LevelLine levelLine = new LevelLine(20);
@@ -138,11 +137,11 @@ public class ScatterChartActivity extends AppCompatActivity {
         levelLine.getLineStyle().setWidth(this,1).setColor(res.getColor(R.color.arc23)).setEffect(effects);
         levelLine.getLineStyle().setEffect(effects2);
         lineChart.getProvider().addLevelLine(levelLine);
-        lineChart.getLegend().setLegendDirection(ILegend.BOTTOM);
+        lineChart.getLegend().setDirection(IComponent.BOTTOM);
         Point legendPoint = (Point)lineChart.getLegend().getPoint();
         PointStyle style = legendPoint.getPointStyle();
         style.setShape(PointStyle.RECT);
-        lineChart.getLegend().setLegendPercent(0.2f);
+        lineChart.getLegend().setPercent(0.2f);
         lineChart.getHorizontalAxis().setRotateAngle(45);
         lineChart.getHorizontalAxis().setAxisDirection(IAxis.AxisDirection.TOP);
         lineChart.getProvider().setDrawLine(false);
@@ -476,14 +475,14 @@ public class ScatterChartActivity extends AppCompatActivity {
             @Override
             public void onItemClick(String s, int position) {
                 if(position == 0){
-                    lineChart.getChartTitle().setTitleDirection(IChartTitle.TOP);
+                    lineChart.getChartTitle().setDirection(IComponent.TOP);
                 }else if(position ==1){
-                    lineChart.getChartTitle().setTitleDirection(IChartTitle.BOTTOM);
+                    lineChart.getChartTitle().setDirection(IComponent.BOTTOM);
                 } else if(position ==2){
-                    lineChart.getChartTitle().setTitleDirection(IChartTitle.LEFT);
+                    lineChart.getChartTitle().setDirection(IComponent.LEFT);
                 }
                 else {
-                    lineChart.getChartTitle().setTitleDirection(IChartTitle.RIGHT);
+                    lineChart.getChartTitle().setDirection(IComponent.RIGHT);
                 }
                 lineChart.startChartAnim(400);
             }
@@ -497,14 +496,14 @@ public class ScatterChartActivity extends AppCompatActivity {
             @Override
             public void onItemClick(String s, int position) {
                 if(position == 0){
-                    lineChart.getLegend().setLegendDirection(ILegend.TOP);
+                    lineChart.getLegend().setDirection(IComponent.TOP);
                 }else if(position ==1){
-                    lineChart.getLegend().setLegendDirection(ILegend.BOTTOM);
+                    lineChart.getLegend().setDirection(IComponent.BOTTOM);
                 } else if(position ==2){
-                    lineChart.getLegend().setLegendDirection(ILegend.LEFT);
+                    lineChart.getLegend().setDirection(IComponent.LEFT);
                 }
                 else {
-                    lineChart.getLegend().setLegendDirection(ILegend.RIGHT);
+                    lineChart.getLegend().setDirection(IComponent.RIGHT);
                 }
                 lineChart.startChartAnim(400);
             }

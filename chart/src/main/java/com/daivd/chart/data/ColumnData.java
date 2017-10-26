@@ -1,6 +1,6 @@
 package com.daivd.chart.data;
 
-import com.daivd.chart.axis.IAxis;
+import com.daivd.chart.component.base.IAxis;
 
 /**
  * Created by huang on 2017/9/26.

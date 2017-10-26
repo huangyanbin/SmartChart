@@ -2,7 +2,7 @@ package com.daivd.chart.data;
 
 import android.graphics.Rect;
 
-import com.daivd.chart.axis.IAxis;
+import com.daivd.chart.component.base.IAxis;
 import com.daivd.chart.matrix.MatrixHelper;
 
 import java.util.ArrayList;
@@ -28,8 +28,7 @@ public class ScaleData {
     public int totalScale = 5; //刻度数量
 
     public Rect scaleRect = new Rect();
-    public Rect legendRect = new Rect();
-    public Rect titleRect = new Rect();
+
     //横轴数据
     public int  rowSize; //列数据
     public float zoom = MatrixHelper.MIN_ZOOM; //放大比例
