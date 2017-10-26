@@ -36,7 +36,7 @@ public class MarkPoint implements IPoint {
         this.height = height;
         rect = new Rect();
         this.width = markBitmap.getWidth()*this.height/markBitmap.getHeight();
-        xfermode = new PorterDuffXfermode(PorterDuff.Mode.DST_OVER);
+        xfermode = new PorterDuffXfermode(PorterDuff.Mode.SRC_ATOP);
 
     }
 
