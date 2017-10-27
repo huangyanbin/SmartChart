@@ -50,9 +50,6 @@ public class MarkPoint implements IPoint {
 
        canvas.drawBitmap(markBitmap,bitmapRect,rect,paint);
        paint.setXfermode(xfermode);
-       rect.top += width/6;
-       rect.right-= width/6;
-       rect.left +=width/6;
        rect.bottom = rect.top+rect.width();
        canvas.drawBitmap(avatorBitmap,avatorbitmapRect,rect,paint);
        paint.setXfermode(null);
