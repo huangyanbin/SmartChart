@@ -28,24 +28,18 @@ public abstract class BaseBarLineChart<P extends IProvider<C>,C extends BarData>
 
     public BaseBarLineChart(Context context) {
         super(context);
-        init();
+
     }
 
     public BaseBarLineChart(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init();
+
     }
 
     public BaseBarLineChart(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init();
     }
 
-    @android.support.annotation.RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public BaseBarLineChart(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-        init();
-    }
 
     protected  void init(){
        horizontalAxis = new HorizontalAxis();

@@ -13,10 +13,12 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 
 import com.daivd.chart.component.Legend;
+import com.daivd.chart.component.PicGeneration;
 import com.daivd.chart.component.base.IChartTitle;
 import com.daivd.chart.component.base.ILegend;
 import com.daivd.chart.data.ChartData;
 import com.daivd.chart.data.ColumnData;
+import com.daivd.chart.data.PicOption;
 import com.daivd.chart.data.ScaleData;
 import com.daivd.chart.component.ChartTitle;
 import com.daivd.chart.component.EmptyView;
@@ -69,11 +71,7 @@ public abstract class BaseChart<P extends IProvider<C>,C extends ColumnData> ext
         init();
     }
 
-    @android.support.annotation.RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public BaseChart(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-        init();
-    }
+
 
     /**
      * 初始化组件
@@ -319,5 +317,13 @@ public abstract class BaseChart<P extends IProvider<C>,C extends ColumnData> ext
      */
     public void setFirstAnim(boolean isFirstAnim) {
         this.isFirstAnim = isFirstAnim;
+    }
+
+    public boolean save(){
+      return save(new PicOption(chartData.getChartName()));
+    }
+
+    public boolean save(PicOption picOption){
+        return new PicGeneration<BaseChart>().save(this,picOption);
     }
 }

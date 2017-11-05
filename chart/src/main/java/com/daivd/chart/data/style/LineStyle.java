@@ -16,6 +16,7 @@ public class LineStyle implements IStyle {
 
     private float width;
     private int color;
+    private boolean isFill;
     private PathEffect effect = new PathEffect();
     private static  float defaultLineSize = 2f;
     private static  int  defaultLineColor = Color.parseColor("#888888");
@@ -50,6 +51,15 @@ public class LineStyle implements IStyle {
         return width;
     }
 
+    public boolean isFill() {
+        return isFill;
+    }
+
+    public LineStyle setFill(boolean fill) {
+        isFill = fill;
+        return this;
+    }
+
     public LineStyle setWidth(float width) {
         this.width = width;
         return this;
@@ -80,7 +90,7 @@ public class LineStyle implements IStyle {
     @Override
     public void fillPaint(Paint paint){
         paint.setColor(getColor());
-        paint.setStyle(Paint.Style.STROKE);
+        paint.setStyle(isFill ?Paint.Style.STROKE : Paint.Style.FILL);
         paint.setStrokeWidth(getWidth());
         paint.setPathEffect(effect);
 

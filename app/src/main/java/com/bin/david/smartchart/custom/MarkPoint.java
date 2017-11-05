@@ -20,11 +20,11 @@ public class MarkPoint implements IPoint {
     private Bitmap markBitmap;
     private Bitmap avatorBitmap;
     private Rect bitmapRect;
-    private Rect avatorbitmapRect;
+    private Rect avatorBitmapRect;
     private Rect rect;
     private int height;
     private int width;
-    private PorterDuffXfermode xfermode;
+    private PorterDuffXfermode xFermode;
 
     public MarkPoint(Context context,int height){
         markBitmap = BitmapFactory.decodeResource(context.getResources(), R.mipmap.mark);
@@ -32,11 +32,11 @@ public class MarkPoint implements IPoint {
         options.inSampleSize = 4;
         avatorBitmap = BitmapFactory.decodeResource(context.getResources(), R.mipmap.avator,options);
         bitmapRect = new Rect(0,0,markBitmap.getWidth(),markBitmap.getHeight());
-        avatorbitmapRect = new Rect(0,0,avatorBitmap.getWidth(),avatorBitmap.getHeight());
+        avatorBitmapRect = new Rect(0,0,avatorBitmap.getWidth(),avatorBitmap.getHeight());
         this.height = height;
         rect = new Rect();
         this.width = markBitmap.getWidth()*this.height/markBitmap.getHeight();
-        xfermode = new PorterDuffXfermode(PorterDuff.Mode.SRC_ATOP);
+        xFermode = new PorterDuffXfermode(PorterDuff.Mode.SRC_IN);
 
     }
 
@@ -46,12 +46,13 @@ public class MarkPoint implements IPoint {
         rect.bottom = (int) y;
         rect.right = (int) (x + width/2);
         rect.left = (int)(x - width/2);
+        canvas.drawBitmap(markBitmap,bitmapRect,rect,paint);
         int layerId = canvas.saveLayer(rect.left,rect.top,rect.right,rect.bottom , null, Canvas.ALL_SAVE_FLAG);
-
-       canvas.drawBitmap(markBitmap,bitmapRect,rect,paint);
-       paint.setXfermode(xfermode);
-       rect.bottom = rect.top+rect.width();
-       canvas.drawBitmap(avatorBitmap,avatorbitmapRect,rect,paint);
+        rect.bottom = rect.top+rect.width();
+        paint.setStyle(Paint.Style.FILL);
+       canvas.drawCircle(rect.centerX(),rect.centerY(),rect.width()/2,paint);
+       paint.setXfermode(xFermode);
+       canvas.drawBitmap(avatorBitmap, avatorBitmapRect,rect,paint);
        paint.setXfermode(null);
         canvas.restoreToCount(layerId);//将自己创建的画布Layer绘制到画布默认的Layer
     }

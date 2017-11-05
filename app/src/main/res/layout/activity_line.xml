@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    tools:context="com.bin.david.smartchart.MainActivity">
+    tools:context="com.bin.david.smartchart.LineChartActivity">
 
    <com.daivd.chart.core.LineChart
 
@@ -14,18 +14,37 @@
        android:background="#f4f4f4"
        android:layout_height="400dp"/>
 
-    <Button
-        android:id="@+id/btn"
-        android:layout_width="wrap_content"
-        android:layout_marginTop="12dp"
-        android:paddingLeft="23dp"
-        android:paddingRight="23dp"
-        android:background="@drawable/dialog_btn_bg"
-        android:text="chart Setting"
-        android:onClick="onClick"
-        android:clickable="true"
-        android:textColor="#fff"
-        android:layout_height="45dp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/btn"
+            android:layout_width="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:background="@drawable/dialog_btn_bg"
+            android:layout_marginRight="30dp"
+            android:text="chart Setting"
+            android:onClick="onClick"
+            android:clickable="true"
+            android:textColor="#fff"
+            android:layout_height="45dp" />
+
+        <Button
+            android:id="@+id/btn2"
+            android:layout_width="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:background="@drawable/dialog_btn_bg"
+            android:text="Save Pic"
+            android:onClick="onClick"
+            android:clickable="true"
+            android:textColor="#fff"
+            android:layout_height="45dp" />
+
+    </LinearLayout>
 
 
 

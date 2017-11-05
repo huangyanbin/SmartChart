@@ -1,8 +1,6 @@
 package com.daivd.chart.core;
 
 import android.content.Context;
-import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 
 import com.daivd.chart.core.base.BaseRotateChart;
@@ -30,10 +28,7 @@ public class RoseChart extends BaseRotateChart<RoseProvider,RoseData> {
         super(context, attrs, defStyleAttr);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public RoseChart(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-    }
+
 
     @Override
     protected RoseProvider initProvider(RotateHelper rotateHelper) {

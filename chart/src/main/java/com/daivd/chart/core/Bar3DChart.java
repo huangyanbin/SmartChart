@@ -2,7 +2,6 @@ package com.daivd.chart.core;
 
 import android.content.Context;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 
 import com.daivd.chart.core.base.BaseBarLineChart;
@@ -27,10 +26,7 @@ public class Bar3DChart extends BaseBarLineChart<Bar3DProvider,BarData> {
         super(context, attrs, defStyleAttr);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public Bar3DChart(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-    }
+
 
 
 
