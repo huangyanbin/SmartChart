@@ -41,6 +41,7 @@ public class HorizontalAxis extends BaseAxis<String> {
                String formatData = formatData(xData);
                if (maxLength < formatData.length()) {
                    maxLengthXData = formatData;
+                   maxLength = formatData.length();
                }
            }
           textWidth = (int) paint.measureText(maxLengthXData);
