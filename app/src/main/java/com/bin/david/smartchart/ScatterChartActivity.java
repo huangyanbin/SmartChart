@@ -27,7 +27,6 @@ import com.daivd.chart.provider.component.point.Point;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class ScatterChartActivity extends AppCompatActivity {
 
@@ -44,22 +43,49 @@ public class ScatterChartActivity extends AppCompatActivity {
         Resources res = getResources();
         FontStyle.setDefaultTextSpSize(this,12);
         List<String> chartYDataList = new ArrayList<>();
-        for(int i =0; i <100;i++){
-            chartYDataList.add("huang");
-            chartYDataList.add("li");
-        }
+        chartYDataList.add("Tokyo");
+        chartYDataList.add("Paris");
+        chartYDataList.add("Hong Kong");
+        chartYDataList.add("Singapore");
+        chartYDataList.add("Sydney");
+        chartYDataList.add("Milano");
+        chartYDataList.add("Shanghai");
+        chartYDataList.add("Beijing");
+        chartYDataList.add("Madrid");
+        chartYDataList.add("Moscow");
+        chartYDataList.add("Seoul");
+        chartYDataList.add("Bangkok");
         List<LineData> ColumnDatas = new ArrayList<>();
         ArrayList<Double> tempList1 = new ArrayList<>();
-        Random random = new Random();
-        for(int i =0; i <100;i++){
-            tempList1.add((double)random.nextInt(70));
-            tempList1.add((double)random.nextInt(70));
-        }
+        tempList1.add(26d);
+        tempList1.add(35d);
+        tempList1.add(40d);
+        tempList1.add(-20d);
+        tempList1.add(26d);
+        tempList1.add(35d);
+        tempList1.add(-40d);
+        tempList1.add(10d);
+        tempList1.add(26d);
+        tempList1.add(-15d);
+        tempList1.add(40d);
+        tempList1.add(10d);
         LineData columnData1 = new LineData("Temperature","℃", IAxis.AxisDirection.RIGHT,getResources().getColor(R.color.arc3),tempList1);
-        //ArrayList<Double> humidityList = new ArrayList<>();
-
+        ArrayList<Double> humidityList = new ArrayList<>();
+        humidityList.add(60d);
+        humidityList.add(50d);
+        humidityList.add(30d);
+        humidityList.add(65d);
+        humidityList.add(60d);
+        humidityList.add(100d);
+        humidityList.add(80d);
+        humidityList.add(65d);
+        humidityList.add(60d);
+        humidityList.add(50d);
+        humidityList.add(30d);
+        humidityList.add(65d);
+        LineData columnData2 = new LineData("Humidity","RH%",getResources().getColor(R.color.arc2),humidityList);
         ColumnDatas.add(columnData1);
-       // ColumnDatas.add(columnData2);
+        ColumnDatas.add(columnData2);
         ChartData<LineData> chartData2 = new ChartData<>("Scatter chart",chartYDataList,ColumnDatas);
 
         lineChart.setLineModel(LineChart.CURVE_MODEL);
@@ -116,7 +142,7 @@ public class ScatterChartActivity extends AppCompatActivity {
         PointStyle style = legendPoint.getPointStyle();
         style.setShape(PointStyle.RECT);
         lineChart.getLegend().setPercent(0.2f);
-        //lineChart.getHorizontalAxis().setRotateAngle(45);
+        lineChart.getHorizontalAxis().setRotateAngle(45);
         lineChart.getHorizontalAxis().setAxisDirection(IAxis.AxisDirection.TOP);
         lineChart.getProvider().setDrawLine(false);
         lineChart.getHorizontalAxis().setFormat(new IFormat<String>() {
