@@ -81,8 +81,8 @@ public class HorizontalAxis extends BaseAxis<String> {
         }
         int left = zoomRect.left ;
         int width = zoomRect.right - left;
-        int perWidth = width / (isLine? groupSize -1 : groupSize);
-        int filterMultiple = textWidth / perWidth +1;
+        double perWidth = ((double) width) / (isLine? groupSize -1 : groupSize);
+        int filterMultiple = (int) (textWidth / perWidth +1);
         for (int i = 0; i < groupSize; i++) {
             String content = groupDataList.get(i);
             int startX = getGravityStartX(left, i, perWidth);
@@ -96,8 +96,8 @@ public class HorizontalAxis extends BaseAxis<String> {
         }
     }
 
-    private int getGravityStartX(int left, int position, int perWidth) {
-        int startX = left + position * perWidth;
+    private int getGravityStartX(int left, int position, double perWidth) {
+        int startX = (int) (left + position * perWidth);
         if (gravity == Gravity.CENTER) {
             startX += perWidth / 2;
         } else if (gravity == Gravity.RIGHT) {

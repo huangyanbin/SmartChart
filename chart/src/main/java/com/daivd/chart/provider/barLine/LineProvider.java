@@ -6,7 +6,6 @@ import android.graphics.Path;
 import android.graphics.PointF;
 import android.graphics.Rect;
 
-import com.daivd.chart.data.BarData;
 import com.daivd.chart.data.LineData;
 import com.daivd.chart.data.style.LineStyle;
 import com.daivd.chart.provider.component.line.BrokenLineModel;
@@ -30,6 +29,7 @@ public class LineProvider extends BaseBarLineProvider<LineData> {
     private int rowSize;
     private boolean isArea; //是否打开面积图
     private boolean isDrawLine = true;
+    private int filterPointTextCount = 30; //最多显示30个点文字
     private ILineModel lineModel = new BrokenLineModel();
 
     @Override
@@ -38,6 +38,8 @@ public class LineProvider extends BaseBarLineProvider<LineData> {
         List<LineData> columnDataList = chartData.getColumnDataList();
         int columnSize = columnDataList.size();
         rowSize = chartData.getCharXDataList().size();
+        int filter = rowSize/filterPointTextCount;
+        filter = filter <1 ?1 : filter;
         for (int i = 0; i < columnSize; i++) {
             LineData lineData = columnDataList.get(i);
             paint.setColor(lineData.getColor());
@@ -47,13 +49,16 @@ public class LineProvider extends BaseBarLineProvider<LineData> {
             List<Float> pointX = new ArrayList<>();
             List<Float> pointY = new ArrayList<>();
             List<Double> chartYDataList = lineData.getChartYDataList();
+
             for (int j = 0; j < rowSize; j++) {
                 double value = chartYDataList.get(j);
                 float x = getStartX(zoomRect, j);
                 float y = getStartY(zoomRect, value, lineData.getDirection());
                 pointX.add(x);
                 pointY.add(y);
-                drawPointText(canvas, value, x, y, paint);
+                if(j % filter == 0) {
+                    drawPointText(canvas, value, x, y, paint);
+                }
             }
             canvas.save();
             canvas.clipRect(rect);
@@ -102,7 +107,7 @@ public class LineProvider extends BaseBarLineProvider<LineData> {
 
     private float getStartX(Rect zoomRect, int position) {
 
-        double width = zoomRect.width() / (rowSize - 1);
+        double width = ((double) zoomRect.width()) / (rowSize - 1);
         return (float) (position * width + zoomRect.left);
     }
 
@@ -160,13 +165,16 @@ public class LineProvider extends BaseBarLineProvider<LineData> {
     private void drawPoint(Canvas canvas, List<Float> pointX, List<Float> pointY,LineData lineData, Paint paint) {
         IPoint linePoint = lineData.getPoint();
         linePoint = linePoint == null? point:linePoint;
+
         if (linePoint != null) {
             for (int i = 0; i < pointY.size(); i++) {
-                float x = pointX.get(i);
-                float y = pointY.get(i);
-                if (containsRect(x, y)) {
-                    linePoint.drawPoint(canvas, x, y, false,paint);
-                }
+
+                    float x = pointX.get(i);
+                    float y = pointY.get(i);
+                    if (containsRect(x, y)) {
+                        linePoint.drawPoint(canvas, x, y, false, paint);
+                    }
+
             }
         }
     }
@@ -212,6 +220,13 @@ public class LineProvider extends BaseBarLineProvider<LineData> {
         isDrawLine = drawLine;
     }
 
+    public int getFilterPointTextCount() {
+        return filterPointTextCount;
+    }
+
+    public void setFilterPointTextCount(int filterPointTextCount) {
+        this.filterPointTextCount = filterPointTextCount;
+    }
 
     public void setPoint(IPoint point) {
         this.point = point;
