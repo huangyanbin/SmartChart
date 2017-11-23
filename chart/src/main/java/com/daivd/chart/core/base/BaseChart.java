@@ -300,7 +300,9 @@ public abstract class BaseChart<P extends IProvider<C>,C extends ColumnData> ext
         invalidate();
     }
 
-
+    public MatrixHelper getMatrixHelper() {
+        return matrixHelper;
+    }
 
     public void setOnClickColumnListener(OnClickColumnListener<C> onClickColumnListener) {
         provider.setOnClickColumnListener(onClickColumnListener);
