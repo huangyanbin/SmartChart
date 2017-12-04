@@ -124,7 +124,7 @@ allprojects {
 > *Step 2. Add the dependency
 ```gradle
 dependencies {
-	        compile 'com.github.huangyanbin:SmartChart:1.1'
+	        compile 'com.github.huangyanbin:SmartChart:1.3.3'
 	}
 ```
     
