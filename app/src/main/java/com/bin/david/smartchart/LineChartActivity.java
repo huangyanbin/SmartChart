@@ -3,6 +3,7 @@ package com.bin.david.smartchart;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.DashPathEffect;
 import android.graphics.Paint;
@@ -32,6 +33,7 @@ import com.daivd.chart.data.style.FontStyle;
 import com.daivd.chart.data.style.LineStyle;
 import com.daivd.chart.data.style.PointStyle;
 import com.daivd.chart.listener.OnClickColumnListener;
+import com.daivd.chart.provider.component.point.IPoint;
 import com.daivd.chart.provider.component.point.Point;
 import com.daivd.chart.provider.component.tip.MultiLineBubbleTip;
 import com.daivd.chart.utils.DensityUtils;
@@ -164,6 +166,7 @@ public class LineChartActivity extends AppCompatActivity {
                 //  Toast.makeText(LineChartActivity.this,lineData.getChartYDataList().get(position)+lineData.getUnit(),Toast.LENGTH_SHORT).show();
             }
         });
+
 
 
     }

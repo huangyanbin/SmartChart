@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="weatherView">
+        <attr name="weatherColumnWidth" format="dimension"/>
+        <attr name="weatherColumnCount" format="integer"/>
+    </declare-styleable>
+
+</resources>
