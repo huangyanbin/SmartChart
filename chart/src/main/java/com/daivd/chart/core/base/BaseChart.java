@@ -197,6 +197,8 @@ public abstract class BaseChart<P extends IProvider<C>,C extends ColumnData> ext
         return chartData;
     }
 
+
+
     /**
      * 设置图表数据源
      */

@@ -2,6 +2,7 @@ package com.daivd.chart.matrix;
 
 import android.content.Context;
 import android.graphics.Rect;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
@@ -33,6 +34,7 @@ public class MatrixHelper extends Observable<ChartGestureObserver> implements IT
     private Rect zoomRect;
     private float mDownX, mDownY;
     private int pointMode; //屏幕的手指点个数
+    private float widthMultiple =1;
 
 
     public MatrixHelper(Context context) {
@@ -249,26 +251,41 @@ public class MatrixHelper extends Observable<ChartGestureObserver> implements IT
         Rect scaleRect = new Rect();
         int oldw = providerRect.width();
         int oldh = providerRect.height();
-        int newWidth = (int) (oldw * zoom);
+        int multipleWidth = (int) (oldw *widthMultiple);
+
+        int newWidth = (int) (multipleWidth * zoom);
         int newHeight = (int) (oldh * zoom);
-        int maxTranslateX = Math.abs(newWidth - oldw) / 2;
+        int offsetX = (int) (oldw*(zoom-1))/2;
+        int offsetY =(int) (oldh*(zoom-1))/2;
+        int maxTranslateLeft = (int)Math.abs(oldw*(zoom-1) / 2);
+        int maxTranslateRight = newWidth - oldw - offsetX;
         int maxTranslateY = Math.abs(newHeight - oldh) / 2;
-        if (Math.abs(translateX) > maxTranslateX) {
-            translateX = translateX > 0 ? maxTranslateX : -maxTranslateX;
+        if(translateX >maxTranslateRight){
+            translateX = maxTranslateRight;
+        }
+        if(translateX < -maxTranslateLeft){
+            translateX = -maxTranslateLeft;
         }
         if (Math.abs(translateY) > maxTranslateY) {
             translateY = translateY > 0 ? maxTranslateY : -maxTranslateY;
         }
-        int offsetX = (newWidth - oldw) / 2;
-        int offsetY = (newHeight - oldh) / 2;
+
         scaleRect.left = providerRect.left - offsetX - translateX;
-        scaleRect.right = providerRect.right + offsetX - translateX;
+        scaleRect.right=scaleRect.left+newWidth;
         scaleRect.top = providerRect.top - offsetY - translateY;
-        scaleRect.bottom = providerRect.bottom + offsetY - translateY;
+        scaleRect.bottom = scaleRect.top+newHeight;
         zoomRect = scaleRect;
         return scaleRect;
     }
 
+
+    public float getWidthMultiple() {
+        return widthMultiple;
+    }
+
+    public void setWidthMultiple(int widthMultiple) {
+        this.widthMultiple = widthMultiple;
+    }
 
     public boolean isCanZoom() {
         zoom = 1f;

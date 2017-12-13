@@ -10,7 +10,7 @@
    <com.daivd.chart.core.LineChart
 
        android:id="@+id/lineChart"
-       android:layout_width="2000dp"
+       android:layout_width="match_parent"
        android:background="#f4f4f4"
        android:layout_height="400dp"/>
 

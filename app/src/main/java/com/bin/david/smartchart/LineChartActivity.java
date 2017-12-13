@@ -60,14 +60,26 @@ public class LineChartActivity extends AppCompatActivity {
         chartYDataList.add("Paris");
         chartYDataList.add("Hong Kong");
         chartYDataList.add("Singapore");
+        chartYDataList.add("Tokyo");
+        chartYDataList.add("Paris");
+        chartYDataList.add("Hong Kong");
+        chartYDataList.add("Singapore");
         List<LineData> ColumnDatas = new ArrayList<>();
         ArrayList<Double> tempList1 = new ArrayList<>();
         tempList1.add(26d);
         tempList1.add(-35d);
         tempList1.add(-40d);
         tempList1.add(10d);
+        tempList1.add(26d);
+        tempList1.add(-35d);
+        tempList1.add(-40d);
+        tempList1.add(10d);
         final LineData columnData1 = new LineData("Temperature", "℃", IAxis.AxisDirection.RIGHT, getResources().getColor(R.color.arc3), tempList1);
         ArrayList<Double> humidityList = new ArrayList<>();
+        humidityList.add(60d);
+        humidityList.add(50d);
+        humidityList.add(30d);
+        humidityList.add(65d);
         humidityList.add(60d);
         humidityList.add(50d);
         humidityList.add(30d);
@@ -137,6 +149,7 @@ public class LineChartActivity extends AppCompatActivity {
         lineChart.getProvider().setTip(tip);
         //设置显示标题
         lineChart.setShowChartName(true);
+        lineChart.getMatrixHelper().setWidthMultiple(3);
         //设置标题方向
         lineChart.getChartTitle().setDirection(IComponent.TOP);
         //设置标题比例
