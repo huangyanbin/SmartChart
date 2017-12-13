@@ -1,5 +1,6 @@
 package com.daivd.chart.data;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -14,12 +15,17 @@ public class ChartData<T extends ColumnData> {
     private ScaleData scaleData = new ScaleData();
     private  List<T> columnDataList;
 
+    public ChartData(String chartName,List<String> charXDataList, T... columnDataList){
+        this.chartName = chartName;
+        this.charXDataList = charXDataList;
+        this.columnDataList = Arrays.asList(columnDataList);
+    }
+
     public ChartData(String chartName,List<String> charXDataList, List<T> columnDataList){
         this.chartName = chartName;
         this.charXDataList = charXDataList;
         this.columnDataList = columnDataList;
     }
-
     public String getChartName() {
         return chartName;
     }

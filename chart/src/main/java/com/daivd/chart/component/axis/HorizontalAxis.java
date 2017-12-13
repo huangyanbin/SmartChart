@@ -29,38 +29,43 @@ public class HorizontalAxis extends BaseAxis<String> {
     private int textWidth;
     private int textHeight;
     private int rotateTextHeight;
+    private boolean isShowFullValue; //是否显示全文字
+    private ScaleData scaleData;
+
     @Override
     public void computeScale(ChartData<? extends BarData> chartData, Rect rect, Paint paint) {
-        ScaleData scaleData = chartData.getScaleData();
-        scaleStyle.fillPaint(paint);
-        Paint.FontMetrics fontMetrics = paint.getFontMetrics();
-        textHeight = (int) (fontMetrics.descent - fontMetrics.ascent);
-           int maxLength = 0;
-           String maxLengthXData = null;
-           for (String xData : chartData.getCharXDataList()) {
-               String formatData = formatData(xData);
-               if (maxLength < formatData.length()) {
-                   maxLengthXData = formatData;
-                   maxLength = formatData.length();
-               }
-           }
-          textWidth = (int) paint.measureText(maxLengthXData);
-        //计算旋转的高宽
-        int dis = textHeight;
-        if(isRotateAngle) {
-            int tempHeight = (int) Math.abs(textWidth *Math.sin(rotateAngle*Math.PI/180)
-                    + textHeight*Math.cos(rotateAngle*Math.PI/180));
-            int tempWidth = (int) Math.abs(textWidth *Math.cos(rotateAngle*Math.PI/180)
-                    +textHeight*Math.sin(rotateAngle*Math.PI/180));
-            rotateTextHeight = tempHeight;
-            dis += rotateTextHeight;
-            textWidth = tempWidth;
-       }
-        dis += (int) (scaleStyle.getPadding()*2  + axisStyle.getWidth());
-        if (direction == AxisDirection.BOTTOM) {
-            scaleData.scaleRect.bottom = dis;
-        } else {
-            scaleData.scaleRect.top = dis;
+        if(isDisplay()) {
+             scaleData = chartData.getScaleData();
+            scaleStyle.fillPaint(paint);
+            Paint.FontMetrics fontMetrics = paint.getFontMetrics();
+            textHeight = (int) (fontMetrics.descent - fontMetrics.ascent);
+            int maxLength = 0;
+            String maxLengthXData = "1";
+            for (String xData : chartData.getCharXDataList()) {
+                String formatData = formatData(xData);
+                if (maxLength < formatData.length()) {
+                    maxLengthXData = formatData;
+                    maxLength = formatData.length();
+                }
+            }
+            textWidth = (int) paint.measureText(maxLengthXData);
+            //计算旋转的高宽
+            int dis = textHeight;
+            if (isRotateAngle) {
+                int tempHeight = (int) Math.abs(textWidth * Math.sin(rotateAngle * Math.PI / 180)
+                        + textHeight * Math.cos(rotateAngle * Math.PI / 180));
+                int tempWidth = (int) Math.abs(textWidth * Math.cos(rotateAngle * Math.PI / 180)
+                        + textHeight * Math.sin(rotateAngle * Math.PI / 180));
+                rotateTextHeight = tempHeight;
+                dis += rotateTextHeight;
+                textWidth = tempWidth;
+            }
+            dis += (int) (scaleStyle.getPadding() * 2 + axisStyle.getWidth());
+            if (direction == AxisDirection.BOTTOM) {
+                scaleData.scaleRect.bottom = dis;
+            } else {
+                scaleData.scaleRect.top = dis;
+            }
         }
     }
 
@@ -89,7 +94,7 @@ public class HorizontalAxis extends BaseAxis<String> {
             //留1px缓冲
             if (startX >= rect.left-1 && startX<= rect.right+1) {
                 if( i % filterMultiple == 0) {
-                    drawText(canvas, content,startX, startY, paint);
+                    drawText(canvas, content,startX, startY,i, paint);
                     drawGrid(canvas, startX, rect, scaleData.scaleRect, paint);
                 }
             }
@@ -105,21 +110,27 @@ public class HorizontalAxis extends BaseAxis<String> {
         }
         return startX;
     }
-
     /**
      * 绘制文字
      */
-    private void drawText(Canvas canvas, String contentStr,int startX,float startY, Paint paint) {
+    private void drawText(Canvas canvas, String contentStr, int startX, float startY, int position, Paint paint) {
         String content = formatData(contentStr);
         scaleStyle.fillPaint(paint);
-        int width = (int) paint.measureText(content);
-        if(isRotateAngle){
+        paint.setTextAlign(Paint.Align.CENTER);
+        if (isShowFullValue && position == 0) {
+            int width = (int) paint.measureText(content);
+            startX+= width/2;
+        } else if (isShowFullValue && position == scaleData.rowSize - 1) {
+            int width = (int) paint.measureText(content);
+            startX-= width/2;
+        }
+        if (isRotateAngle) {
             canvas.save();
-            canvas.rotate(rotateAngle,startX,startY);
-            canvas.drawText(content,startX-width/2,startY+textHeight/2,paint);
+            canvas.rotate(rotateAngle, startX, startY);
+            canvas.drawText(content, startX, startY + textHeight / 2, paint);
             canvas.restore();
-        }else {
-            canvas.drawText(content, startX-width/2,startY+textHeight/2, paint);
+        } else {
+            canvas.drawText(content, startX, startY + textHeight / 2, paint);
         }
     }
 
@@ -173,4 +184,12 @@ public class HorizontalAxis extends BaseAxis<String> {
         isRotateAngle = true;
         this.rotateAngle = rotateAngle;
     }
+    public boolean isShowFullValue() {
+        return isShowFullValue;
+    }
+
+    public void setShowFullValue(boolean showFullValue) {
+        isShowFullValue = showFullValue;
+    }
+
 }

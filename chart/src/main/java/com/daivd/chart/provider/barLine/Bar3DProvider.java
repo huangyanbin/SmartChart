@@ -15,7 +15,7 @@ import com.daivd.chart.data.BarData;
 public class Bar3DProvider extends BarProvider<BarData> {
 
     @Override
-    protected void drawBar(Canvas canvas,Rect rect,double value,Paint paint){
+    protected void drawBar(Canvas canvas,Rect rect,double value,int position,int line,Paint paint){
         canvas.drawRect(rect, paint);
         float w = rect.right - rect.left;
         float  offsetY= w/2;
@@ -34,7 +34,7 @@ public class Bar3DProvider extends BarProvider<BarData> {
         path.lineTo(rect.right+offsetX,rect.top-offsetY);
         path.close();
         canvas.drawPath(path,paint);
-        drawPointText(canvas,value,(rect.right + rect.left) / 2, rect.top-offsetY, paint );
+        drawPointText(canvas,value,(rect.right + rect.left) / 2, rect.top-offsetY,position,line, paint );
 
     }
 

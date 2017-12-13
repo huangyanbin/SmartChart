@@ -23,6 +23,7 @@ import com.daivd.chart.data.style.PointStyle;
 import com.daivd.chart.provider.component.cross.DoubleDriCross;
 import com.daivd.chart.provider.component.level.LevelLine;
 import com.daivd.chart.provider.component.mark.BubbleMarkView;
+import com.daivd.chart.provider.component.point.LegendPoint;
 import com.daivd.chart.provider.component.point.Point;
 
 import java.util.ArrayList;
@@ -112,7 +113,7 @@ public class BarLineChartActivity extends AppCompatActivity {
         levelLine.getLineStyle().setEffect(effects2);
         barLineChart.getProvider().addLevelLine(levelLine);
         barLineChart.getLegend().setDirection(IComponent.BOTTOM);
-        Point legendPoint = (Point)barLineChart.getLegend().getPoint();
+        LegendPoint legendPoint = (LegendPoint) barLineChart.getLegend().getPoint();
         PointStyle style = legendPoint.getPointStyle();
         style.setShape(PointStyle.RECT);
         barLineChart.getLegend().setPercent(0.2f);
@@ -416,7 +417,7 @@ public class BarLineChartActivity extends AppCompatActivity {
 
             @Override
             public void onItemClick(String s, int position) {
-                Point legendPoint = (Point)barLineChart.getLegend().getPoint();
+                LegendPoint legendPoint = (LegendPoint) barLineChart.getLegend().getPoint();
                 PointStyle style = legendPoint.getPointStyle();
                 if(position == 0){
                     style.setShape(PointStyle.SQUARE);

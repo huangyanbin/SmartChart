@@ -16,6 +16,7 @@ import com.daivd.chart.data.style.FontStyle;
 import com.daivd.chart.listener.OnClickColumnListener;
 import com.daivd.chart.provider.component.mark.IMark;
 import com.daivd.chart.matrix.MatrixHelper;
+import com.daivd.chart.provider.component.text.IText;
 
 /**
  * Created by huang on 2017/9/26.
@@ -28,10 +29,9 @@ public abstract class BaseProvider<C extends ColumnData> implements IProvider<C>
     protected IMark<C> markView;
     private boolean isOpenMark;
     private boolean isShowText =true;
-    private int pointTextHeight;
     protected ChartData<C> chartData;
     private Rect providerRect;
-    private FontStyle textStyle = new FontStyle();
+    private IText text;
     protected OnClickColumnListener<C> onClickColumnListener;
 
 
@@ -98,19 +98,13 @@ public abstract class BaseProvider<C extends ColumnData> implements IProvider<C>
         animator.start();
     }
 
-    public void drawPointText(Canvas canvas,double value,float x,float y,Paint paint){
-       if(isShowText) {
-           int oldColor = paint.getColor();
-           textStyle.fillPaint(paint);
-           paint.setColor(oldColor);
-           String val = String.valueOf(value);
-           if(pointTextHeight == 0){
-               pointTextHeight = (int) paint.measureText(val,0,1);
-           }
-           if (containsRect(x,y) && containsRect(x,y-pointTextHeight)) {
-               canvas.drawText(val, x-pointTextHeight*val.length()/2, y-pointTextHeight, paint);
-           }
-       }
+    public void drawPointText(Canvas canvas,double value,float x,float y,int position,int line,Paint paint){
+        if(text != null) {
+            String val = String.valueOf(value);
+            if (containsRect(x,y)) {
+                text.drawText(canvas,val,x,y,position,line,paint);
+            }
+        }
     }
 
     public boolean containsRect( float x,float y){
@@ -145,6 +139,11 @@ public abstract class BaseProvider<C extends ColumnData> implements IProvider<C>
     }
 
 
+
+    public float getProgress() {
+        return progress;
+    }
+
     public boolean isShowText() {
         return isShowText;
     }
@@ -156,7 +155,13 @@ public abstract class BaseProvider<C extends ColumnData> implements IProvider<C>
     public void setOnClickColumnListener(OnClickColumnListener<C> onClickColumnListener) {
         this.onClickColumnListener = onClickColumnListener;
     }
+    public IText getText() {
+        return text;
+    }
 
+    public void setText(IText text) {
+        this.text = text;
+    }
 
 
 }

@@ -7,12 +7,17 @@
 
 * [apk下载地址](/img/smartChart.apk)
 
-## 功能展示
 
 
-### 未来版本功能
- >  从实践看，还有很多需要开放更多功能。如果修改代码，可以满足几乎所有图表展示的功能。后面我将持续完善图表扩展内容。
+### 1.4 版本
+> 支持横向滚动，设置宽度比。
+> 提供更多案例
+> 后面将补充所有方法注释
 
+![动画](/img/zuoping.jpg)
+
+
+![动画](/img/gif/tip.gif)
 ### 1.2版本功能
 
 #### 支持Tip和MarkView高度可定制化
@@ -124,7 +129,7 @@ allprojects {
 > *Step 2. Add the dependency
 ```gradle
 dependencies {
-	        compile 'com.github.huangyanbin:SmartChart:1.3.3'
+	        compile 'com.github.huangyanbin:SmartChart:1.4'
 	}
 ```
     

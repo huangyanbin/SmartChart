@@ -11,6 +11,7 @@ import com.daivd.chart.data.RadarData;
 import com.daivd.chart.data.style.FontStyle;
 import com.daivd.chart.data.style.PointStyle;
 import com.daivd.chart.provider.component.mark.BubbleMarkView;
+import com.daivd.chart.provider.component.point.LegendPoint;
 import com.daivd.chart.provider.component.point.Point;
 
 import java.util.ArrayList;
@@ -70,7 +71,7 @@ public class RadarChartActivity extends AppCompatActivity {
         //设置标题样式
         radarChart.getChartTitle().getFontStyle().setTextColor(res.getColor(R.color.arc23));
         radarChart.getLegend().setDirection(IComponent.BOTTOM);
-        Point point = (Point)radarChart.getLegend().getPoint();
+        LegendPoint point = (LegendPoint)radarChart.getLegend().getPoint();
         point.getPointStyle().setShape(PointStyle.SQUARE);
         radarChart.getLegend().setPercent(0.2f);
         radarChart.setChartData(chartData2);

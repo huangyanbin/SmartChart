@@ -21,6 +21,7 @@ import com.daivd.chart.data.style.FontStyle;
 import com.daivd.chart.data.style.LineStyle;
 import com.daivd.chart.data.style.PointStyle;
 import com.daivd.chart.provider.component.mark.BubbleMarkView;
+import com.daivd.chart.provider.component.point.LegendPoint;
 import com.daivd.chart.provider.component.point.Point;
 
 import java.util.ArrayList;
@@ -119,7 +120,7 @@ public class ZoomChartListAdapter extends BaseQuickAdapter<String,BaseViewHolder
         levelLine.getLineStyle().setEffect(effects2);
         lineChart.getProvider().addLevelLine(levelLine);
         lineChart.getLegend().setDirection(IComponent.BOTTOM);
-        Point legendPoint = (Point) lineChart.getLegend().getPoint();
+        LegendPoint legendPoint = (LegendPoint) lineChart.getLegend().getPoint();
         PointStyle style = legendPoint.getPointStyle();
         style.setShape(PointStyle.RECT);
         lineChart.getLegend().setPercent(0.2f);

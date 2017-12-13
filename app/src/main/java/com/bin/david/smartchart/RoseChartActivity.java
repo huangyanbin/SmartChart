@@ -12,6 +12,7 @@ import com.daivd.chart.data.RoseData;
 import com.daivd.chart.data.style.FontStyle;
 import com.daivd.chart.data.style.PointStyle;
 import com.daivd.chart.provider.component.mark.BubbleMarkView;
+import com.daivd.chart.provider.component.point.LegendPoint;
 import com.daivd.chart.provider.component.point.Point;
 
 import java.util.ArrayList;
@@ -78,7 +79,7 @@ public class RoseChartActivity extends AppCompatActivity {
         fontStyle.setTextColor(res.getColor(R.color.arc23));
         fontStyle.setTextSpSize(this,16);
         roseChart.getLegend().setDirection(IComponent.BOTTOM);
-        Point legendPoint = (Point)roseChart.getLegend().getPoint();
+        LegendPoint legendPoint = (LegendPoint)roseChart.getLegend().getPoint();
         PointStyle style = legendPoint.getPointStyle();
         style.setShape(PointStyle.SQUARE);
         roseChart.getLegend().setPercent(0.2f);

@@ -2,7 +2,25 @@
 
 ------
 * [Chinese README](/README.md/)
+### version 1.4
+> support horizontal rolling and set width ratio.
+> to provide more cases
+>
+! [animation] (/img/zuoping.jpg)
 
+
+! [animation] (/img/gif/tip.gif)
+### version 1.2 features
+
+#### supports Tip and MarkView is highly customizable
+! [animation] (/img/gif/tip.gif)
+
+### version 1.1 features
+
+#### 1. ViewPager and a list of gestures to solve the conflict
+! [gesture conflict] (/img/gif/viewpager.gif)
+2. #### text rotation axis
+! [spin] (/img/gif/rotate_axis_value.gif)
 * SmartChart is an Android chart framework that supports linear diagrams (broken lines, curves, scatter points) bar charts, area charts, pie charts, and 3D columnar diagrams to support a variety of configurations.
 * [apk download url](/img/smartChart.apk)
 ## Function display
@@ -99,7 +117,7 @@ allprojects {
 > *Step 2. Add the dependency
 ```gradle
 dependencies {
-	        compile 'com.github.huangyanbin:SmartChart:1.1'
+	        compile 'com.github.huangyanbin:SmartChart:1.4'
 	}
 ```
     

@@ -32,6 +32,7 @@ public abstract class BaseAxis<V> implements IAxis<V> {
     protected int direction;
     protected boolean isLine;
     private IFormat<V> format;
+    private boolean isDisplay = true;
 
     public void setDrawGrid(boolean drawGrid) {
         isDrawGrid = drawGrid;
@@ -69,10 +70,18 @@ public abstract class BaseAxis<V> implements IAxis<V> {
         this.isLine = isLine;
     }
 
+    public boolean isDisplay() {
+        return isDisplay;
+    }
+
+
+
     @Override
     public void draw(Canvas canvas, Rect rect, MatrixHelper helper, Paint paint, ChartData<? extends BarData> chartData) {
-        drawScale(canvas, rect, helper, paint, chartData);
-        drawAxis(canvas, rect, paint, chartData);
+        if(isDisplay) {
+            drawScale(canvas, rect, helper, paint, chartData);
+            drawAxis(canvas, rect, paint, chartData);
+        }
     }
 
 
@@ -132,5 +141,10 @@ public abstract class BaseAxis<V> implements IAxis<V> {
 
     public void setShowAxisLine(boolean showAxisLine) {
         isShowAxisLine = showAxisLine;
+    }
+
+    @Override
+    public void setDisplay(boolean isShow) {
+        this.isDisplay = isShow;
     }
 }

@@ -8,8 +8,11 @@ import android.graphics.Rect;
 
 import com.daivd.chart.data.LineData;
 import com.daivd.chart.data.style.LineStyle;
+import com.daivd.chart.provider.component.grid.IGrid;
 import com.daivd.chart.provider.component.line.BrokenLineModel;
 import com.daivd.chart.provider.component.line.ILineModel;
+import com.daivd.chart.provider.component.path.IPath;
+import com.daivd.chart.provider.component.path.LinePath;
 import com.daivd.chart.provider.component.point.IPoint;
 import com.daivd.chart.utils.ColorUtils;
 
@@ -31,6 +34,11 @@ public class LineProvider extends BaseBarLineProvider<LineData> {
     private boolean isDrawLine = true;
     private int filterPointTextCount = 30; //最多显示30个点文字
     private ILineModel lineModel = new BrokenLineModel();
+    private IPath path;
+    private int perWidth;
+    private IGrid grid;
+    private boolean isStartZero =true;
+    private int areaAlpha = 125;
 
     @Override
     public void drawProvider(Canvas canvas, Rect zoomRect, Rect rect, Paint paint) {
@@ -40,6 +48,9 @@ public class LineProvider extends BaseBarLineProvider<LineData> {
         rowSize = chartData.getCharXDataList().size();
         int filter = rowSize/filterPointTextCount;
         filter = filter <1 ?1 : filter;
+        if(grid !=null) {
+            grid.drawClickBg(canvas, pointF, zoomRect, perWidth, paint);
+        }
         for (int i = 0; i < columnSize; i++) {
             LineData lineData = columnDataList.get(i);
             paint.setColor(lineData.getColor());
@@ -54,15 +65,19 @@ public class LineProvider extends BaseBarLineProvider<LineData> {
                 double value = chartYDataList.get(j);
                 float x = getStartX(zoomRect, j);
                 float y = getStartY(zoomRect, value, lineData.getDirection());
+                if(grid !=null && i == 0) {
+                    grid.drawGrid(canvas, x, zoomRect,  perWidth, paint);
+                    grid.drawColumnContent(canvas,j,zoomRect,rect,perWidth,paint);
+                }
                 pointX.add(x);
                 pointY.add(y);
                 if(j % filter == 0) {
-                    drawPointText(canvas, value, x, y, paint);
+                    drawPointText(canvas, value, x, y,j,i, paint);
                 }
             }
             canvas.save();
             canvas.clipRect(rect);
-            drawLine(canvas, rect, paint, lineData, pointX, pointY);
+            drawLine(canvas, rect,zoomRect, paint, lineData, pointX, pointY);
             drawTip(canvas, pointX, pointY, lineData);
             canvas.restore();
             drawPoint(canvas, pointX, pointY,lineData, paint);
@@ -72,7 +87,7 @@ public class LineProvider extends BaseBarLineProvider<LineData> {
         drawClickCross(canvas, rect, zoomRect, paint);
     }
 
-    private void drawLine(Canvas canvas, Rect rect, Paint paint, LineData lineData, List<Float> pointX, List<Float> pointY) {
+    private void drawLine(Canvas canvas, Rect rect,Rect zoomRect, Paint paint, LineData lineData, List<Float> pointX, List<Float> pointY) {
         LineStyle style = lineData.getLineStyle();
         style = style == null?lineStyle:style;
         style.fillPaint(paint);
@@ -86,10 +101,10 @@ public class LineProvider extends BaseBarLineProvider<LineData> {
                 path.lineTo(rect.right, rect.bottom);
                 path.lineTo(rect.left, rect.bottom);
                 path.close();
-                int alphaColor = ColorUtils.changeAlpha(paint.getColor(), 125);
+                int alphaColor = ColorUtils.changeAlpha(paint.getColor(), areaAlpha);
                 paint.setColor(alphaColor);
             }
-            canvas.drawPath(path, paint);
+            getPath().drawPath(canvas,zoomRect,path,perWidth,paint,getProgress());
         }
     }
 
@@ -104,11 +119,14 @@ public class LineProvider extends BaseBarLineProvider<LineData> {
     protected void matrixRectStart(Canvas canvas, Rect rect) {
 
     }
-
     private float getStartX(Rect zoomRect, int position) {
-
-        double width = ((double) zoomRect.width()) / (rowSize - 1);
-        return (float) (position * width + zoomRect.left);
+        if(isStartZero){
+            perWidth = (zoomRect.width()) / (rowSize-1);
+            return (float) (position * perWidth+ zoomRect.left);
+        }else {
+            perWidth = (zoomRect.width()) / rowSize;
+            return (float) (position * perWidth + perWidth / 2 + zoomRect.left);
+        }
     }
 
 
@@ -169,11 +187,11 @@ public class LineProvider extends BaseBarLineProvider<LineData> {
         if (linePoint != null) {
             for (int i = 0; i < pointY.size(); i++) {
 
-                    float x = pointX.get(i);
-                    float y = pointY.get(i);
-                    if (containsRect(x, y)) {
-                        linePoint.drawPoint(canvas, x, y, false, paint);
-                    }
+                float x = pointX.get(i);
+                float y = pointY.get(i);
+                if (containsRect(x, y)) {
+                    linePoint.drawPoint(canvas, x, y, i,false, paint);
+                }
 
             }
         }
@@ -206,7 +224,24 @@ public class LineProvider extends BaseBarLineProvider<LineData> {
         }
         return new double[]{maxValue, minValue};
     }
+    public IPath getPath() {
+        if(path == null){
+            path = new LinePath();
+        }
+        return path;
+    }
 
+    public IGrid getGrid() {
+        return grid;
+    }
+
+    public void setGrid(IGrid grid) {
+        this.grid = grid;
+    }
+
+    public void setPath(IPath path) {
+        this.path = path;
+    }
 
     public void setArea(boolean isArea) {
         this.isArea = isArea;
@@ -230,5 +265,22 @@ public class LineProvider extends BaseBarLineProvider<LineData> {
 
     public void setPoint(IPoint point) {
         this.point = point;
+    }
+
+
+    public boolean isStartZero() {
+        return isStartZero;
+    }
+
+    public void setStartZero(boolean startZero) {
+        isStartZero = startZero;
+    }
+
+    public int getAreaAlpha() {
+        return areaAlpha;
+    }
+
+    public void setAreaAlpha(int areaAlpha) {
+        this.areaAlpha = areaAlpha;
     }
 }

@@ -40,8 +40,11 @@ public class MarkPoint implements IPoint {
 
     }
 
+
+
+
     @Override
-    public void drawPoint(Canvas canvas, float x, float y, boolean isShowDefaultColor, Paint paint) {
+    public void drawPoint(Canvas canvas, float x, float y, int position, boolean isShowDefaultColor, Paint paint) {
         rect.top = (int) (y - height);
         rect.bottom = (int) y;
         rect.right = (int) (x + width/2);
@@ -50,22 +53,10 @@ public class MarkPoint implements IPoint {
         int layerId = canvas.saveLayer(rect.left,rect.top,rect.right,rect.bottom , null, Canvas.ALL_SAVE_FLAG);
         rect.bottom = rect.top+rect.width();
         paint.setStyle(Paint.Style.FILL);
-       canvas.drawCircle(rect.centerX(),rect.centerY(),rect.width()/2,paint);
-       paint.setXfermode(xFermode);
-       canvas.drawBitmap(avatorBitmap, avatorBitmapRect,rect,paint);
-       paint.setXfermode(null);
+        canvas.drawCircle(rect.centerX(),rect.centerY(),rect.width()/2,paint);
+        paint.setXfermode(xFermode);
+        canvas.drawBitmap(avatorBitmap, avatorBitmapRect,rect,paint);
+        paint.setXfermode(null);
         canvas.restoreToCount(layerId);//将自己创建的画布Layer绘制到画布默认的Layer
     }
-
-    @Override
-    public float getWidth() {
-        return width;
-    }
-
-    @Override
-    public float getHeight() {
-        return height;
-    }
-
-
 }

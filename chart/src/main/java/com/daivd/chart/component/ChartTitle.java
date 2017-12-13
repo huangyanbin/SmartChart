@@ -18,7 +18,7 @@ public class ChartTitle extends PercentComponent<String> implements IChartTitle 
 
     private static final float MAX_PERCENT =0.4f;
     private FontStyle fontStyle= new FontStyle();
-
+    Path path = new Path();
 
 
     @Override
@@ -33,12 +33,13 @@ public class ChartTitle extends PercentComponent<String> implements IChartTitle 
     public void draw(Canvas canvas, String chartName, Paint paint) {
         fontStyle.fillPaint(paint);
         Paint.FontMetrics fontMetrics = paint.getFontMetrics();
+        paint.setTextAlign(Paint.Align.LEFT);
         float textHeight = fontMetrics.descent - fontMetrics.ascent;
         int textWidth = (int)paint.measureText(chartName);
         Rect rect = getRect();
         int startY = rect.centerY();
         int startX = rect.centerX();
-        Path path = new Path();
+        path.rewind();
         switch (direction) {
             case TOP:
             case BOTTOM:

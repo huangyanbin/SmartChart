@@ -34,6 +34,7 @@ import com.daivd.chart.data.style.LineStyle;
 import com.daivd.chart.data.style.PointStyle;
 import com.daivd.chart.listener.OnClickColumnListener;
 import com.daivd.chart.provider.component.point.IPoint;
+import com.daivd.chart.provider.component.point.LegendPoint;
 import com.daivd.chart.provider.component.point.Point;
 import com.daivd.chart.provider.component.tip.MultiLineBubbleTip;
 import com.daivd.chart.utils.DensityUtils;
@@ -165,7 +166,7 @@ public class LineChartActivity extends AppCompatActivity {
         levelLine.getLineStyle().setEffect(effects2);
         lineChart.getProvider().addLevelLine(levelLine);
         lineChart.getLegend().setDirection(IComponent.BOTTOM);
-        Point legendPoint = (Point) lineChart.getLegend().getPoint();
+        LegendPoint legendPoint = (LegendPoint) lineChart.getLegend().getPoint();
         PointStyle style = legendPoint.getPointStyle();
         style.setShape(PointStyle.RECT);
         lineChart.getLegend().setPercent(0.2f);
@@ -494,7 +495,7 @@ public class LineChartActivity extends AppCompatActivity {
 
             @Override
             public void onItemClick(String s, int position) {
-                Point legendPoint = (Point) lineChart.getLegend().getPoint();
+                LegendPoint legendPoint = (LegendPoint) lineChart.getLegend().getPoint();
                 PointStyle style = legendPoint.getPointStyle();
                 if (position == 0) {
                     style.setShape(PointStyle.SQUARE);

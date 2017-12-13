@@ -9,8 +9,7 @@ import android.graphics.Paint;
 
 public interface IPoint {
 
-     void drawPoint(Canvas canvas, float x,float y,boolean isShowDefaultColor,Paint paint);
-     float getWidth();
-     float getHeight();
+     void drawPoint(Canvas canvas, float x, float y, int position, boolean isShowDefaultColor, Paint paint);
+
 
 }

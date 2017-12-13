@@ -56,10 +56,10 @@ public  class BarLineProvider extends BarProvider<BarLineData> {
                     int bottom = zoomRect.bottom;
                     paint.setColor(columnData.getColor());
                     Rect barRect = new Rect(left, top, right, bottom);
-                    drawBar(canvas, barRect, value, paint);
+                    drawBar(canvas, barRect, value,i,j, paint);
                 }else{
                     float x = (float)(zoomRect.left+perWidth*(j+0.5));
-                    drawLine(canvas,j== 0,j == rowSize-1,columnData,x,top,value,paint);
+                    drawLine(canvas,j== 0,j == rowSize-1,columnData,x,top,value,i,j,paint);
                 }
             }
         }
@@ -67,7 +67,7 @@ public  class BarLineProvider extends BarProvider<BarLineData> {
     }
 
 
-    protected void drawLine(Canvas canvas, boolean isNewBar,boolean isLast, BarLineData columnData, float x,float y, double value, Paint paint) {
+    protected void drawLine(Canvas canvas, boolean isNewBar,boolean isLast, BarLineData columnData, float x,float y, double value,int position,int line, Paint paint) {
 
         if(columnData.getModel() ==BarLineData.CURVE
                 || columnData.getModel() ==BarLineData.BROKEN){
@@ -77,7 +77,7 @@ public  class BarLineProvider extends BarProvider<BarLineData> {
             }
             pointX.add(x);
             pointY.add(y);
-            drawPointText(canvas,value,x, y,paint);
+            drawPointText(canvas,value,x, y,position,line,paint);
             if(isLast){
                 Path path;
                 if(columnData.getModel() ==BarLineData.CURVE){

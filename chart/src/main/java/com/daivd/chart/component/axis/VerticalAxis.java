@@ -23,6 +23,7 @@ public class VerticalAxis extends BaseAxis<Double> {
 
     private ScaleSetData scaleSetData = new ScaleSetData();
 
+
     public VerticalAxis(int direction) {
         this.direction = direction;
     }
@@ -31,17 +32,19 @@ public class VerticalAxis extends BaseAxis<Double> {
 
     @Override
     public void computeScale(ChartData<? extends BarData> chartData, Rect rect, Paint paint) {
-        ScaleData scaleData = chartData.getScaleData();
-        scaleData.resetScale(scaleSetData,direction);
-        scaleStyle.fillPaint(paint);
-        int length = Math.max(formatVerticalAxisData(scaleData.getMaxScaleValue(direction)).length(),
-                formatVerticalAxisData(scaleData.getMinScaleValue(direction)).length());
-        int textHeight = (int) (paint.measureText("1", 0, 1) * length);
-        int dis = (int) (textHeight + scaleStyle.getPadding()  + axisStyle.getWidth());
-        if (direction == AxisDirection.LEFT) {
-            scaleData.scaleRect.left = dis;
-        } else {
-            scaleData.scaleRect.right = dis;
+        if(isDisplay()) {
+            ScaleData scaleData = chartData.getScaleData();
+            scaleData.resetScale(scaleSetData, direction);
+            scaleStyle.fillPaint(paint);
+            int length = Math.max(formatVerticalAxisData(scaleData.getMaxScaleValue(direction)).length(),
+                    formatVerticalAxisData(scaleData.getMinScaleValue(direction)).length());
+            int textHeight = (int) (paint.measureText("1", 0, 1) * length);
+            int dis = (int) (textHeight + scaleStyle.getPadding() + axisStyle.getWidth());
+            if (direction == AxisDirection.LEFT) {
+                scaleData.scaleRect.left = dis;
+            } else {
+                scaleData.scaleRect.right = dis;
+            }
         }
     }
 
@@ -76,6 +79,7 @@ public class VerticalAxis extends BaseAxis<Double> {
     private void drawText(Canvas canvas, float startX, float startY, double value, Paint paint) {
         scaleStyle.fillPaint(paint);
         String content = formatVerticalAxisData(value);
+        paint.setTextAlign(Paint.Align.LEFT);
         canvas.drawText(content, startX, startY, paint);
     }
 
@@ -132,4 +136,5 @@ public class VerticalAxis extends BaseAxis<Double> {
     public void setMinValue(double minValue) {
         this.scaleSetData.setMinValue(minValue);
     }
+
 }

@@ -13,7 +13,7 @@ public class Point implements IPoint {
 
      private PointStyle pointStyle = new PointStyle();
 
-    public void drawPoint(Canvas canvas,float x, float y,boolean isShowDefaultColor, Paint paint){
+    public void drawPoint(Canvas canvas,float x, float y,int position,boolean isShowDefaultColor, Paint paint){
          float w = pointStyle.getWidth();
         if(isShowDefaultColor){
             pointStyle.fillPaint(paint);
@@ -32,19 +32,7 @@ public class Point implements IPoint {
      }
 
 
-    @Override
-    public float getWidth() {
-        if(pointStyle.getShape() == PointStyle.RECT){
-            return pointStyle.getWidth() * 4/ 3;
-        }
-        return pointStyle.getWidth();
-    }
 
-    @Override
-    public float getHeight() {
-
-        return pointStyle.getWidth();
-    }
 
 
     public PointStyle getPointStyle() {

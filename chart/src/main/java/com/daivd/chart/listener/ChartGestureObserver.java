@@ -8,5 +8,4 @@ public interface ChartGestureObserver {
 
     void onClick(float x,float y);
 
-    void onViewChanged(float scale,float translateX,float translateY);
 }

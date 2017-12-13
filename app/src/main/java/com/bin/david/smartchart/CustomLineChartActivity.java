@@ -28,6 +28,7 @@ import com.daivd.chart.data.style.PointStyle;
 import com.daivd.chart.listener.OnClickColumnListener;
 import com.daivd.chart.provider.component.cross.VerticalCross;
 import com.daivd.chart.provider.component.level.LevelLine;
+import com.daivd.chart.provider.component.point.LegendPoint;
 import com.daivd.chart.provider.component.point.Point;
 import com.daivd.chart.provider.component.tip.MultiLineBubbleTip;
 import com.daivd.chart.utils.DensityUtils;
@@ -151,7 +152,7 @@ public class CustomLineChartActivity extends AppCompatActivity {
         levelLine.getLineStyle().setEffect(effects2);
         lineChart.getProvider().addLevelLine(levelLine);
         lineChart.getLegend().setDirection(IComponent.BOTTOM);
-        Point legendPoint = (Point)lineChart.getLegend().getPoint();
+        LegendPoint legendPoint = (LegendPoint)lineChart.getLegend().getPoint();
         PointStyle style = legendPoint.getPointStyle();
         style.setShape(PointStyle.RECT);
         lineChart.getLegend().setPercent(0.2f);

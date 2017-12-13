@@ -16,6 +16,7 @@ import com.daivd.chart.data.style.FontStyle;
 import com.daivd.chart.data.style.PointStyle;
 import com.daivd.chart.listener.OnClickColumnListener;
 import com.daivd.chart.provider.component.mark.BubbleMarkView;
+import com.daivd.chart.provider.component.point.LegendPoint;
 import com.daivd.chart.provider.component.point.Point;
 
 import java.util.ArrayList;
@@ -72,7 +73,7 @@ public class Bar3DChartActivity extends AppCompatActivity {
         levelLine.getLineStyle().setWidth(this,1).setColor(res.getColor(R.color.arc23)).setEffect(effects);
         bar3DChart.getProvider().addLevelLine(levelLine);
         bar3DChart.getProvider().setMarkView(new BubbleMarkView(this));
-        Point legendPoint = (Point) bar3DChart.getLegend().getPoint();
+        LegendPoint legendPoint = (LegendPoint) bar3DChart.getLegend().getPoint();
         PointStyle style = legendPoint.getPointStyle();
         style.setShape(PointStyle.CIRCLE);
         BaseAxis vaxis = bar3DChart.getLeftVerticalAxis();

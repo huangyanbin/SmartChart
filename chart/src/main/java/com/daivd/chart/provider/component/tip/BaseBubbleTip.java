@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.NinePatch;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
@@ -23,7 +24,8 @@ public abstract class BaseBubbleTip<C,S> implements ITip<C,S>{
     public static final int INVALID = -1;
     private Rect tipRect;
     private Paint paint;
-    private int padding;
+    private int verticalPadding;
+    private int horizontalPadding;
     private Bitmap triangleBitmap;
     private NinePatch ninePatch;
     private boolean isReversal = false;
@@ -32,6 +34,7 @@ public abstract class BaseBubbleTip<C,S> implements ITip<C,S>{
     private int colorFilter = INVALID;
 
     public BaseBubbleTip(Context context, int backgroundDrawableID, int triangleDrawableID, Paint paint){
+
         tipRect = new Rect();
         this.paint = paint;
         triangleBitmap = Bitmap.createBitmap(BitmapFactory.decodeResource(context.getResources(), triangleDrawableID));
@@ -41,7 +44,8 @@ public abstract class BaseBubbleTip<C,S> implements ITip<C,S>{
             ninePatch = new NinePatch(bmp_9, bmp_9.getNinePatchChunk(), null);
 
         }
-        padding = DensityUtils.dp2px(context,5);
+        verticalPadding = DensityUtils.dp2px(context,5);
+        horizontalPadding = verticalPadding;
         deviation = DensityUtils.dp2px(context,5);
     }
 
@@ -52,28 +56,29 @@ public abstract class BaseBubbleTip<C,S> implements ITip<C,S>{
             int triangleHeight = triangleBitmap.getHeight();
             int textWidth = getTextWidth(content);
             int textHeight = getTextHeight(content);
-            int w = textWidth + padding * 2;
-            int h = textHeight + padding * 2;
+            int w = textWidth + horizontalPadding * 2;
+            int h = textHeight + verticalPadding * 2;
             tipRect.left = (int) x - w / 2;
             tipRect.right = (int) x + w / 2;
             tipRect.bottom = (int) y - triangleHeight + triangleWidth / 8;
             tipRect.top = tipRect.bottom - h;
             int tranX = 0;
-            if (tipRect.left < rect.left) {
-                tranX = rect.left - tipRect.left - triangleWidth/2;
+            if(x > rect.left && x < rect.right) {
+                if (tipRect.left < rect.left) {
+                    tranX = rect.left - tipRect.left - triangleWidth / 2;
 
-            } else if (tipRect.right > rect.right) {
-                tranX = rect.right - tipRect.right + triangleWidth/2;
-            }
-
-            if (tipRect.top < rect.top) {
-                showBottom(canvas, x, y, content, textWidth,textHeight, tranX);
-            } else if (tipRect.bottom > rect.bottom) {
-                showTop(canvas, x, y, content, textWidth,textHeight,  tranX);
-            } else if (isReversal) {
-                showBottom(canvas, x, y, content, textWidth,textHeight,  tranX);
-            } else {
-                showTop(canvas, x, y, content, textWidth,textHeight,  tranX);
+                } else if (tipRect.right > rect.right) {
+                    tranX = rect.right - tipRect.right + triangleWidth / 2;
+                }
+                if (tipRect.top < rect.top) {
+                    showBottom(canvas, x, y, content, textWidth, textHeight, tranX);
+                } else if (tipRect.bottom > rect.bottom) {
+                    showTop(canvas, x, y, content, textWidth, textHeight, tranX);
+                } else if (isReversal) {
+                    showBottom(canvas, x, y, content, textWidth, textHeight, tranX);
+                } else {
+                    showTop(canvas, x, y, content, textWidth, textHeight, tranX);
+                }
             }
         }
 
@@ -91,8 +96,10 @@ public abstract class BaseBubbleTip<C,S> implements ITip<C,S>{
         int triangleWidth = triangleBitmap.getWidth();
         int triangleHeight = triangleBitmap.getHeight();
         startColorFilter();
+        // paint.setShadowLayer(40, 10, 50, Color.BLACK);
         canvas.drawBitmap(triangleBitmap,x-triangleWidth/2,
                 y-triangleHeight,paint);
+        // paint.clearShadowLayer();
         canvas.translate(tranX,0);
         ninePatch.draw(canvas, tipRect);
         clearColorFilter();
@@ -150,12 +157,20 @@ public abstract class BaseBubbleTip<C,S> implements ITip<C,S>{
         isReversal = reversal;
     }
 
-    public void setPadding(int padding) {
-        this.padding = padding;
+    public void setVerticalPadding(int verticalPadding) {
+        this.verticalPadding = verticalPadding;
     }
 
-    public int getPadding() {
-        return padding;
+    public int getVerticalPadding() {
+        return verticalPadding;
+    }
+
+    public int getHorizontalPadding() {
+        return horizontalPadding;
+    }
+
+    public void setHorizontalPadding(int horizontalPadding) {
+        this.horizontalPadding = horizontalPadding;
     }
 
     public int getColorFilter() {

@@ -78,6 +78,9 @@ public abstract class BaseBarLineChart<P extends IProvider<C>,C extends BarData>
     }
 
 
+    public void setHeightPercent(){
+
+    }
 
 
 

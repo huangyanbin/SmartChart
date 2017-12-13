@@ -46,7 +46,7 @@ public abstract class MultiLineBubbleTip<C>  extends BaseBubbleTip<C,String[]>{
         int lineHeight  =textHeight/content.length;
         for(int i = 0;i < content.length;i++) {
             String c = content[i];
-            int bottom = tipRect.top+getPadding()+lineHeight+ (lineHeight)*i - lineSpacing-deviation/2;
+            int bottom = tipRect.top+getVerticalPadding()+lineHeight+ (lineHeight)*i - lineSpacing-deviation/2;
             int left = tipRect.centerX()-textWidth/2;
             canvas.drawText(c,left,bottom,paint);
 

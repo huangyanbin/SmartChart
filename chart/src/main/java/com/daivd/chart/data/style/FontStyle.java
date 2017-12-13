@@ -16,7 +16,6 @@ public class FontStyle implements IStyle{
     public static int defaultFontColor = Color.parseColor("#333333");
     private int textSize;
     private int textColor;
-    private int rotate;
     private int padding = 10;
 
     public static void setDefaultTextSize(int defaultTextSize){
@@ -53,12 +52,14 @@ public class FontStyle implements IStyle{
         return textSize;
     }
 
-    public void setTextSize(int textSize) {
+    public FontStyle setTextSize(int textSize) {
         this.textSize = textSize;
+        return this;
     }
 
-    public void setTextSpSize(Context context,int sp){
+    public FontStyle setTextSpSize(Context context,int sp){
         this.setTextSize(DensityUtils.sp2px(context,sp));
+        return this;
     }
 
     public int getTextColor() {
@@ -68,17 +69,10 @@ public class FontStyle implements IStyle{
         return textColor;
     }
 
-    public void setTextColor(int textColor) {
+    public FontStyle setTextColor(int textColor) {
         
         this.textColor = textColor;
-    }
-
-    public int getRotate() {
-        return rotate;
-    }
-
-    public void setRotate(int rotate) {
-        this.rotate = rotate;
+        return this;
     }
 
     public int getPadding() {

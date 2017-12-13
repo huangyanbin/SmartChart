@@ -49,6 +49,7 @@ public class EmptyView implements IEmpty {
     @Override
     public void draw(Canvas canvas, String emptyTip, Paint paint) {
         fontStyle.fillPaint(paint);
+        paint.setTextAlign(Paint.Align.LEFT);
         Paint.FontMetrics fontMetrics = paint.getFontMetrics();
         int textHeight = (int) (fontMetrics.descent - fontMetrics.ascent);
         int textWidth = (int) paint.measureText(emptyTip);

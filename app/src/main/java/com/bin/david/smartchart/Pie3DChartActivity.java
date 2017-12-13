@@ -13,6 +13,7 @@ import com.daivd.chart.data.style.FontStyle;
 import com.daivd.chart.data.style.PointStyle;
 import com.daivd.chart.listener.OnClickColumnListener;
 import com.daivd.chart.provider.component.mark.BubbleMarkView;
+import com.daivd.chart.provider.component.point.LegendPoint;
 import com.daivd.chart.provider.component.point.Point;
 
 import java.util.ArrayList;
@@ -54,7 +55,7 @@ public class Pie3DChartActivity extends AppCompatActivity {
         fontStyle.setTextSpSize(this,15);
         pie3DChart.getProvider().setOpenMark(true);
         pie3DChart.getProvider().setMarkView(new BubbleMarkView(this));
-        Point legendPoint = (Point) pie3DChart.getLegend().getPoint();
+        LegendPoint legendPoint = (LegendPoint) pie3DChart.getLegend().getPoint();
         PointStyle style = legendPoint.getPointStyle();
         style.setShape(PointStyle.CIRCLE);
         pie3DChart.getLegend().setDirection(IComponent.TOP);

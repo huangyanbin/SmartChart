@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+
+    android:layout_height="wrap_content">
+    <com.daivd.chart.core.LineChart
+        android:id="@+id/lineChart"
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:layout_gravity="center"
+        />
+    <com.daivd.chart.core.LineChart
+    android:id="@+id/lineChart2"
+    android:layout_width="match_parent"
+    android:layout_height="300dp"
+    android:background="#2a64b9"
+    android:layout_gravity="center"
+
+    />
+    <com.daivd.chart.core.LineChart
+        android:id="@+id/lineChart3"
+        android:layout_width="match_parent"
+        android:layout_marginTop="200dp"
+        android:layout_height="200dp"
+        android:layout_gravity="center"
+
+        />
+    <com.daivd.chart.core.LineChart
+        android:id="@+id/lineChart4"
+        android:layout_width="match_parent"
+        android:layout_marginTop="100dp"
+        android:layout_height="300dp"
+        android:layout_gravity="center"
+
+        />
+    <com.daivd.chart.core.LineChart
+        android:id="@+id/lineChart5"
+        android:layout_width="match_parent"
+        android:layout_marginTop="100dp"
+        android:layout_height="300dp"
+        android:background="@color/soil_bg"
+        android:layout_gravity="center"
+
+        />
+    <com.daivd.chart.core.LineChart
+        android:id="@+id/lineChart6"
+        android:layout_width="match_parent"
+        android:layout_height="380dp"
+        android:layout_gravity="center"
+
+        />
+</LinearLayout>
+
+</ScrollView>

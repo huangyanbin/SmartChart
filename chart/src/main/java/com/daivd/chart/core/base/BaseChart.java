@@ -23,6 +23,7 @@ import com.daivd.chart.data.ScaleData;
 import com.daivd.chart.component.ChartTitle;
 import com.daivd.chart.component.EmptyView;
 import com.daivd.chart.component.base.IEmpty;
+import com.daivd.chart.listener.OnChartChangeListener;
 import com.daivd.chart.listener.OnClickColumnListener;
 import com.daivd.chart.listener.OnClickLegendListener;
 import com.daivd.chart.listener.ChartGestureObserver;
@@ -35,7 +36,7 @@ import com.daivd.chart.provider.IProvider;
  */
 
 public abstract class BaseChart<P extends IProvider<C>,C extends ColumnData> extends View
-        implements ChartGestureObserver,OnClickLegendListener<C> {
+        implements ChartGestureObserver,OnClickLegendListener<C>,OnChartChangeListener {
 
     protected int width; //高
     protected int height; //宽
@@ -83,6 +84,7 @@ public abstract class BaseChart<P extends IProvider<C>,C extends ColumnData> ext
         legend.setOnClickLegendListener(this);
         matrixHelper = new MatrixHelper(getContext());
         matrixHelper.register(this);
+        matrixHelper.setOnTableChangeListener(this);
         emptyView = new EmptyView();
         provider = initProvider();
     }
@@ -294,11 +296,8 @@ public abstract class BaseChart<P extends IProvider<C>,C extends ColumnData> ext
         matrixHelper.setCanZoom(zoom);
     }
 
-    /**
-     * 图表放大位移之后通知更新
-     */
     @Override
-    public void onViewChanged(float scale, float translateX, float translateY) {
+    public void onTableChanged(float translateX, float translateY) {
         invalidate();
     }
 

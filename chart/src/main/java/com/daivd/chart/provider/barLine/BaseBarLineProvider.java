@@ -7,12 +7,14 @@ import android.graphics.Rect;
 import com.daivd.chart.component.base.IAxis;
 import com.daivd.chart.data.ChartData;
 import com.daivd.chart.provider.component.cross.ICross;
+import com.daivd.chart.provider.component.grid.IGrid;
 import com.daivd.chart.provider.component.level.ILevel;
 import com.daivd.chart.provider.component.level.LevelLine;
 import com.daivd.chart.data.BarData;
 import com.daivd.chart.data.ScaleData;
 import com.daivd.chart.exception.ChartException;
 import com.daivd.chart.provider.BaseProvider;
+import com.daivd.chart.provider.component.path.IPath;
 import com.daivd.chart.provider.component.tip.ITip;
 
 import java.util.ArrayList;
@@ -28,6 +30,9 @@ public abstract class BaseBarLineProvider<C extends BarData> extends BaseProvide
     private boolean isOpenCross;
     protected ITip<C,?> tip;
     private List<ILevel> levelLine = new ArrayList<>();
+    private float chartPercent = 1;
+    private boolean isFromBottom;
+
 
 
     @Override
@@ -104,8 +109,9 @@ public abstract class BaseBarLineProvider<C extends BarData> extends BaseProvide
         ScaleData scaleData = chartData.getScaleData();
         double minValue = scaleData.getMinScaleValue(direction);
         double totalScaleLength = scaleData.getTotalScaleLength(direction);
-        float length = (float) ((value - minValue) * zoomRect.height() / totalScaleLength);
-        return zoomRect.bottom - getAnimValue(length);
+        float length = (float) ((value - minValue) * zoomRect.height()*chartPercent / totalScaleLength);
+        return zoomRect.bottom-(isFromBottom?0:(1-chartPercent)/2*zoomRect.height()) - length;
+
     }
 
     /**
@@ -147,7 +153,7 @@ public abstract class BaseBarLineProvider<C extends BarData> extends BaseProvide
 
 
 
-    public void addLevelLine(LevelLine levelLine) {
+    public void addLevelLine(ILevel levelLine) {
         this.levelLine.add(levelLine);
     }
 
@@ -179,5 +185,19 @@ public abstract class BaseBarLineProvider<C extends BarData> extends BaseProvide
 
     public void setTip(ITip<C,?> tip) {
         this.tip = tip;
+    }
+
+    public float getChartPercent() {
+        return chartPercent;
+    }
+    public boolean isFromBottom() {
+        return isFromBottom;
+    }
+
+    public void setFromBottom(boolean fromBottom) {
+        isFromBottom = fromBottom;
+    }
+    public void setChartPercent(float chartPercent) {
+        this.chartPercent = chartPercent;
     }
 }

@@ -16,6 +16,7 @@ import com.daivd.chart.data.style.FontStyle;
 import com.daivd.chart.data.style.PointStyle;
 import com.daivd.chart.listener.OnClickColumnListener;
 import com.daivd.chart.provider.component.mark.BubbleMarkView;
+import com.daivd.chart.provider.component.point.LegendPoint;
 import com.daivd.chart.provider.component.point.Point;
 
 import java.util.ArrayList;
@@ -73,7 +74,7 @@ public class BarChartActivity extends AppCompatActivity {
         barChart.getProvider().addLevelLine(levelLine);
         barChart.getLeftVerticalAxis().getGridStyle().setEffect(effects);
         barChart.getProvider().setMarkView(new BubbleMarkView(this));
-        Point legendPoint = (Point) barChart.getLegend().getPoint();
+        LegendPoint legendPoint = (LegendPoint) barChart.getLegend().getPoint();
         PointStyle style = legendPoint.getPointStyle();
         style.setShape(PointStyle.CIRCLE);
         BaseAxis vaxis = barChart.getLeftVerticalAxis();

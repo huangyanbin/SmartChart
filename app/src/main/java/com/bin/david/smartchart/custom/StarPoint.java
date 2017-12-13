@@ -22,32 +22,8 @@ public class StarPoint implements IPoint {
         this.mPath =new Path();
     }
 
-    @Override
-    public void drawPoint(Canvas canvas, float x, float y, boolean isShowDefaultColor, Paint paint) {
-        paint.setStyle(Paint.Style.FILL);
-        paint.setColor(color);
-        mPath.reset();
-        float[] floats =  fivePoints(x,y-radius/2,radius);
-        for (int i = 0; i < floats.length - 1; i++) {
-            if(i == 0){
-                mPath.moveTo(floats[i], floats[i += 1]);
-            }else {
-                mPath.lineTo(floats[i], floats[i += 1]);
-            }
-        }
-        mPath.close();
-        canvas.drawPath(mPath,paint);
-    }
 
-    @Override
-    public float getWidth() {
-        return radius;
-    }
 
-    @Override
-    public float getHeight() {
-        return radius;
-    }
 
     /**
      * 五角星Path
@@ -70,5 +46,22 @@ public class StarPoint implements IPoint {
         xE = xA - (rFive / 2);
         float[] floats = new float[]{xA, yA,  xD, yD,xB, yB, xE, yE, xC, yC};
         return floats;
+    }
+
+    @Override
+    public void drawPoint(Canvas canvas, float x, float y, int position, boolean isShowDefaultColor, Paint paint) {
+        paint.setStyle(Paint.Style.FILL);
+        paint.setColor(color);
+        mPath.reset();
+        float[] floats =  fivePoints(x,y-radius/2,radius);
+        for (int i = 0; i < floats.length - 1; i++) {
+            if(i == 0){
+                mPath.moveTo(floats[i], floats[i += 1]);
+            }else {
+                mPath.lineTo(floats[i], floats[i += 1]);
+            }
+        }
+        mPath.close();
+        canvas.drawPath(mPath,paint);
     }
 }

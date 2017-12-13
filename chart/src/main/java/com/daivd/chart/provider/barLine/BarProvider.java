@@ -25,6 +25,7 @@ public class BarProvider<C extends BarData> extends BaseBarLineProvider<C> {
     @Override
     public void drawProvider(Canvas canvas, Rect zoomRect, Rect rect, Paint paint) {
         paint.setStyle(Paint.Style.FILL);
+        paint.setTextAlign(Paint.Align.LEFT);
         List<C> columnDataList = chartData.getColumnDataList();
         int columnSize = columnDataList.size();
         int rowSize = chartData.getCharXDataList().size();
@@ -59,7 +60,7 @@ public class BarProvider<C extends BarData> extends BaseBarLineProvider<C> {
                     }
                 }
                 Rect barRect = new Rect(left, top, right, bottom);
-                drawBar(canvas, barRect, value, paint);
+                drawBar(canvas, barRect, value,i,j, paint);
                 drawTip(canvas,left+barRect.width()/2,top,columnData,j);
             }
         }
@@ -79,9 +80,9 @@ public class BarProvider<C extends BarData> extends BaseBarLineProvider<C> {
     }
 
 
-    protected void drawBar(Canvas canvas, Rect rect, double value, Paint paint) {
+    protected void drawBar(Canvas canvas, Rect rect,double value,  int position,int line,Paint paint) {
         canvas.drawRect(rect, paint);
-        drawPointText(canvas, value, (rect.right + rect.left) / 2, rect.top, paint);
+        drawPointText(canvas, value, (rect.right + rect.left) / 2, rect.top, position,line,paint);
     }
 
 

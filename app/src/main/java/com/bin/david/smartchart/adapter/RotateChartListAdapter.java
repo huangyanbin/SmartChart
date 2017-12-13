@@ -13,6 +13,7 @@ import com.daivd.chart.data.PieData;
 import com.daivd.chart.data.style.FontStyle;
 import com.daivd.chart.data.style.PointStyle;
 import com.daivd.chart.provider.component.mark.BubbleMarkView;
+import com.daivd.chart.provider.component.point.LegendPoint;
 import com.daivd.chart.provider.component.point.Point;
 
 import java.util.ArrayList;
@@ -61,7 +62,7 @@ public class RotateChartListAdapter extends BaseQuickAdapter<String,BaseViewHold
       fontStyle.setTextSpSize(mContext,15);
       pieChart.getProvider().setOpenMark(true);
       pieChart.getProvider().setMarkView(new BubbleMarkView(mContext));
-      Point legendPoint = (Point) pieChart.getLegend().getPoint();
+      LegendPoint legendPoint = (LegendPoint) pieChart.getLegend().getPoint();
       PointStyle style = legendPoint.getPointStyle();
       style.setShape(PointStyle.CIRCLE);
       pieChart.getLegend().setDirection(IComponent.TOP);

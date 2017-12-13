@@ -23,7 +23,7 @@ public class VerticalCross implements ICross{
         crossStyle.fillPaint(paint);
         canvas.drawLine(pointF.x, rect.top, pointF.x, rect.bottom, paint);
         if(point != null){
-            point.drawPoint(canvas,pointF.x,pointF.y,false,paint);
+            point.drawPoint(canvas,pointF.x,pointF.y,0,false,paint);
         }
     }
 

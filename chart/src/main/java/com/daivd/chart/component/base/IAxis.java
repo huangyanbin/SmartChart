@@ -21,6 +21,7 @@ public interface IAxis<V> {
      void  setAxisDirection(int axisDirection);
      void setFormat(IFormat<V> format);
      IFormat<V> getFormat();
+     void setDisplay(boolean isShow);
 
      /**
       * Created by huangYanBin on 2017/9/26.

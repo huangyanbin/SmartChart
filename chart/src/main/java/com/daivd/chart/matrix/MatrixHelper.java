@@ -1,16 +1,23 @@
 package com.daivd.chart.matrix;
 
+import android.animation.TimeInterpolator;
+import android.animation.ValueAnimator;
 import android.content.Context;
+import android.graphics.Point;
 import android.graphics.Rect;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
+import android.view.ViewConfiguration;
 import android.view.ViewParent;
+import android.view.animation.DecelerateInterpolator;
+import android.widget.Scroller;
 
 import com.daivd.chart.core.base.BaseChart;
 import com.daivd.chart.listener.Observable;
 import com.daivd.chart.listener.ChartGestureObserver;
+import com.daivd.chart.listener.OnChartChangeListener;
 
 import java.util.List;
 
@@ -35,11 +42,19 @@ public class MatrixHelper extends Observable<ChartGestureObserver> implements IT
     private float mDownX, mDownY;
     private int pointMode; //屏幕的手指点个数
     private float widthMultiple =1;
+    private Scroller scroller;
+    private int mMinimumVelocity;
+    private boolean isFling;
+    private float flingRate = 0.8f; //速率
+    private OnChartChangeListener listener;
 
 
     public MatrixHelper(Context context) {
         mScaleGestureDetector = new ScaleGestureDetector(context, this);
         mGestureDetector = new GestureDetector(context, new OnChartGestureListener());
+        final ViewConfiguration configuration = ViewConfiguration.get(context);
+        mMinimumVelocity = configuration.getScaledMinimumFlingVelocity();
+        scroller = new Scroller(context);
     }
 
     /**
@@ -98,9 +113,9 @@ public class MatrixHelper extends Observable<ChartGestureObserver> implements IT
                         isDisallowIntercept = false;
                     }
                 } else {
-                    if ((disY > 0 && toRectTop()) || (disY < 0 && toRectBottom())) {
+                   /* if ((disY > 0 && toRectTop()) || (disY < 0 && toRectBottom())) {*/
                         isDisallowIntercept = false;
-                    }
+                   /* }*/
                 }
                 parent.requestDisallowInterceptTouchEvent(isDisallowIntercept);
                 break;
@@ -132,16 +147,14 @@ public class MatrixHelper extends Observable<ChartGestureObserver> implements IT
         return translateY <= -(zoomRect.height() - originalRect.height()) / 2;
     }
 
-
     @Override
     public void notifyObservers(List<ChartGestureObserver> observers) {
-        for (ChartGestureObserver observer : observers) {
-            observer.onViewChanged(zoom, translateX, translateY);
-        }
+
     }
 
     private float tempScale = MIN_ZOOM; //缩放比例  不得小于1
-
+    private int tempTranslateX; //以左上角为准，X轴位移的距离
+    private int tempTranslateY;//以左上角为准，y轴位移的距离
     class OnChartGestureListener extends GestureDetector.SimpleOnGestureListener {
 
         @Override
@@ -153,7 +166,7 @@ public class MatrixHelper extends Observable<ChartGestureObserver> implements IT
         public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
             translateX += distanceX;
             translateY += distanceY;
-            notifyObservers(observables);
+             notifyViewChanged();
             return true;
         }
 
@@ -162,6 +175,21 @@ public class MatrixHelper extends Observable<ChartGestureObserver> implements IT
             return true;
         }
 
+        @Override
+        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+            if(Math.abs(velocityX) >mMinimumVelocity || Math.abs(velocityY) >mMinimumVelocity) {
+                scroller.setFinalX(0);
+                scroller.setFinalY(0);
+                tempTranslateX = translateX;
+                tempTranslateY = translateY;
+                scroller.fling(0,0,(int)velocityX,(int)velocityY,-50000,50000
+                        ,-50000,50000);
+                isFling = true;
+                startFilingAnim(false);
+            }
+
+            return true;
+        }
 
         //双击
         @Override
@@ -192,12 +220,62 @@ public class MatrixHelper extends Observable<ChartGestureObserver> implements IT
         //单击
         @Override
         public boolean onSingleTapUp(MotionEvent e) {
+            notifyViewChanged();
             for (ChartGestureObserver observer : observables) {
                 observer.onClick(e.getX(), e.getY());
             }
             return true;
         }
     }
+    private Point startPoint = new Point(0, 0);
+    private Point endPoint = new Point();
+    private TimeInterpolator interpolator = new DecelerateInterpolator();
+    private PointEvaluator evaluator= new PointEvaluator();
+
+    /**
+     * 开始飞滚
+     * @param doubleWay 双向飞滚
+     */
+    private void startFilingAnim(boolean doubleWay) {
+
+        int scrollX =Math.abs(scroller.getFinalX());
+        int scrollY =Math.abs(scroller.getFinalY());
+        if(doubleWay){
+            endPoint.set((int) (scroller.getFinalX() * flingRate),
+                    (int) (scroller.getFinalY() * flingRate));
+        }else {
+            if (scrollX > scrollY) {
+                endPoint.set((int) (scroller.getFinalX() * flingRate), 0);
+            } else {
+                endPoint.set(0, (int) (scroller.getFinalY() * flingRate));
+            }
+        }
+        final ValueAnimator valueAnimator = ValueAnimator.ofObject(evaluator,startPoint,endPoint);
+        valueAnimator.setInterpolator(interpolator);
+        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                if(isFling) {
+                    Point point = (Point) animation.getAnimatedValue();
+                    translateX = tempTranslateX - point.x;
+                    translateY = tempTranslateY - point.y;
+                    notifyViewChanged();
+                }else{
+                    animation.cancel();
+                }
+            }
+        });
+        int duration = (int)(Math.max(scrollX,scrollY)*flingRate)/2;
+        valueAnimator.setDuration(duration>300 ?300:duration);
+        valueAnimator.start();
+    }
+
+    public void notifyViewChanged(){
+        if(listener != null) {
+            listener.onTableChanged(translateX, translateY);
+        }
+    }
+
 
     @Override
     public boolean onScaleBegin(ScaleGestureDetector detector) {
@@ -283,7 +361,7 @@ public class MatrixHelper extends Observable<ChartGestureObserver> implements IT
         return widthMultiple;
     }
 
-    public void setWidthMultiple(int widthMultiple) {
+    public void setWidthMultiple(float widthMultiple) {
         this.widthMultiple = widthMultiple;
     }
 
@@ -301,5 +379,12 @@ public class MatrixHelper extends Observable<ChartGestureObserver> implements IT
         return zoom;
     }
 
+    public OnChartChangeListener getOnTableChangeListener() {
+        return listener;
+    }
+
+    public void setOnTableChangeListener(OnChartChangeListener onTableChangeListener) {
+        this.listener = onTableChangeListener;
+    }
 
 }
