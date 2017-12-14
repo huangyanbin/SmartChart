@@ -10,6 +10,7 @@ import com.daivd.chart.provider.barLine.Bar3DProvider;
 
 /**
  * Created by huang on 2017/9/26.
+ * 3DBar图表
  */
 
 public class Bar3DChart extends BaseBarLineChart<Bar3DProvider,BarData> {

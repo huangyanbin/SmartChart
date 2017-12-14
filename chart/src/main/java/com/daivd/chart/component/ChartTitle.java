@@ -10,17 +10,27 @@ import com.daivd.chart.component.base.PercentComponent;
 import com.daivd.chart.data.style.FontStyle;
 
 /**
- * Created by huang on 2017/9/29.
  * 绘制标题
+ * @author huangyanbin
  */
 
 public class ChartTitle extends PercentComponent<String> implements IChartTitle {
 
+    /**
+     * 图表标题最大占比
+     */
     private static final float MAX_PERCENT =0.4f;
+    /**
+     * 标题字体样式
+     */
     private FontStyle fontStyle= new FontStyle();
-    Path path = new Path();
 
+    private Path path = new Path();
 
+    /**
+     * 设置标题占比
+     * @param percent 百分比
+     */
     @Override
     public void setPercent(float percent) {
         if(percent > MAX_PERCENT){
@@ -29,6 +39,13 @@ public class ChartTitle extends PercentComponent<String> implements IChartTitle 
         super.setPercent(percent);
     }
 
+    /**
+     * 绘制标题
+     * <p>通过设置标题方位绘制标题</p>
+     * @param canvas 画布
+     * @param chartName 图表标题
+     * @param paint 画笔
+     */
     @Override
     public void draw(Canvas canvas, String chartName, Paint paint) {
         fontStyle.fillPaint(paint);
@@ -56,10 +73,17 @@ public class ChartTitle extends PercentComponent<String> implements IChartTitle 
         }
     }
 
+    /**
+     * 获取标题字体样式
+     * @return 标题字体样式
+     */
     public FontStyle getFontStyle() {
         return fontStyle;
     }
-
+    /**
+     * 设置标题字体样式
+     * @param  fontStyle 标题字体样式
+     */
     public void setFontStyle(FontStyle fontStyle) {
         this.fontStyle = fontStyle;
     }

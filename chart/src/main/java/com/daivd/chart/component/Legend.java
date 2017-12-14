@@ -18,8 +18,9 @@ import com.daivd.chart.provider.component.point.Point;
 
 import java.util.List;
 
-/**Legend
- * Created by huang n 2017/9/29.
+/**
+ * 图表图例
+ * @author huangyanbin
  */
 
 public class Legend<C extends ColumnData> extends PercentComponent<ChartData<C>> implements ILegend<C> {
