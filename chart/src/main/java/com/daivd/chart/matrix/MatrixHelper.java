@@ -28,27 +28,87 @@ import java.util.List;
 
 public class MatrixHelper extends Observable<ChartGestureObserver> implements ITouch, ScaleGestureDetector.OnScaleGestureListener {
 
+    /**
+     * 最大缩放比
+     */
     private static final int MAX_ZOOM = 5;
+    /**
+     * 最小缩放比
+     */
     public static final int MIN_ZOOM = 1;
+    /**
+     * 当前缩放比
+     */
     private float zoom = MIN_ZOOM; //缩放比例  不得小于1
+    /**
+     * X轴位移的距离
+     */
     private int translateX; //以左上角为准，X轴位移的距离
+    /**
+     * y轴位移的距离
+     */
     private int translateY;//以左上角为准，y轴位移的距离
+    /**
+     * 缩放手势
+     */
     private ScaleGestureDetector mScaleGestureDetector;
+    /**
+     * 移动手势
+     */
     private GestureDetector mGestureDetector;
+    /**
+     * 是否可以缩放
+     */
     private boolean isCanZoom;
+    /**
+     * 是否正在缩放
+     */
     private boolean isScale; //是否正在缩放
+    /**
+     * 原始图表大小
+     */
     private Rect originalRect; //原始大小
+    /**
+     * 缩放之后的大小
+     */
     private Rect zoomRect;
+    /**
+     * 点击X，y点
+     */
     private float mDownX, mDownY;
-    private int pointMode; //屏幕的手指点个数
+    /**
+     * 屏幕的手指点个数
+     */
+    private int pointMode;
+    /**
+     * 宽缩放比
+     */
     private float widthMultiple =1;
+    /**
+     * 滚动辅助
+     */
     private Scroller scroller;
+    /**
+     * 最小速率
+     */
     private int mMinimumVelocity;
+    /**
+     * 是否正在飞滚
+     */
     private boolean isFling;
+    /**
+     * 飞滚速率
+     */
     private float flingRate = 0.8f; //速率
+    /**
+     * 图表缩放监听
+     */
     private OnChartChangeListener listener;
 
-
+    /**
+     * 缩放移动手势辅助类构造方法
+     * @param context context
+     */
     public MatrixHelper(Context context) {
         mScaleGestureDetector = new ScaleGestureDetector(context, this);
         mGestureDetector = new GestureDetector(context, new OnChartGestureListener());
@@ -175,6 +235,9 @@ public class MatrixHelper extends Observable<ChartGestureObserver> implements IT
             return true;
         }
 
+        /**
+         * 飞滚
+         */
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
             if(Math.abs(velocityX) >mMinimumVelocity || Math.abs(velocityY) >mMinimumVelocity) {
@@ -276,7 +339,9 @@ public class MatrixHelper extends Observable<ChartGestureObserver> implements IT
         }
     }
 
-
+    /**
+     * 缩放开始
+     */
     @Override
     public boolean onScaleBegin(ScaleGestureDetector detector) {
         tempScale = this.zoom;
@@ -284,6 +349,9 @@ public class MatrixHelper extends Observable<ChartGestureObserver> implements IT
         return true;
     }
 
+    /**
+     * 正在缩放
+     */
     @Override
     public boolean onScale(ScaleGestureDetector detector) {
         float oldZoom = zoom;
@@ -302,6 +370,9 @@ public class MatrixHelper extends Observable<ChartGestureObserver> implements IT
         return false;
     }
 
+    /**
+     * 缩放结束
+     */
     @Override
     public void onScaleEnd(ScaleGestureDetector detector) {
 
@@ -356,33 +427,60 @@ public class MatrixHelper extends Observable<ChartGestureObserver> implements IT
         return scaleRect;
     }
 
-
+    /**
+     * 获取宽的倍数
+     * <p>一旦设置倍数，宽度会变大相应倍数，这样就可以横向滑动了。</p>
+     */
     public float getWidthMultiple() {
         return widthMultiple;
     }
 
+    /**
+     * 设置宽的倍数
+     * <p>一旦设置倍数，宽度会变大相应倍数，这样就可以横向滑动了。</p>
+     * @param widthMultiple 宽的倍数
+     */
     public void setWidthMultiple(float widthMultiple) {
         this.widthMultiple = widthMultiple;
     }
 
+    /**
+     * 是否可以缩放
+     * @return 是否可以缩放
+     */
     public boolean isCanZoom() {
         zoom = 1f;
         return isCanZoom;
 
     }
 
+    /**
+     * 设置是否可以缩放
+     * @param canZoom 是否可以缩放
+     */
     public void setCanZoom(boolean canZoom) {
         isCanZoom = canZoom;
     }
 
+    /**
+     * 获取当前缩放比例
+     * @return 缩放比例
+     */
     public float getZoom() {
         return zoom;
     }
 
+    /**
+     * 设置缩放滚动监听
+     * @return 缩放滚动监听
+     */
     public OnChartChangeListener getOnTableChangeListener() {
         return listener;
     }
-
+    /**
+     * 获取缩放滚动监听
+     * @param onTableChangeListener 缩放滚动监听
+     */
     public void setOnTableChangeListener(OnChartChangeListener onTableChangeListener) {
         this.listener = onTableChangeListener;
     }

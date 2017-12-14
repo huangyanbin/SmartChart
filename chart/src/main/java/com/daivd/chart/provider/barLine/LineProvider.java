@@ -247,18 +247,33 @@ public class LineProvider extends BaseBarLineProvider<LineData> {
         this.isArea = isArea;
     }
 
+    /**
+     * 设置线模式
+     * @param lineModel
+     */
     public void setLineModel(ILineModel lineModel) {
         this.lineModel = lineModel;
     }
 
+    /**
+     * 设置是否绘制线
+     * @param drawLine 绘制线
+     */
     public void setDrawLine(boolean drawLine) {
         isDrawLine = drawLine;
     }
 
+    /**过滤图表文本数量
+     * 当数据过多时，，来过滤文字显示，保持图表美观
+     * @return 过滤图表文本数量
+     */
     public int getFilterPointTextCount() {
         return filterPointTextCount;
     }
-
+    /**过滤图表文本数量
+     * 当数据过多时，可以使用该方法，来过滤文字显示，保持图表美观
+     * @return
+     */
     public void setFilterPointTextCount(int filterPointTextCount) {
         this.filterPointTextCount = filterPointTextCount;
     }
@@ -267,19 +282,34 @@ public class LineProvider extends BaseBarLineProvider<LineData> {
         this.point = point;
     }
 
-
+    /**
+     * 设置是否从0开始
+     * @return  从0开始
+     */
     public boolean isStartZero() {
         return isStartZero;
     }
 
+    /**
+     * 设置是否从0开始
+     * @param startZero 从0开始
+     */
     public void setStartZero(boolean startZero) {
         isStartZero = startZero;
     }
 
+    /**
+     * 获取面积图透明度
+     * @return 透明度 0-255
+     */
     public int getAreaAlpha() {
         return areaAlpha;
     }
 
+    /**
+     * 设置面积图的透明度
+     * @param areaAlpha 透明度 0-255
+     */
     public void setAreaAlpha(int areaAlpha) {
         this.areaAlpha = areaAlpha;
     }

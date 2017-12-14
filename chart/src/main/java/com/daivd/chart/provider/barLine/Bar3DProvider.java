@@ -14,6 +14,15 @@ import com.daivd.chart.data.BarData;
 
 public class Bar3DProvider extends BarProvider<BarData> {
 
+    /**
+     * 绘制柱
+     * @param canvas 画布
+     * @param rect 范围
+     * @param value 数值
+     * @param position 位置
+     * @param line 线位置
+     * @param paint 画笔
+     */
     @Override
     protected void drawBar(Canvas canvas,Rect rect,double value,int position,int line,Paint paint){
         canvas.drawRect(rect, paint);
