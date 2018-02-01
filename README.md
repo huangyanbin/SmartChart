@@ -55,9 +55,8 @@
 
 ![仪表盘](/img/dashBorad.png)
 
-``` 说明：仪表盘本打算写完，但之前在一个示例中也有，就不重复造轮子了。
-      https://github.com/huangyanbin/CalendarView
-      有需要的可以借鉴一下。
+```
+  说明：仪表盘本打算写完，但之前在一个示例中也有，就不重复造轮子了。https://github.com/huangyanbin/CalendarView 有需要的可以借鉴一下。
 ```
 
 ###### 图表缩放移动
