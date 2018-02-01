@@ -9,32 +9,54 @@
 #### 功能介绍
 
 ######  自定义图表1
+
 ![动画](/img/zuoping.jpg)
 ![动画](/img/gif/tip.gif)
+
 ######  1.折线图
+
 ![折线图](/img/line1.png)
 ######  2.曲线图
+
 ![曲线图](/img/line2.png)
+
 ######  3.散点图
+
 ![散点图](/img/line3.png)
+
 ######  4.面积图
+
 ![面积图](/img/line4.png)
+
 ######  5.柱状图
+
 ![柱状图](/img/bar1.png)
+
 ######  6.3D柱状图
+
 ![3D柱状图](/img/bar2.png)
+
 ######  7.饼图
+
 ![饼图](/img/pie.png)
+
 ######  8.雷达图
+
 ![雷达图](/img/radar.png)
+
 ######  9.玫瑰图
+
 ![玫瑰图](/img/rose1.png)
+
 ###### 10.仪表盘(Other)
+
 ![仪表盘](/img/dashBorad.png)
+
 ``` 说明：仪表盘本打算写完，但之前在一个示例中也有，就不重复造轮子了。
       https://github.com/huangyanbin/CalendarView
       有需要的可以借鉴一下。
 ```
+
 ###### 图表缩放移动
 ![缩放移动](/img/gif/zoom.gif)
 ###### 旋转
@@ -45,7 +67,9 @@
 
 
 #### 如何使用
+
 ###### 引用
+
 > * Step 1. Add the JitPack repository to your build file
 ```gradle
 allprojects {
@@ -55,7 +79,9 @@ allprojects {
 		}
 	}
 ```
+
 > *Step 2. Add the dependency
+
 ```gradle
 dependencies {
 	        compile 'com.github.huangyanbin:SmartChart:1.4'
@@ -64,7 +90,7 @@ dependencies {
     
 ###### 1. 导入图表View
 
-    ```xml
+    ```
     <!--柱状图-->
     <com.daivd.chart.core.ColumnChart
        android:id="@+id/columnChart"
@@ -88,7 +114,8 @@ dependencies {
 ```
     很多方法有所调整，请参考demo
 ```
-    ```java
+
+    ```
         VerticalAxis verticalAxis =  lineChartView.getLeftVerticalAxis();
         HorizontalAxis horizontalAxis=  lineChartView.getHorizontalAxis();
         VerticalAxis rightAxis = lineChartView.getRightVerticalAxis();
@@ -116,12 +143,13 @@ dependencies {
 
 ###### 4. 开启缩放
 
-     ```java
+     ```
      chartView.setZoom(true);
     ```
+
 ###### 5. 图表内容样式和功能
 
-      ```java
+      ```
             LineStyle crossStyle = lineChartView.getProvider().getCrossStyle();
               crossStyle.setWidth(mContext,1);
               crossStyle.setColor(res.getColor(R.color.arc21));
@@ -137,9 +165,10 @@ dependencies {
               //设置显示点的样式
               lineChartView.getProvider().getPointStyle().setShape(PointStyle.CIRCLE);
     ```
+
 ###### 6. 图示
 
-      ```java
+      ```
         //设置图示方向
        lineChartView.getLegend().setLegendDirection(ILegend.BOTTOM);    //设置图示样式
        lineChartView.getLegend().getLegendStyle().setShape(PointStyle.RECT);
@@ -147,9 +176,10 @@ dependencies {
        lineChartView.getLegend().setLegendPercent(0.2f);
        
     ```
+
 ###### 7.标题
 
-     ```java
+     ```
       //设置显示标题
         lineChartView.setShowChartName(true);
         //设置标题方向
@@ -160,9 +190,10 @@ dependencies {
         lineChartView.getChartTitle().getTextStyle().setTextColor(res.getColor(R.color.arc21));
        
     ```
+
 ###### 8.数据设置
 
-     ```java
+     ```
      //Y轴数据
      List<String> chartYDataList = new ArrayList<>();
       chartYDataList.add("华北");
@@ -192,14 +223,16 @@ dependencies {
 
 ######  9.动画
 
-     ```java
+     ```
      //你可以使用默认动画 也可以设置Interpolator
      //startChartAnim(int duration, Interpolator interpolator)
       lineChartView.startChartAnim(400);
     ```
  
 ##### 更新日志
+
 ###### 1.4 版本
+
 > 支持横向滚动，设置宽度比。
 > 提供更多案例
 > 后面将补充所有方法注释
@@ -210,6 +243,7 @@ dependencies {
 * 1.图表属性组件化，可定制化；
 * 2.MarkView优化,解决自定义难问题；
 * 3.支持Point Tip可定制化，Tip支持colorFilter,Alpha样式。
+
 ![动画](/img/gif/tip.gif)
 
 
@@ -222,8 +256,11 @@ dependencies {
 
 ###### 1.1版本功能
 * 1.解决ViewPager以及列表手势冲突
+
 ![手势冲突](/img/gif/viewpager.gif)
+
 * 2.横轴文字旋转
+
 ![旋转](/img/gif/rotate_axis_value.gif)
 
 
