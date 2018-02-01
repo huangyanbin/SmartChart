@@ -11,6 +11,9 @@
 ######  自定义图表1
 
 ![动画](/img/zuoping.jpg)
+
+######  手势操作
+
 ![动画](/img/gif/tip.gif)
 
 ######  1.折线图
@@ -90,7 +93,7 @@ dependencies {
     
 ###### 1. 导入图表View
 
-    ```
+```
     <!--柱状图-->
     <com.daivd.chart.core.ColumnChart
        android:id="@+id/columnChart"
@@ -104,7 +107,7 @@ dependencies {
        android:background="#f4f4f4"
        android:layout_height="320dp"
        android:layout_marginBottom="5dp"/>
-    ```
+```
     
 ######  2.曲线图
 
@@ -115,7 +118,7 @@ dependencies {
     很多方法有所调整，请参考demo
 ```
 
-    ```
+```
         VerticalAxis verticalAxis =  lineChartView.getLeftVerticalAxis();
         HorizontalAxis horizontalAxis=  lineChartView.getHorizontalAxis();
         VerticalAxis rightAxis = lineChartView.getRightVerticalAxis();
@@ -139,17 +142,17 @@ dependencies {
           //设置网格样式
          verticalAxis.getGridStyle().setWidth(mContext,1).setColor(res.getColor(R.color.arc_text)).setEffect(effects);
          horizontalAxis.getGridStyle().setWidth(mContext,1).setColor(res.getColor(R.color.arc_text)).setEffect(effects);
-    ```
+```
 
 ###### 4. 开启缩放
 
-     ```
+```
      chartView.setZoom(true);
-    ```
+```
 
 ###### 5. 图表内容样式和功能
 
-      ```
+```
             LineStyle crossStyle = lineChartView.getProvider().getCrossStyle();
               crossStyle.setWidth(mContext,1);
               crossStyle.setColor(res.getColor(R.color.arc21));
@@ -164,22 +167,22 @@ dependencies {
               lineChartView.getProvider().setShowPoint(true);
               //设置显示点的样式
               lineChartView.getProvider().getPointStyle().setShape(PointStyle.CIRCLE);
-    ```
+```
 
 ###### 6. 图示
 
-      ```
+```
         //设置图示方向
        lineChartView.getLegend().setLegendDirection(ILegend.BOTTOM);    //设置图示样式
        lineChartView.getLegend().getLegendStyle().setShape(PointStyle.RECT);
         //设置图示比例
        lineChartView.getLegend().setLegendPercent(0.2f);
        
-    ```
+```
 
 ###### 7.标题
 
-     ```
+```
       //设置显示标题
         lineChartView.setShowChartName(true);
         //设置标题方向
@@ -189,11 +192,11 @@ dependencies {
         //设置标题样式
         lineChartView.getChartTitle().getTextStyle().setTextColor(res.getColor(R.color.arc21));
        
-    ```
+```
 
 ###### 8.数据设置
 
-     ```
+```
      //Y轴数据
      List<String> chartYDataList = new ArrayList<>();
       chartYDataList.add("华北");
@@ -218,16 +221,16 @@ dependencies {
                 ChartData<LineData> chartData2 = new ChartData<>("线型图",chartYDataList,ColumnDatas);
         //设置数据
         lineChartView.setChartData(chartData);
-    ```
+```
 
 
 ######  9.动画
 
-     ```
+```
      //你可以使用默认动画 也可以设置Interpolator
      //startChartAnim(int duration, Interpolator interpolator)
       lineChartView.startChartAnim(400);
-    ```
+```
  
 ##### 更新日志
 
