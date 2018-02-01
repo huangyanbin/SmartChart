@@ -1,9 +1,9 @@
 # ![icon](/img/icon.png)SmartChart
 [![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
-
+[![](https://www.jitpack.io/v/huangyanbin/SmartChart.svg)](https://www.jitpack.io/#huangyanbin/SmartChart)
 * [English README](/README.en.md/)
 
-* SmartChart是一个Android图表框架，支持线性图（折线，曲线，散点）柱状图、面积图、饼图、3D柱状图、雷达图、风向玫瑰图,支持图表多样化配置。
+``` SmartChart是一个Android图表框架，支持线性图（折线，曲线，散点）柱状图、面积图、饼图、3D柱状图、雷达图、风向玫瑰图,支持图表多样化配置。```
 
 * [apk下载地址](/img/smartChart.apk)
 
