@@ -1,4 +1,4 @@
-# ![icon](/img/icon.png)SmartChart
+# SmartChart
 [![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
 [![](https://www.jitpack.io/v/huangyanbin/SmartChart.svg)](https://www.jitpack.io/#huangyanbin/SmartChart)
 
