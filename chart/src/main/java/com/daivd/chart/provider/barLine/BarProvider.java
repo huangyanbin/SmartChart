@@ -29,7 +29,7 @@ public class BarProvider<C extends BarData> extends BaseBarLineProvider<C> {
         List<C> columnDataList = chartData.getColumnDataList();
         int columnSize = columnDataList.size();
         int rowSize = chartData.getCharXDataList().size();
-        double width = zoomRect.width() / (columnSize * rowSize) - categoryPadding / 2;
+        double width = (zoomRect.width()-(columnSize+1)*categoryPadding) / (columnSize * rowSize);
         PointF clickPoint = null;
         int clickPosition = 0;
         int clickColumnPosition = 0;

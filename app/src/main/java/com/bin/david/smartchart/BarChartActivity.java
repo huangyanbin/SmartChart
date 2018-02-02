@@ -31,32 +31,49 @@ public class BarChartActivity extends AppCompatActivity {
         setContentView(R.layout.activity_bar);
         barChart = (BarChart) findViewById(R.id.columnChart);
         Resources res = getResources();
-        FontStyle.setDefaultTextSpSize(this,12);
+        FontStyle.setDefaultTextSpSize(this,8);
         List<String> chartYDataList = new ArrayList<>();
         chartYDataList.add("Tokyo");
         chartYDataList.add("Paris");
         chartYDataList.add("Hong Kong");
-        chartYDataList.add("Singapore");
+        chartYDataList.add("Singapore");//Y轴行列要跟下面数据添加对上
+        chartYDataList.add("Google I/O");
+        chartYDataList.add("Hello World");
+        chartYDataList.add("Android");
 
 
-        List<BarData> ColumnDatas = new ArrayList<>();
         ArrayList<Double> tempList1 = new ArrayList<>();
         tempList1.add(26d);
         tempList1.add(35d);
         tempList1.add(40d);
         tempList1.add(10d);
+        tempList1.add(46d);
+        tempList1.add(45d);
+        tempList1.add(14d);
 
 
-        BarData columnData1 = new BarData("Temperature","℃",getResources().getColor(R.color.arc3),tempList1);
         ArrayList<Double> humidityList = new ArrayList<>();
         humidityList.add(60d);
         humidityList.add(50d);
         humidityList.add(30d);
         humidityList.add(65d);
+        humidityList.add(35d);
+        humidityList.add(78d);
+        humidityList.add(74d);
 
+        BarData columnData1 = new BarData("Temperature","℃",getResources().getColor(R.color.arc3),tempList1);
         BarData columnData2 = new BarData("Humidity","RH%",getResources().getColor(R.color.arc2),humidityList);
+        BarData columnData3 = new BarData("Hwwo","RH%",getResources().getColor(R.color.arc1),humidityList);
+        BarData columnData4 = new BarData("Chaone","RH%",getResources().getColor(R.color.temp_click_text_color),humidityList);
+        BarData columnData5 = new BarData("GOOGO","RH%",getResources().getColor(R.color.ground_20cm),humidityList);
+
+        List<BarData> ColumnDatas = new ArrayList<>();
         ColumnDatas.add(columnData1);
         ColumnDatas.add(columnData2);
+        ColumnDatas.add(columnData3);
+        ColumnDatas.add(columnData4);
+        ColumnDatas.add(columnData5);
+
         ChartData<BarData> chartData = new ChartData<>("bar chart",chartYDataList,ColumnDatas);
         barChart.setChartData(chartData);
         barChart.startChartAnim(1000);
