@@ -21,12 +21,14 @@ import android.view.View;
 import com.bin.david.smartchart.R;
 import com.bin.david.smartchart.view.BubbleMarkView;
 import com.daivd.chart.component.axis.HorizontalAxis;
+import com.daivd.chart.component.axis.VerticalAxis;
 import com.daivd.chart.component.base.IAxis;
 import com.daivd.chart.core.LineChart;
 import com.daivd.chart.data.ChartData;
 import com.daivd.chart.data.LineData;
 import com.daivd.chart.data.format.IFormat;
 import com.daivd.chart.data.style.FontStyle;
+import com.daivd.chart.data.style.LineStyle;
 import com.daivd.chart.provider.barLine.LineProvider;
 import com.daivd.chart.provider.component.cross.ICross;
 import com.daivd.chart.provider.component.grid.IGrid;
@@ -365,6 +367,7 @@ public class DrawHelper {
      */
     public static void drawFrozenSoilChart(final Context context, LineChart lineChart) {
         lineChart.getLeftVerticalAxis().setDisplay(false);
+        lineChart.getLeftVerticalAxis().setScaleStyle(new FontStyle().setTextColor(Color.WHITE));
         ArrayList<Double> temp1 = new ArrayList<>();
         for (int i = 0; i < 24; i++) {
             temp1.add((double) ((int) (Math.random() * 20)) + 20);
@@ -391,6 +394,10 @@ public class DrawHelper {
         horizontalAxis.setGravity(Gravity.LEFT);
         horizontalAxis.isLine(true);
         horizontalAxis.getAxisStyle().setColor(crossColor).setWidth(lineWidth);
+        VerticalAxis leftVerticalAxis =
+                lineChart.getLeftVerticalAxis();
+        leftVerticalAxis.setDisplay(true);
+        leftVerticalAxis.getAxisStyle().setColor(crossColor).setWidth(lineWidth);
         provider.setMarkView(new BubbleMarkView(context, ContextCompat.getColor(context, R.color.frozen_mark_text_color)));
         lineChart.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         provider.setCross(new ICross() {
