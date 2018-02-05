@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         items.add(new MainItem(RadarChartActivity.class,"Radar chart"));
         items.add(new MainItem(RoseChartActivity.class,"Rose chart"));
         items.add(new MainItem(BarLineChartActivity.class,"Bar line chart"));
-        items.add(new MainItem(TestChartActivity.class,"Custom line chart1"));
+       // items.add(new MainItem(TestChartActivity.class,"Custom line chart1"));
         items.add(new MainItem(CustomLineChartActivity.class,"Custom line chart2"));
         items.add(new MainItem(ZoomChartListActivity.class,"scale chart List(Solving gesture conflict)"));
         items.add(new MainItem(RotateChartListActivity.class,"rotate chart List(Solving gesture conflict)"));

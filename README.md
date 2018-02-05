@@ -86,7 +86,7 @@ allprojects {
 
 ```gradle
 dependencies {
-	        compile 'com.github.huangyanbin:SmartChart:1.4'
+	        compile 'com.github.huangyanbin:SmartChart:1.4.1'
 	}
 ```
     
